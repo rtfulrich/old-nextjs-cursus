@@ -1,8 +1,12 @@
-import React from 'react'
-import { domainToUnicode } from 'url';
-import InputForm from '../../_components/simple-components/InputForm'
+import axios from 'axios';
+import React from 'react';
+import InputForm from '../../_components/simple-components/InputForm';
+import { API_URL } from '../../_constants/URLs';
+import useSanctum from '../../_hooks/useSanctum';
+import UserContext, { AUTH_TRUE } from '../../_react-contexts/user-context';
 
 function Login({ setShowAuthModal, setInModal }) {
+  // S T A T E S
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const rememberRef = React.useRef(false)
@@ -14,21 +18,49 @@ function Login({ setShowAuthModal, setInModal }) {
   const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false)
 
-  // React.useEffect(() => console.log(email), [email])
+  // C O N T E X T S
+  const { user, setUser } = React.useContext(UserContext);
+
+  React.useEffect(() => console.log(user), [user])
 
   const handleSubmit = async () => {
     if (loading) return;
     setErrors({ email: null, password: null, other: null });
-    await setLoading(true);
-    setTimeout(() => {
-      setLoading(false)
-      // setShowAuthModal(false)
-      setErrors({
-        email: "lsjfsljksdml",
-        password: "slqjdifeozax",
-        other: "The email is required"
+    setLoading(true);
+    axios.post(`${API_URL}/login`, { email, password, remember: rememberRef.current.checked })
+      .then(response => {
+        console.log("login response", response);
+        const { status, message } = response.data;
+        if (status === 400) setErrors({ ...errors, other: message });
+        else if (status === 200) {
+          const user = response.data.user;
+          setUser({ type: AUTH_TRUE, payload: user });
+          setShowAuthModal(false);
+        }
       })
-    }, 2000);
+      // Catch request errors
+      .catch(async error => {
+        console.log(error.response);
+        const response = error.response;
+        const { data, status } = response;
+        // Forbidden (probably because the user is already authenticated)
+        if (status === 403) setShowAuthModal(false);
+        // Csrf token mismatch
+        if (status === 419) {
+          useSanctum();
+          setErrors({ ...errors, other: "Nisy olana kely, miangavy anao hamerina" });
+        }
+        // Invalid data sent to the api
+        if (status === 422) {
+          let { email, password } = response.data.errors;
+          email = email ? email[0] : null;
+          password = password ? password[0] : null;
+          setErrors({ ...errors, email, password });
+        }
+        // Internal server error
+        if (status === 500) setErrors({ ...errors, other: data.message });
+      })
+      .finally(() => setLoading(false))
   }
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })

@@ -32,7 +32,7 @@ function InputForm({ state, type = "text", label = "Label", id = "", marginBotto
   }
   return (
     <div className={`${marginBottom}`}>
-      <div className={`relative transition-border duration-200 ease-in-out border-b-2 font-bold mt-4 ${focus ? "border-twitter" : (error ? "border-red-400" : "border-white")}`}>
+      <div className={`relative transition-border duration-200 ease-in-out border-b-2 font-bold mt-4 pb-1 ${focus ? "border-twitter" : (error ? "border-red-400" : "border-white")}`}>
         <label htmlFor={id} className={`custom absolute left-2 ${move ? "move" : ""} ${focus ? "twitter" : ((error && focus) ? "text-red-400" : "")}`}>
           {label}
         </label>
