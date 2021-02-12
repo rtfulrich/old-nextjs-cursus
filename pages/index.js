@@ -1,65 +1,19 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import AppLayout from '../_layouts/AppLayout'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+      <AppLayout title="IanaTek">
+        <h1 className="bg-blue-400">Content</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime quam, quibusdam harum fugit in neque delectus consequatur? Officia placeat ipsa voluptas temporibus expedita possimus aliquam maiores tempora explicabo nihil, earum quia eius excepturi facilis quam. Reiciendis dolor atque ipsa, repudiandae accusamus maiores recusandae ipsum? Consequatur, quidem vero odio quisquam officiis quod dolor vel tempore provident voluptatum, quae aspernatur deserunt officia harum voluptatem molestiae obcaecati. Alias ea ipsam excepturi in itaque! Aliquam provident laboriosam harum distinctio, tenetur optio aut a ratione quod cupiditate maiores? Delectus excepturi est doloribus. Illum, iusto neque! Esse cumque inventore nesciunt odit itaque, delectus corrupti! Magnam, natus. Assumenda deserunt nihil officiis? Suscipit voluptas sed modi, corrupti obcaecati eveniet consectetur porro beatae amet perferendis provident incidunt iste ipsam numquam aliquid labore, eaque ad accusantium corporis odio reiciendis harum culpa? Corporis voluptate earum quo tempora maxime sit. Molestiae excepturi esse, quaerat consectetur, temporibus error repellat corrupti dolores laborum, voluptatum aliquid! Velit voluptatum odit ratione, perspiciatis atque iste reprehenderit sint nesciunt nihil dolorum ut doloremque laborum itaque ipsa vel commodi libero, optio ab necessitatibus? Id natus rerum quis. Nihil at quas natus? Libero, porro esse nihil voluptas, neque rem ad quo, eum sed cupiditate quisquam hic debitis minus blanditiis quidem?
         </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      </AppLayout>
+    </>
   )
 }

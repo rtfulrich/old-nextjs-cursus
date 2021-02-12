@@ -1,0 +1,76 @@
+#sidebar {
+	height: calc(100vh - 3rem);
+	transition: transform ease-in-out 300ms;
+	&.hide,
+	&.init {
+		transform: translateX(-100%);
+	}
+	&.show {
+		transform: translateX(0);
+	}
+}
+$customBackgrounds: 19, 24, 27, 33, 45;
+@each $bg in $customBackgrounds {
+	.bg#{$bg},
+	.hover\:bg#{$bg}:hover {
+		background: ##{$bg}#{$bg}#{$bg};
+		color: white;
+	}
+}
+$mediaBgs: (
+	"facebook": #3b5998,
+	"twitter": #1da1f2,
+	"success": #34a853,
+);
+@each $name, $color in $mediaBgs {
+	.#{$name} {
+		color: $color;
+		&-hover:hover {
+			color: darken($color, 10);
+		}
+	}
+	.#{$name}-bg {
+		background-color: $color;
+		&-hover:hover {
+			background-color: darken($color, 10);
+		}
+	}
+	.border-#{$name},
+	.focus\:border-#{$name}:focus {
+		border-color: $color;
+	}
+}
+.modal-login {
+	max-width: 400px;
+	.modal-content {
+		border-radius: 1rem;
+	}
+}
+label.custom {
+	transition: all ease-in-out 200ms;
+	letter-spacing: 0.15rem;
+	opacity: 0.3;
+	font-size: 18px;
+	font-weight: normal;
+	&.move {
+		transform: translate(-4px, -18px);
+		font-weight: 700;
+		letter-spacing: 0.1rem;
+		opacity: 1;
+		font-size: 12px;
+	}
+}
+.input-error {
+	transition: transform ease-in-out 200ms;
+	transform: translateX(20px);
+	opacity: 0;
+	&.show {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@import "sm";
+@import "md";
+@import "lg";
+@import "xl";
