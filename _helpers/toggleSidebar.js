@@ -18,10 +18,10 @@ export const toggleSidebar = () => {
   const mainFooter = document.getElementById("main-footer");
   if (sidebar.classList.contains("show")) {
     mainContent.classList.remove("no-sidebar");
-    mainFooter.classList.remove("no-sidebar");
+    mainFooter?.classList.remove("no-sidebar");
   }
   else {
     mainContent.classList.add("no-sidebar");
-    mainFooter.classList.add("no-sidebar");
+    mainFooter?.classList.add("no-sidebar");
   }
 }

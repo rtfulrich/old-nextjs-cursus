@@ -24,7 +24,10 @@ $mediaBgs: (
 );
 @each $name, $color in $mediaBgs {
 	.#{$name} {
-		color: $color;
+		&,
+		&-hover:hover {
+			color: $color;
+		}
 		&-hover:hover {
 			color: darken($color, 10);
 		}
@@ -67,6 +70,19 @@ label.custom {
 	&.show {
 		transform: translateX(0);
 		opacity: 1;
+	}
+}
+
+ul.menus {
+	& li ul.submenus {
+		position: absolute;
+		left: 100%;
+		top: 0;
+		border: 1px solid #1da1f2;
+		display: none;
+	}
+	& > li:hover ul.submenus {
+		display: block;
 	}
 }
 

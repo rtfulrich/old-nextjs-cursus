@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from "next/link"
 import { FaBars } from 'react-icons/fa'
-import { toggleSidebar } from '../../_helpers/toggleSidebar'
+import { toggleSidebar } from '../../../_helpers/toggleSidebar'
 import HeaderRight from './HeaderRight';
 
 function Header() {

@@ -1,8 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
-import Sidebar from './components/Sidebar';
-import Footer from './components/Footer';
-import Header from './components/Header';
+import Sidebar from './components/sidebar/Sidebar';
+import Footer from './components/footer/Footer';
+import Header from './components/header/Header';
 import { Online, Offline } from "react-detect-offline"
 import useSanctum from '../_hooks/useSanctum';
 import axios from 'axios';
@@ -11,20 +11,25 @@ import { API_URL } from '../_constants/URLs';
 
 axios.defaults.withCredentials = true;
 
-function AppLayout({ children, title = null, withFooter = true }) {
+function AppLayout({ children, title = null, withFooter }) {
+
+  // C O N T E X T S
   const { user, setUser } = React.useContext(UserContext);
 
-  React.useEffect(() => console.log(user), [user])
+  // React.useEffect(() => console.log("app layout mount : user :", user), [user])
 
   React.useEffect(async () => {
     await useSanctum()
     axios.get(`${API_URL}/check-auth`)
       .then(response => {
-        const user = response.data.user;
-        if (user) setUser({ type: AUTH_TRUE, user });
+        const authUser = response.data.user;
+        if (authUser) setUser({ type: AUTH_TRUE, payload: authUser });
         else setUser({ type: AUTH_FALSE });
       })
-      .catch(error => alert("Error : " + error))
+      .catch(error => {
+        console.log(error.response)
+        alert("Error : " + error)
+      })
   }, [])
 
   return (

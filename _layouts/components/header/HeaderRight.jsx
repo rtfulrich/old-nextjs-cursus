@@ -1,33 +1,49 @@
 import React from 'react'
-import { CloseButton, Modal } from 'react-bootstrap';
-import UserContext from '../../_react-contexts/user-context';
-import Login from './Login';
+import { Modal } from 'react-bootstrap';
+import { RiMessengerFill, RiNotification2Fill } from 'react-icons/ri';
+import UserContext, { AUTH_FALSE } from '../../../_react-contexts/user-context';
+import Login from '../modals/Login';
+import Register from '../modals/Register';
 
 function HeaderRight() {
+
+  // C O N T E X T S
   const { user, setUser } = React.useContext(UserContext);
+
+  // S T A T E S
   const [showAuthModal, setShowAuthModal] = React.useState(false);
   const [inModal, setInModal] = React.useState("login-form");
 
+  // M E T H O D S
   const handleSignout = (clickEvent) => {
     clickEvent.preventDefault()
-    setIsAuth(AUTH_FALSE)
+    setUser(AUTH_FALSE)
   }
 
-  const handleAuthModal = (clickEvent) => {
+  const handleAuthModal = async (clickEvent) => {
     clickEvent.preventDefault()
     setShowAuthModal(true);
   }
 
+  if (user === undefined) return <>Loading ...</>
+
+  // J S X
   return (
     <>
+      {/* @auth */}
       {
-        user && <a href="#" className="px-2 py-1 rounded-lg bg-danger" onClick={handleSignout}>Hiala sera</a>
+        user && <div className="flex items-center">
+          <RiMessengerFill className="mr-4 text-lg" />
+          <RiNotification2Fill className="mr-4 text-lg" />
+          <a href="#" className="px-2 py-1 rounded-lg bg-danger" onClick={handleSignout}>Hiala sera</a>
+        </div>
       }
+      {/* @else */}
       {
         !user && <a href="#" className="px-2 py-1 rounded-lg bg-danger" onClick={handleAuthModal}>Isera</a>
       }
       <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} size="login"
-        className="-mt-20" centered
+        className="" centered
       >
         {/* <CloseButton
           className="absolute hover:bg-red-700 rounded-full px-2 pb-2"
@@ -39,6 +55,7 @@ function HeaderRight() {
           {inModal === "register-form" && <Register setShowAuthModal={setShowAuthModal} setInModal={setInModal} />}
         </div>
       </Modal>
+      {/* @endauth */}
     </>
   )
 }

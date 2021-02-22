@@ -3,7 +3,7 @@ import React from 'react'
 export const AUTH_TRUE = true;
 export const AUTH_FALSE = false;
 
-const UserContext = React.createContext(null)
+const UserContext = React.createContext(undefined)
 
 export const userReducer = (state, action) => {
   switch (action.type) {
