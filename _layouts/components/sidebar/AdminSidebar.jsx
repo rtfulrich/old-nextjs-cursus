@@ -3,6 +3,8 @@ import SidebarMenuItem, { MenusHeader } from '../../../_components/simple-compon
 import FrontSidebar from "./FrontSidebar";
 import { ADMIN_PSEUDO } from '../../../_constants/users';
 import UserContext from '../../../_react-contexts/user-context'
+import { FILEMANAGER_FILES, FILEMANAGER_IMAGES } from '../../../_constants/URLs';
+import { FaFile, FaImages } from 'react-icons/fa';
 
 function AdminSidebar() {
   // C O N T E X T S
@@ -17,27 +19,37 @@ function AdminSidebar() {
       <MenusHeader>Posts Menus</MenusHeader>
       {/* Courses */}
       <SidebarMenuItem text="Courses">
-        <SidebarMenuItem text="All" href="/admin/course" />
-        <SidebarMenuItem text="Create one" href="/admin/course/new" />
+        <SidebarMenuItem text="All" href="/admin/course/all" />
+        <SidebarMenuItem text="Create a course" href="/admin/course/new" />
       </SidebarMenuItem>
 
       {/* Challenges */}
       <SidebarMenuItem text="Challenges">
-        <SidebarMenuItem text="All" href="/admin/challenge" />
-        <SidebarMenuItem text="Create one" href="/admin/challenge/new" />
+        <SidebarMenuItem text="All" href="/admin/challenge/all" />
+        <SidebarMenuItem text="Create a challenge" href="/admin/challenge/new" />
       </SidebarMenuItem>
 
       {/* Tutorials */}
       <SidebarMenuItem text="Tutorials">
-        <SidebarMenuItem text="All" href="/admin/tutorial" />
-        <SidebarMenuItem text="Create one" href="/admin/tutorial/new" />
+        <SidebarMenuItem text="All" href="/admin/tutorial/all" />
+        <SidebarMenuItem text="Create a tutorial" href="/admin/tutorial/new" />
       </SidebarMenuItem>
 
       {/* Blogs */}
       <SidebarMenuItem text="Blogs">
-        <SidebarMenuItem text="All" href="/admin/blogs" />
-        <SidebarMenuItem text="Create one" href="/admin/blog/new" />
+        <SidebarMenuItem text="All" href="/admin/blog/all" />
+        <SidebarMenuItem text="Create a blog" href="/admin/blog/new" />
       </SidebarMenuItem>
+
+      <MenusHeader>Filemanager</MenusHeader>
+      <SidebarMenuItem
+        text="Images" href={`${FILEMANAGER_IMAGES}`} target="_blank"
+        icon={<FaImages />}
+      />
+      <SidebarMenuItem
+        text="Files" href={`${FILEMANAGER_FILES}`} target="_blank"
+        icon={<FaFile />}
+      />
     </ul>
   )
 }

@@ -1,8 +1,6 @@
 import React from 'react'
-import UserContext from '../../_react-contexts/user-context'
 
 function Dashboard() {
-  const { user } = React.useContext(UserContext);
 
   // J S X
   return (
