@@ -1,6 +1,10 @@
 import React from 'react'
+import UserContext from '../../_react-contexts/user-context'
 
 function Dashboard() {
+  const { user } = React.useContext(UserContext);
+
+  // J S X
   return (
     <div>
       <p>
@@ -12,12 +16,11 @@ function Dashboard() {
 
 export default Dashboard
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   return {
     props: {
       page: {
         title: "Admin - Dashboard",
-        noFooter: true,
       }
     }
   }

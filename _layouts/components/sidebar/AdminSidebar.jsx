@@ -1,5 +1,6 @@
 import React from 'react'
 import SidebarMenuItem, { MenusHeader } from '../../../_components/simple-components/SidebarMenuItem';
+import FrontSidebar from "./FrontSidebar";
 import { ADMIN_PSEUDO } from '../../../_constants/users';
 import UserContext from '../../../_react-contexts/user-context'
 
@@ -8,7 +9,7 @@ function AdminSidebar() {
   const { user } = React.useContext(UserContext)
 
   // J S X
-  if (user !== undefined && user.pseudo !== ADMIN_PSEUDO) return <FrontSidebar />
+  if (user === undefined || user === null || user.pseudo !== ADMIN_PSEUDO) return <FrontSidebar />
   return (
     <ul className="menus">
       <SidebarMenuItem text="Dashboard" href="/admin" />

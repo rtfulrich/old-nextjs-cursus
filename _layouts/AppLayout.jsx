@@ -8,29 +8,45 @@ import useSanctum from '../_hooks/useSanctum';
 import axios from 'axios';
 import UserContext, { AUTH_FALSE, AUTH_TRUE } from '../_react-contexts/user-context';
 import { API_URL } from '../_constants/URLs';
+import LoadingContext from '../_react-contexts/loading-context';
+import { useRouter } from 'next/router';
+import Unauthorized from './components/errors/Unauthorized';
+import { ADMIN_PSEUDO } from '../_constants/users';
 
 axios.defaults.withCredentials = true;
 
-function AppLayout({ children, title = null, withFooter }) {
+function AppLayout({ children, title = null, withFooter = true }) {
+
+  // V A R I A B L E S
+  const router = useRouter();
 
   // C O N T E X T S
   const { user, setUser } = React.useContext(UserContext);
+  const { pageLoading, setPageLoading } = React.useContext(LoadingContext);
 
   // React.useEffect(() => console.log("app layout mount : user :", user), [user])
 
   React.useEffect(async () => {
+    setPageLoading({ type: true });
     await useSanctum()
     axios.get(`${API_URL}/check-auth`)
       .then(response => {
         const authUser = response.data.user;
         if (authUser) setUser({ type: AUTH_TRUE, payload: authUser });
         else setUser({ type: AUTH_FALSE });
+        setPageLoading({ type: false });
       })
       .catch(error => {
         console.log(error.response)
         alert("Error : " + error)
       })
   }, [])
+
+  // J S X
+  let pageContent;
+  if (typeof user === "object" && router.pathname.match("/admin") && user?.pseudo !== ADMIN_PSEUDO)
+    pageContent = <Unauthorized />;
+  else pageContent = children;
 
   return (
     <>
@@ -40,16 +56,30 @@ function AppLayout({ children, title = null, withFooter }) {
       </Head>
 
       {/* <Online> */}
-      <Header />
-      <div className="mt-12 flex">
-        <Sidebar />
-        <div className="bg-black text-white flex-1 flex flex-col justify-between" style={{ minHeight: "calc(100vh - 3rem)" }}>
-          <div id="main-content" className="flex-1">
-            {children}
-          </div>
-          {withFooter && <Footer />}
+
+      {/* Page is loading */}
+      {pageLoading && (
+        <div className="z-50 h-full w-full bg-black flex items-center justify-center absolute text-white text-9xl">
+          Loading ...
         </div>
-      </div>
+      )}
+
+      {/* Page has finished loading */}
+      {!pageLoading && (
+        <>
+          <Header />
+          <div className="mt-12 flex">
+            <Sidebar />
+            <div className="bg-black text-white flex-1 flex flex-col justify-between" style={{ minHeight: "calc(100vh - 3rem)" }}>
+              <div id="main-content" className="flex-1">
+                {pageContent}
+              </div>
+              {withFooter && <Footer />}
+            </div>
+          </div>
+        </>
+      )}
+
       {/* </Online>
         <Offline>
           Offline
