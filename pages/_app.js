@@ -9,15 +9,19 @@ import NotFound from '../_layouts/components/errors/NotFound';
 import Unauthorized from '../_layouts/components/errors/Unauthorized';
 import { useRouter } from 'next/router';
 import LoadingContext, { loadingReducer } from '../_react-contexts/loading-context';
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({ position: toast.POSITION.BOTTOM_RIGHT });
 
 function IanaTek({ Component, pageProps }) {
   // V A R I A B L E S
   const router = useRouter();
-  if (router.pathname.match("/admin")) pageProps.page.noFooter = true;
+  if (router.pathname.match("/admin")) { pageProps.page.noFooter = true; }
 
   // C O N T E X T S
   const [user, userDispatch] = React.useReducer(userReducer, undefined);
-  const [pageLoading, pageLoadingDispatch] = React.useReducer(loadingReducer, false);
+  const [pageLoading, pageLoadingDispatch] = React.useReducer(loadingReducer, true);
 
   // J S X
   let component;
