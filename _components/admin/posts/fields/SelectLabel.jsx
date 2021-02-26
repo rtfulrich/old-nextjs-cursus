@@ -7,6 +7,7 @@ function SelectLabel({
   fieldRef,
   errorNeeds = [null, null, "attribute"],
   text,
+  value = null,
   className = "",
   ...rests
 }) {
@@ -25,7 +26,7 @@ function SelectLabel({
         {label}
       </label>
       <select
-        htmlFor={id} name={id} id={id} ref={fieldRef} {...rests}
+        htmlFor={id} name={id} id={id} ref={fieldRef} defaultValue={value}
         onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
         className={`w-full rounded-lg bg-transparent px-2 py-1 placeholder-gray-300 placeholder-opacity-90 text-sm font-semibold tracking-widest outline-none border-2 ${error ? " border-red-500" : ""} focus:border-blue-500 transition-colors duration-150`}
         onChange={clearError}

@@ -22,7 +22,11 @@ function ChooseLfmImage({
   const [image, setImage] = React.useState(null);
   const [focus, setFocus] = React.useState(false);
 
-  React.useEffect(() => useFilemanager(id), []);
+  React.useEffect(() => {
+    useFilemanager(id);
+    // set initial image value
+    if (rests.defaultValue) setImage(rests.defaultValue);
+  }, []);
 
   return (
     <div className={className}>
@@ -44,8 +48,8 @@ function ChooseLfmImage({
         {...rests}
       />
       {error && <small className="text-red-500 font-bold tracking-wider">{error}</small>}
-      <div data-preview={id} className="flex justify-center mt-4">
-        {image && <img src={image} className="max-w-full" />}
+      <div data-preview={id} className="flex justify-center my-4 overflow-hidden">
+        {image && <img src={image} />}
       </div>
     </div>
   )

@@ -12,7 +12,11 @@ import LoadingContext, { loadingReducer } from '../_react-contexts/loading-conte
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure({ position: toast.POSITION.BOTTOM_RIGHT });
+toast.configure({
+  position: toast.POSITION.BOTTOM_RIGHT,
+  limit: 1,
+  hideProgressBar: true
+});
 
 function IanaTek({ Component, pageProps }) {
   // V A R I A B L E S
