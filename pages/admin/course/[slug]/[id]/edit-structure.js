@@ -31,15 +31,17 @@ export default function EditCourseStructure({ courseData }) {
     const courseID = course.id;
     axios.post(`${ADMIN_API_URL}/course/chapters-group/new`, { title, rank, courseID })
       .then(response => {
+        groupTitleRef.current.value = "";
+        groupRankRef.current.value = "";
         const { message, group } = response.data;
-        setGroups(oldGroup => {
-          const groups = [...oldGroup, group];
+        setGroups(oldGroups => {
+          const groups = [...oldGroups, group];
           return sortGroups(groups);
         });
         toast.success(<span className="font-bold tracking-widest">{message}</span>);
       })
       .catch(e => {
-        const { status, data } = e.response; console.log(data)
+        const { status, data } = e.response;
         if (status === 422) {
           const errors = { title: null, rank: null };
           if (data.errors.title) errors.title = data.errors.title[0];
@@ -157,7 +159,6 @@ export async function getServerSideProps({ params, req, res }) {
 // Helper functions
 function sortGroups(groups = []) {
   return groups.sort((a, b) => {
-    console.log("sort", a, b)
     if (a.rank < b.rank) return -1;
     else if (a.rank > b.rank) return 1;
     return 0;

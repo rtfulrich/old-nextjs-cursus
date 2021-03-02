@@ -34,11 +34,6 @@ function HeaderRight() {
     clickEvent.preventDefault()
     setShowAuthModal(true);
   }
-  const handleClick = e => {
-    e.preventDefault();
-    axios.get(`${API_URL}/check-auth`).then(r => console.log(r.data));
-  }
-  if (user === undefined) return <>Loading ...</>
 
   // J S X
   return (
@@ -46,7 +41,6 @@ function HeaderRight() {
       {/* @auth */}
       {
         user && <div className="flex items-center">
-          <a href="#" onClick={handleClick} className="mr-2">check auth</a>
           <RiMessengerFill className="mr-4 text-lg" />
           <RiNotification2Fill className="mr-4 text-lg" />
           <a href="#" className="px-2 py-1 rounded-lg bg-danger" onClick={handleSignout}>Hiala sera</a>
