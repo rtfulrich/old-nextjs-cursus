@@ -11,14 +11,17 @@ export default function EditCourseStructure({ courseData }) {
 
   // S T A T E S
   const [course, setCourse] = React.useState({});
-  const [groups, setGroups] = React.useState([])
+  // const [groups, setGroups] = React.useState([])
+  const [groups, setGroups] = React.useReducer(groupReducer, courseData.chapters_groups);
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
 
   // M O U N T  E F F E C T
   React.useEffect(() => {
     setCourse(courseData);
-    setGroups(sortGroups(courseData.chapters_groups));
+    setGroups({ type: "SORT" });
   }, []);
+
+  // const sortGroups = React.useReducer()
 
   // R E F S
   const groupRankRef = React.useRef();
@@ -34,10 +37,7 @@ export default function EditCourseStructure({ courseData }) {
         groupTitleRef.current.value = "";
         groupRankRef.current.value = "";
         const { message, group } = response.data;
-        setGroups(oldGroups => {
-          const groups = [...oldGroups, group];
-          return sortGroups(groups);
-        });
+        setGroups({ type: "ADD_SORT", payload: group });
         toast.success(<span className="font-bold tracking-widest">{message}</span>);
       })
       .catch(e => {
@@ -97,7 +97,7 @@ export default function EditCourseStructure({ courseData }) {
         groups.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80">No Groups Yet</div>
       }
       {
-        groups.map(group => <ChaptersGroup key={group.id} chaptersGroup={group} />)
+        groups.map((group, index) => <ChaptersGroup key={group.id} groupData={group} setGroups={setGroups} />)
       }
 
       {/* Create a new group */}
@@ -156,11 +156,42 @@ export async function getServerSideProps({ params, req, res }) {
 
 }
 
-// Helper functions
-function sortGroups(groups = []) {
-  return groups.sort((a, b) => {
-    if (a.rank < b.rank) return -1;
-    else if (a.rank > b.rank) return 1;
-    return 0;
-  })
+function groupReducer(state = [], action) {
+  switch (action.type) {
+
+    case "ADD":
+      return [...state, action.payload];
+
+    case "SORT":
+      return state.sort((a, b) => {
+        if (a.rank < b.rank) return -1;
+        else if (a.rank > b.rank) return 1;
+        return 0;
+      });
+
+    case "ADD_SORT":
+      console.log("payload", action.payload);
+      return [...state, action.payload].sort((a, b) => {
+        if (a.rank < b.rank) return -1;
+        else if (a.rank > b.rank) return 1;
+        return 0;
+      });
+
+    case "UPDATE_SORT":
+      return state
+        .map(group => {
+          if (group.id === action.payload.id) return action.payload;
+          return group;
+        })
+        .sort((a, b) => {
+          if (a.rank < b.rank) return -1;
+          else if (a.rank > b.rank) return 1;
+          return 0;
+        });
+
+    case "DELETE":
+      return state.filter(group => group.id !== action.payload.id);
+
+    default: return state;
+  }
 }

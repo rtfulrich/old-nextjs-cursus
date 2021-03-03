@@ -1,8 +1,14 @@
 import React from 'react'
 
-function Chapter({ chapter }) {
+function Chapter({ chapterData }) {
 
   // S T A T E S
+  const [chapter, setChapter] = React.useState({ title: "", rank: "" });
+
+  // M O U N T  E F F E C T
+  React.useEffect(() => {
+    setChapter(chapterData);
+  }, []);
 
   return (
     <div className="ml-4 px-4 my-2 flex justify-between items-center hover:bg-gray-900 bg-opacity-40 py-2 cursor-pointer rounded-lg">
