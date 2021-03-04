@@ -71,7 +71,7 @@ function AppLayout({ children, title = null, withFooter = true }) {
           <div className="mt-12 flex">
             <Sidebar />
             <div className="bg-black text-white flex-1 flex flex-col justify-between" style={{ minHeight: "calc(100vh - 3rem)" }}>
-              <div id="main-content" className="flex-1">
+              <div id="main-content" className="flex-1 z-auto">
                 {pageContent}
               </div>
               {withFooter && <Footer />}

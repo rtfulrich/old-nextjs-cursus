@@ -76,9 +76,9 @@ export default function ViewCourse({ courseData }) {
             </a>
           </Link>
           <span
-            className={`px-3 py-2 md:text-sm rounded-lg border-2 flex items-center cursor-pointer hover:bg-gray-500 hover:bg-opacity-30 font-bold tracking-widest transition-colors duration-150 border-blue-500 text-blue-500`}
+            className={`px-3 py-2 md:text-sm rounded-lg border-2 flex items-center cursor-pointer hover:bg-gray-500 hover:bg-opacity-30 font-bold tracking-widest transition-colors duration-150 border-blue-500 text-blue-500 text-center`}
           >
-            Visits : {course.visits}
+            Visits <br />{course.visits}
           </span>
         </div>
       </div>

@@ -7,11 +7,11 @@ import { ADMIN_API_URL } from '../../../../_constants/URLs';
 import InputLabel from '../fields/InputLabel';
 import Chapter from './Chapter'
 
-function ChaptersGroup({ groupData, setGroups }) {
+function ChaptersGroup({ groupData, setGroups, notFree }) {
 
   // S T A T E S
   const [group, setGroup] = React.useState({ id: Math.random(), title: "", rank: "", show: true })
-  const [chapters, setChapters] = React.useState([]);
+  const [chapters, setChapters] = React.useReducer(chapterReducer, []);
   const [chapterErrors, setChapterErrors] = React.useState({ title: null, rank: null });
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
   const [editGroup, setEditGroup] = React.useState(false);
@@ -20,8 +20,10 @@ function ChaptersGroup({ groupData, setGroups }) {
 
   // M O U N T  E F F E C T
   React.useEffect(() => {
-    setChapters(sortChapters(groupData.chapters));
     setGroup(groupData);
+    setChapters({ type: "INIT", payload: groupData.chapters });
+
+    return () => null;
   }, []);
 
   // R E F S
@@ -65,9 +67,10 @@ function ChaptersGroup({ groupData, setGroups }) {
       : { show: !group.show };
     axios.put(`${ADMIN_API_URL}/chapters-group/update/${group.id}`, data)
       .then(response => {
-        const { message, newGroup } = response.data;
+        const { message, newGroup, chapters } = response.data;
         setGroup(newGroup);
         setGroups({ type: "UPDATE_SORT", payload: newGroup });
+        setChapters({ type: "INIT", payload: chapters })
         setEditGroup(false);
         toast.success(<span className="font-bold tracking-widest">{message}</span>)
       })
@@ -107,7 +110,7 @@ function ChaptersGroup({ groupData, setGroups }) {
             onClick={(e) => setShowChildren(!showChildren)}
           >
             <h3 className="text-xl font-bold tracking-widest align-middle">
-              <span className="w-12 text-center mr-2">{group.rank}</span> {group.title} <span className="text-sm ml-3">({chapters.length})</span>
+              <span className="w-12 text-center mr-2">{group.rank}</span> {group.title} <span className="text-sm ml-3">({chapters ? chapters.length : 0})</span>
             </h3>
             <div className="flex items-center cursor-pointer">
               {group.show
@@ -125,16 +128,18 @@ function ChaptersGroup({ groupData, setGroups }) {
                 onClick={(e) => { e.stopPropagation(); setEditGroup(true); }}
               />
               <FaTrash
-                className="text-red-500 hover:text-red-600 cursor-pointer mr-4"
+                className="hover:text-red-500 cursor-pointer mr-4"
                 onClick={(e) => { e.stopPropagation(); setGroupToDelete(group); }}
               />
               <span className="-mr-4">{showChildren ? <FaAngleDoubleUp /> : <FaAngleDoubleDown />}</span>
             </div>
           </div>
           {showChildren && <div className="ml-4">
+
             {/* All chapters */}
-            {chapters.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80 ml-4 mt-2 text-red-300">No Chapters Yet</div>}
-            {chapters.map((chapter) => <Chapter chapterData={chapter} key={chapter.id} />)}
+            {chapters && chapters.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80 ml-4 mt-2 text-red-300">No Chapters Yet</div>}
+            {chapters && chapters.map((chapter) => <Chapter chapterData={chapter} setChapters={setChapters} key={Math.random()} notFree={notFree} />)}
+
             {/* Create a new chapter inside the parent group */}
             <div className="border-2 border-purple-500 grid grid-cols-12 gap-4 rounded-lg pr-2 overflow-hidden mt-2">
               <h3 className="col-span-2 bg-purple-500 h-full flex items-center justify-center text-2xl font-semibold tracking-widest text-center">New Chapter</h3>
@@ -210,13 +215,44 @@ function ChaptersGroup({ groupData, setGroups }) {
 
 export default ChaptersGroup
 
-// Helper functions
-function sortChapters(chapters = []) {
-  return chapters !== null
-    ? chapters.sort((a, b) => {
-      if (a.rank < b.rank) return -1;
-      else if (a.rank === b.rank) return 0;
-      return 1;
-    })
-    : [];
+// Chapters reducer
+function chapterReducer(state = [], action) {
+  switch (action.type) {
+
+    case "INIT":
+      return action.payload.sort((a, b) => {
+        if (a.rank < b.rank) return -1;
+        else if (a.rank === b.rank) return 0;
+        return 1;
+      });
+
+    case "ADD":
+      state.push(action.payload);
+      return state.sort((a, b) => {
+        if (a.rank < b.rank) return -1;
+        else if (a.rank === b.rank) return 0;
+        return 1;
+      });
+
+    case "REMOVE":
+      return state.filter(chapter => chapter.id !== action.payload.id);
+
+    case "UPDATE":
+      return state
+        .map(chapter => chapter.id === action.payload.id ? action.payload : chapter)
+        .sort((a, b) => {
+          if (a.rank < b.rank) return -1;
+          else if (a.rank === b.rank) return 0;
+          return 1;
+        });
+
+    case "SORT":
+      return state.sort((a, b) => {
+        if (a.rank < b.rank) return -1;
+        else if (a.rank === b.rank) return 0;
+        return 1;
+      })
+
+    default: return state;
+  }
 }

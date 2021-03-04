@@ -11,7 +11,6 @@ export default function EditCourseStructure({ courseData }) {
 
   // S T A T E S
   const [course, setCourse] = React.useState({});
-  // const [groups, setGroups] = React.useState([])
   const [groups, setGroups] = React.useReducer(groupReducer, courseData.chapters_groups);
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
 
@@ -19,6 +18,8 @@ export default function EditCourseStructure({ courseData }) {
   React.useEffect(() => {
     setCourse(courseData);
     setGroups({ type: "SORT" });
+
+    return () => null;
   }, []);
 
   // const sortGroups = React.useReducer()
@@ -85,9 +86,9 @@ export default function EditCourseStructure({ courseData }) {
             </a>
           </Link>
           <span
-            className={`px-3 py-2 md:text-sm rounded-lg border-2 flex items-center cursor-pointer hover:bg-gray-500 hover:bg-opacity-30 font-bold tracking-widest transition-colors duration-150 border-blue-500 text-blue-500`}
+            className={`px-3 py-2 md:text-sm rounded-lg border-2 flex items-center cursor-pointer hover:bg-gray-500 hover:bg-opacity-30 font-bold tracking-widest transition-colors duration-150 border-blue-500 text-blue-500 text-center`}
           >
-            Visits : {course.visits}
+            Visits <br />{course.visits}
           </span>
         </div>
       </div>
@@ -97,14 +98,14 @@ export default function EditCourseStructure({ courseData }) {
         groups.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80">No Groups Yet</div>
       }
       {
-        groups.map((group, index) => <ChaptersGroup key={group.id} groupData={group} setGroups={setGroups} />)
+        groups.map((group, index) => <ChaptersGroup key={Math.random()} groupData={group} setGroups={setGroups} notFree={course.price !== 0} />)
       }
 
       {/* Create a new group */}
-      <div className="grid grid-cols-12 gap-4 border-t-2 border-yellow-300 pt-4">
+      <div className={`grid grid-cols-12 gap-4 border-t-2 pt-4 ${course.published ? "border-success" : "border-yellow-300"}`}>
         <div className="col-span-12">
-          <div className="grid grid-cols-12 gap-4 pr-2 border-2 border-yellow-300 rounded-xl items-start overflow-hidden">
-            <h3 className="col-span-2 bg-yellow-300 h-full flex items-center justify-center text-2xl font-semibold tracking-widest text-black">New Group</h3>
+          <div className={`grid grid-cols-12 gap-4 pr-2 border-2 ${course.published ? "border-success" : "border-yellow-300"} rounded-xl items-start overflow-hidden`}>
+            <h3 className={`col-span-2 ${course.published ? "success-bg" : "bg-yellow-300"} h-full flex items-center justify-center text-2xl font-semibold tracking-widest text-black`}>New Group</h3>
             <div className="col-span-2 py-2">
               <InputLabel id="group_rank" label="Rank" fieldRef={groupRankRef} errorNeeds={[groupErrors, setGroupErrors, "rank"]}>Rank of the group</InputLabel>
             </div>
@@ -112,7 +113,7 @@ export default function EditCourseStructure({ courseData }) {
               <InputLabel id="group_title" label="Title" fieldRef={groupTitleRef} errorNeeds={[groupErrors, setGroupErrors, "title"]}>Title of the group</InputLabel>
             </div>
             <div className="col-span-2 flex self-center">
-              <button type="button" className="py-2 rounded-xl bg-yellow-300 hover:bg-yellow-400 w-full text-center font-bold tracking-widest text-lg text-black" onClick={addChaptersGroup}>
+              <button type="button" className={`py-2 rounded-xl ${course.published ? "success-bg success-bg-hover" : "bg-yellow-300 hover:bg-yellow-400"} w-full text-center font-bold tracking-widest text-lg text-black`} onClick={addChaptersGroup}>
                 Create
               </button>
             </div>
