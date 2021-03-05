@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { FaArrowCircleRight, FaCheckSquare, FaSave, FaSquare } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -8,11 +9,16 @@ import InputLabel from '../../../../../_components/admin/posts/fields/InputLabel
 import OptionSelect from '../../../../../_components/admin/posts/fields/OptionSelect';
 import SelectLabel from '../../../../../_components/admin/posts/fields/SelectLabel';
 import TextareaLabel from '../../../../../_components/admin/posts/fields/TextareaLabel';
-import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
+import { ADMIN_API_URL, FRONT_ADMIN_URL, FRONT_URL } from '../../../../../_constants/URLs';
+import catchApi from '../../../../../_helpers/catchApi';
+import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 import NotFound from "../../../../../_layouts/components/errors/NotFound";
 
 export default function ViewCourse({ courseData }) {
   if (!courseData) return <NotFound />
+
+  // V A R I A B L E S
+  const router = useRouter();
 
   // S T A T E S
   const [errors, setErrors] = React.useState({
@@ -29,7 +35,7 @@ export default function ViewCourse({ courseData }) {
   const descriptionRef = React.useRef();
 
   // M E T H O D S
-  const handleSubmit = () => {
+  const handleSubmit = () => sanctumRequest(async () => {
     const allowRequest = canSubmit;
     if (allowRequest) {
       setCanSubmit(false);
@@ -39,28 +45,30 @@ export default function ViewCourse({ courseData }) {
       const price = priceRef.current.value;
       const description = descriptionRef.current.value;
       // console.log(title, image_cover, level, price, description); return;
-      axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, {
+      const response = await axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, {
         title, image_cover, level, price, description
-      })
-        .then(response => {
-          const { message, course } = response.data;
-          toast.success(<span className="font-bold tracking-widest">{message}</span>);
-          setCourse(course);
-        })
-        .finally(() => setCanSubmit(true));
-    }
-  }
+      });
+      const { message, newCourse } = response.data;
 
-  const handlePublish = () => {
-    axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, { published: !course.published })
-      .then(response => {
-        const { message, published } = response.data;
-        const notification = <span className="font-bold tracking-widest">{message}</span>;
-        if (published) toast.success(notification);
-        else toast.warn(notification);
-        setCourse({ ...course, published });
-      })
-  }
+      // redirect to the new link
+      if (router.query.slug !== newCourse.slug)
+        router.push(`${FRONT_ADMIN_URL}/course/${newCourse.slug}/${newCourse.id}`);
+
+      toast.success(<span className="font-bold tracking-widest">{message}</span>);
+      setCourse(newCourse);
+    }
+  }, null, () => setCanSubmit(true));
+
+  const handlePublish = () => sanctumRequest(async () => {
+    const response = await axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, { published: !course.published })
+    // .then(response => {
+    const { message, published } = response.data;
+    const notification = <span className="font-bold tracking-widest">{message}</span>;
+    if (published) toast.success(notification);
+    else toast.warn(notification);
+    setCourse({ ...course, published });
+    // });
+  })
 
   // J S X
   return (

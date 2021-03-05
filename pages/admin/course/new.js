@@ -6,9 +6,9 @@ import TextareaLabel from '../../../_components/admin/posts/fields/TextareaLabel
 import OptionSelect from '../../../_components/admin/posts/fields/OptionSelect';
 import axios from 'axios';
 import { ADMIN_API_URL } from '../../../_constants/URLs';
-import { CloseButton } from 'react-bootstrap';
 import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
+import sanctumRequest from '../../../_helpers/sanctumRequest';
 
 export default function CreateCourse() {
 
@@ -25,32 +25,29 @@ export default function CreateCourse() {
   const descriptionRef = React.useRef();
 
   // M E T H O D S
-  const handleSubmit = () => {
-    setErrors({ title: null, price: null, level: null, image_cover: null });
+  const handleSubmit = () => sanctumRequest(
+    async () => {
+      setErrors({ title: null, price: null, level: null, image_cover: null });
 
-    const title = titleRef.current.value;
-    const image_cover = imageCoverRef.current.value;
-    const level = levelRef.current.value;
-    const price = priceRef.current.value;
-    const description = descriptionRef.current.value;
+      const title = titleRef.current.value;
+      const image_cover = imageCoverRef.current.value;
+      const level = levelRef.current.value;
+      const price = priceRef.current.value;
+      const description = descriptionRef.current.value;
 
-    const data = { title, image_cover, level, price, description };
-    axios.post(`${ADMIN_API_URL}/course/store`, data)
-      .then(response => {
-        // console.log(response.data); return;
-        const { message, course } = response.data;
-        router.push(`/admin/course/${course.slug}/${course.id}`);
-        toast.success(message);
-      })
-      .catch(e => {
-        // console.log(e.response); return;
-        const { errors } = e.response.data;
-        if (errors.title) setErrors({ ...errors, title: errors.title[0] })
-        if (errors.image_cover) setErrors({ ...errors, image_cover: errors.image_cover[0] })
-        if (errors.level) setErrors({ ...errors, level: errors.level[0] })
-        if (errors.price) setErrors({ ...errors, price: errors.price[0] })
-      });
-  }
+      const data = { title, image_cover, level, price, description };
+      const response = await axios.post(`${ADMIN_API_URL}/course/store`, data);
+      const { message, course } = response.data;
+      router.push(`/admin/course/${course.slug}/${course.id}`);
+      toast.success(message);
+    },
+    (e) => {
+      const { errors } = e.response.data;
+      if (errors.title) setErrors({ ...errors, title: errors.title[0] })
+      if (errors.image_cover) setErrors({ ...errors, image_cover: errors.image_cover[0] })
+      if (errors.level) setErrors({ ...errors, level: errors.level[0] })
+      if (errors.price) setErrors({ ...errors, price: errors.price[0] })
+    });
 
   // V A R I A B L E S
   const router = useRouter();

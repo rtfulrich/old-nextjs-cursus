@@ -5,6 +5,7 @@ import { FaCheckSquare, FaEdit, FaEye, FaImage, FaTrash, FaVideoSlash } from 're
 import { RiFileTextLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { ADMIN_API_URL, DEFAULT_IMAGE_COVER } from '../../../../_constants/URLs';
+import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import ChooseLfmImage from '../fields/ChooseLfmImage';
 import InputLabel from '../fields/InputLabel';
 import OptionSelect from '../fields/OptionSelect';
@@ -35,50 +36,44 @@ function Chapter({ chapterData, setChapters, notFree }) {
   }, []);
 
   // M E T H O D S
-  const updateChapterData = () => {
-    const data = {
-      title: titleRef.current.value,
-      rank: rankRef.current.value,
-      video_url: videoUrlRef.current.value,
-      video_duration: videoDurationRef.current.value,
-      image_cover: imageCoverRef.current.value,
-      show_anyway: showAnywayRef.current.value,
-    };
-    axios.put(`${ADMIN_API_URL}/chapter/update/${chapter.id}`, data)
-      .then(response => {
-        const { message, newChapter } = response.data;
-        setChapter(newChapter);
-        setChapters({ type: "UPDATE", payload: newChapter });
-        setEditChapter(false);
-        toast.success(message);
-      })
-      .catch(e => {
-        const { status } = e.response;
-        if (status === 422) {
-          const errors = e.response.data.errors;
-          if (errors.title) errors.title = errors.title[0];
-          if (errors.rank) errors.rank = errors.rank[0];
-          if (errors.image_cover) errors.image_cover = errors.image_cover[0];
-          if (errors.video_url) errors.video_url = errors.video_url[0];
-          if (errors.video_duration) errors.video_duration = errors.video_duration[0];
-          setChapterErrors({ ...chapterErrors, ...errors });
-        } else toast.error(e.response.data.message);
-      })
-  }
+  const updateChapterData = () => sanctumRequest(
+    async () => {
+      const data = {
+        title: titleRef.current.value,
+        rank: rankRef.current.value,
+        video_url: videoUrlRef.current.value,
+        video_duration: videoDurationRef.current.value,
+        image_cover: imageCoverRef.current.value,
+        show_anyway: showAnywayRef.current.value,
+      };
+      const response = await axios.put(`${ADMIN_API_URL}/chapter/update/${chapter.id}`, data);
+      const { message, newChapter } = response.data;
+      setChapter(newChapter);
+      setChapters({ type: "UPDATE", payload: newChapter });
+      setEditChapter(false);
+      toast.success(message);
+    },
+    e => {
+      const { status } = e.response;
+      if (status === 422) {
+        const errors = e.response.data.errors;
+        if (errors.title) errors.title = errors.title[0];
+        if (errors.rank) errors.rank = errors.rank[0];
+        if (errors.image_cover) errors.image_cover = errors.image_cover[0];
+        if (errors.video_url) errors.video_url = errors.video_url[0];
+        if (errors.video_duration) errors.video_duration = errors.video_duration[0];
+        setChapterErrors({ ...chapterErrors, ...errors });
+      }
+    }
+  );
 
-  const deleteChapter = () => {
-    axios.delete(`${ADMIN_API_URL}/chapter/delete/${chapter.id}`)
-      .then(response => {
-        const { message, theChapter } = response.data;
-        setChapters({ type: "REMOVE", payload: theChapter });
-        setConfirmDelete(false);
-        toast.success(message);
-      })
-      .catch(e => {
-        console.log("delete chapter", e.response);
-        toast.error(e.response.data.message);
-      })
-  }
+  const deleteChapter = () => sanctumRequest(async () => {
+    const response = await axios.delete(`${ADMIN_API_URL}/chapter/delete/${chapter.id}`);
+    const { message, theChapter } = response.data;
+    setChapters({ type: "REMOVE", payload: theChapter });
+    setConfirmDelete(false);
+    toast.success(message);
+  });
 
   // J S X
   let OK = true;

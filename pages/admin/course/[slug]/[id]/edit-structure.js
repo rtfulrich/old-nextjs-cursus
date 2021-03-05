@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import InputLabel from '../../../../../_components/admin/posts/fields/InputLabel';
 import ChaptersGroup from '../../../../../_components/admin/posts/manage-courses/ChaptersGroup';
 import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
+import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 
 export default function EditCourseStructure({ courseData }) {
 
@@ -29,41 +30,38 @@ export default function EditCourseStructure({ courseData }) {
   const groupTitleRef = React.useRef();
 
   // M E T H O D S
-  const addChaptersGroup = () => {
-    const title = groupTitleRef.current.value;
-    const rank = groupRankRef.current.value;
-    const courseID = course.id;
-    axios.post(`${ADMIN_API_URL}/course/chapters-group/new`, { title, rank, courseID })
-      .then(response => {
-        groupTitleRef.current.value = "";
-        groupRankRef.current.value = "";
-        const { message, group } = response.data;
-        setGroups({ type: "ADD_SORT", payload: group });
-        toast.success(<span className="font-bold tracking-widest">{message}</span>);
-      })
-      .catch(e => {
-        const { status, data } = e.response;
-        if (status === 422) {
-          const errors = { title: null, rank: null };
-          if (data.errors.title) errors.title = data.errors.title[0];
-          if (data.errors.rank) errors.rank = data.errors.rank[0];
-          setGroupErrors({ ...errors });
-          if (data.errors.courseID) toast.error(data.errors.courseID[0]);
-        }
-        else toast.error(data.message);
-      });
-  }
+  const addChaptersGroup = () => sanctumRequest(
+    async () => {
+      const title = groupTitleRef.current.value;
+      const rank = groupRankRef.current.value;
+      const courseID = course.id;
+      const response = await axios.post(`${ADMIN_API_URL}/course/chapters-group/new`, { title, rank, courseID });
+      groupTitleRef.current.value = "";
+      groupRankRef.current.value = "";
+      const { message, group } = response.data;
+      setGroups({ type: "ADD_SORT", payload: group });
+      toast.success(<span className="font-bold tracking-widest">{message}</span>);
+    },
+    e => {
+      const { status, data } = e.response;
+      if (status === 422) {
+        const errors = { title: null, rank: null };
+        if (data.errors.title) errors.title = data.errors.title[0];
+        if (data.errors.rank) errors.rank = data.errors.rank[0];
+        setGroupErrors({ ...errors });
+        if (data.errors.courseID) toast.error(data.errors.courseID[0]);
+      }
+      else toast.error(data.message);
+    });
 
-  const handlePublish = () => {
-    axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, { published: !course.published })
-      .then(response => {
-        const { message, published } = response.data;
-        const notification = <span className={`font-bold tracking-widest ${published ? "" : "text-black"}`}>{message}</span>;
-        if (published) toast.success(notification);
-        else toast.warn(notification);
-        setCourse({ ...course, published });
-      });
-  };
+  const handlePublish = () => sanctumRequest(async () => {
+    const response = await axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, { published: !course.published });
+    const { message, published } = response.data;
+    const notification = <span className={`font-bold tracking-widest ${published ? "" : "text-black"}`}>{message}</span>;
+    if (published) toast.success(notification);
+    else toast.warn(notification);
+    setCourse({ ...course, published });
+  });
 
   // J S X
   return (
@@ -171,7 +169,7 @@ function groupReducer(state = [], action) {
       });
 
     case "ADD_SORT":
-      console.log("payload", action.payload);
+      // console.log("payload", action.payload);
       return [...state, action.payload].sort((a, b) => {
         if (a.rank < b.rank) return -1;
         else if (a.rank > b.rank) return 1;

@@ -4,6 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { FaAngleDoubleDown, FaAngleDoubleUp, FaCheck, FaEdit, FaEye, FaEyeSlash, FaPlus, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { ADMIN_API_URL } from '../../../../_constants/URLs';
+import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import InputLabel from '../fields/InputLabel';
 import Chapter from './Chapter'
 
@@ -33,72 +34,62 @@ function ChaptersGroup({ groupData, setGroups, notFree }) {
   const groupRankRef = React.useRef();
 
   // M E T H O D S
-  const handleAddChapter = () => {
-    const title = chapterTitleRef.current.value;
-    const rank = chapterRankRef.current.value;
-    const chapterGroupID = group.id;
-    axios.post(`${ADMIN_API_URL}/course/chapter/new`, { title, rank, chapterGroupID })
-      .then(response => {
-        chapterTitleRef.current.value = "";
-        chapterRankRef.current.value = "";
-        const { message, chapter } = response.data;
-        setChapters(oldChapters => {
-          const chapters = [...oldChapters, chapter];
-          return sortChapters(chapters);
-        });
-        toast.success(<span className="font-bold tracking-widest">{message}</span>);
-      })
-      .catch(e => {
-        const { status, data } = e.response;
-        if (status === 422) {
-          const errors = { title: null, rank: null };
-          if (data.errors.title) errors.title = data.errors.title[0];
-          if (data.errors.rank) errors.rank = data.errors.rank[0];
-          setChapterErrors({ ...errors });
-          if (data.errors.chapterGroupID) toast.error(data.errors.chapterGroupID[0]);
-        }
-        else toast.error(data.message);
-      });
-  };
+  const handleAddChapter = () => sanctumRequest(
+    async () => {
+      const title = chapterTitleRef.current.value;
+      const rank = chapterRankRef.current.value;
+      const chapterGroupID = group.id;
+      const response = await axios.post(`${ADMIN_API_URL}/course/chapter/new`, { title, rank, chapterGroupID });
+      chapterTitleRef.current.value = "";
+      chapterRankRef.current.value = "";
+      const { message, newChapter } = response.data;
+      setChapters({ type: "ADD", payload: newChapter });
+      toast.success(<span className="font-bold tracking-widest">{message}</span>);
+    },
+    e => {
+      const { status, data } = e.response;
+      if (status === 422) {
+        const errors = { title: null, rank: null };
+        if (data.errors.title) errors.title = data.errors.title[0];
+        if (data.errors.rank) errors.rank = data.errors.rank[0];
+        setChapterErrors({ ...errors });
+        if (data.errors.chapterGroupID) toast.error(data.errors.chapterGroupID[0]);
+      }
+    }
+  );
 
-  const updateGroupData = () => {
-    const data = groupTitleRef.current
-      ? { title: groupTitleRef.current.value, rank: groupRankRef.current.value }
-      : { show: !group.show };
-    axios.put(`${ADMIN_API_URL}/chapters-group/update/${group.id}`, data)
-      .then(response => {
-        const { message, newGroup, chapters } = response.data;
-        setGroup(newGroup);
-        setGroups({ type: "UPDATE_SORT", payload: newGroup });
-        setChapters({ type: "INIT", payload: chapters })
-        setEditGroup(false);
-        toast.success(<span className="font-bold tracking-widest">{message}</span>)
-      })
-      .catch(e => {
-        const { status, data } = e.response;
-        if (status === 422) {
-          const errors = { title: null, rank: null };
-          if (data.errors.title) errors.title = data.errors.title[0];
-          if (data.errors.rank) errors.rank = data.errors.rank[0];
-          setGroupErrors({ ...errors });
-        }
-        toast.error(data.message);
-      });
-  }
+  const updateGroupData = () => sanctumRequest(
+    async () => {
+      const data = groupTitleRef.current
+        ? { title: groupTitleRef.current.value, rank: groupRankRef.current.value }
+        : { show: !group.show };
+      const response = await axios.put(`${ADMIN_API_URL}/chapters-group/update/${group.id}`, data);
+      const { message, newGroup, chapters } = response.data;
+      setGroup(newGroup);
+      setGroups({ type: "UPDATE_SORT", payload: newGroup });
+      setChapters({ type: "INIT", payload: chapters })
+      setEditGroup(false);
+      toast.success(<span className="font-bold tracking-widest">{message}</span>);
+    },
+    e => {
+      const { status, data } = e.response;
+      if (status === 422) {
+        const errors = { title: null, rank: null };
+        if (data.errors.title) errors.title = data.errors.title[0];
+        if (data.errors.rank) errors.rank = data.errors.rank[0];
+        setGroupErrors({ ...errors });
+      }
+      // toast.error(data.message);
+    }
+  );
 
-  const deleteGroup = (groupID) => {
-    axios.delete(`${ADMIN_API_URL}/chapters-group/delete/${groupID}`)
-      .then(response => {
-        setGroupToDelete(null);
-        const { message, groupData } = response.data;
-        toast.success(message);
-        setGroups({ type: "DELETE", payload: groupData });
-      })
-      .catch(e => {
-        console.log(e.response);
-        toast.error(e.response.data.message);
-      });
-  }
+  const deleteGroup = (groupID) => sanctumRequest(async () => {
+    const response = await axios.delete(`${ADMIN_API_URL}/chapters-group/delete/${groupID}`)
+    setGroupToDelete(null);
+    const { message, groupData } = response.data;
+    toast.success(message);
+    setGroups({ type: "DELETE", payload: groupData })
+  });
 
   // J S X
   return (
@@ -227,8 +218,7 @@ function chapterReducer(state = [], action) {
       });
 
     case "ADD":
-      state.push(action.payload);
-      return state.sort((a, b) => {
+      return [...state, action.payload].sort((a, b) => {
         if (a.rank < b.rank) return -1;
         else if (a.rank === b.rank) return 0;
         return 1;
