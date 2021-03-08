@@ -10,11 +10,12 @@ import OptionSelect from '../../../../../_components/admin/posts/fields/OptionSe
 import SelectLabel from '../../../../../_components/admin/posts/fields/SelectLabel';
 import TextareaLabel from '../../../../../_components/admin/posts/fields/TextareaLabel';
 import { ADMIN_API_URL, FRONT_ADMIN_URL, FRONT_URL } from '../../../../../_constants/URLs';
-import catchApi from '../../../../../_helpers/catchApi';
+import getPageProps from '../../../../../_helpers/getPageProps';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 import NotFound from "../../../../../_layouts/components/errors/NotFound";
 
-export default function ViewCourse({ courseData }) {
+export default function ViewCourse({ courseData, tags }) {
+  // console.log(tags, courseData);
   if (!courseData) return <NotFound />
 
   // V A R I A B L E S
@@ -33,6 +34,8 @@ export default function ViewCourse({ courseData }) {
   const levelRef = React.useRef();
   const priceRef = React.useRef();
   const descriptionRef = React.useRef();
+
+  const tagRef = React.useRef();
 
   // M E T H O D S
   const handleSubmit = () => sanctumRequest(async () => {
@@ -70,6 +73,29 @@ export default function ViewCourse({ courseData }) {
     // });
   })
 
+  const handleAttachTag = () => sanctumRequest(
+    async () => {
+      const tagID = parseInt(tagRef.current.value);
+      if (isNaN(tagID)) return;
+      const data = { tagID: tagRef.current.value };
+      const response = await axios.put(`${ADMIN_API_URL}/course/${course.id}/attach-a-tag`, data);
+      const { message } = response.data;
+      tagRef.current.value = null;
+      router.reload();
+      toast.success(message);
+    },
+    (e) => {
+      if (e.response?.status === 422) setErrors({ ...errors, tag: e.response.data.errors.tagID[0] });
+    }
+  );
+
+  const handleDetachTag = (tag) => sanctumRequest(async () => {
+    const confirmation = `Do you really want to detach the tag "${tag.name}" from this course ?`;
+    if (!confirm(confirmation)) return;
+    await axios.delete(`${ADMIN_API_URL}/course/${course.id}/detach-a-tag/${tag.id}`);
+    router.reload();
+  });
+
   // J S X
   return (
     <div className="px-4 py-3">
@@ -100,7 +126,7 @@ export default function ViewCourse({ courseData }) {
           <InputLabel defaultValue={course.price} fieldRef={priceRef} label="Price" id="course_price" errorNeeds={[errors, setErrors, "price"]} type="number" min="0" defaultValue={0} step={1000} className="mb-3">
             Price of the course (ar)
           </InputLabel>
-          <SelectLabel value={course.level} fieldRef={levelRef} errorNeeds={[errors, setErrors, "level"]} label="Level" className="mb-24" id="course_level" text="Select a level">
+          <SelectLabel value={course.level} fieldRef={levelRef} errorNeeds={[errors, setErrors, "level"]} label="Level" className="mb-4" id="course_level" text="Select a level">
             <OptionSelect selected={course.level === "BEGINNER"} value="BEGINNER">Beginner</OptionSelect>
             <OptionSelect selected={course.level === "INTERMEDIATE"} value="INTERMEDIATE">Intermediate</OptionSelect>
             <OptionSelect selected={course.level === "ADVANCED"} value="ADVANCED">Advanced</OptionSelect>
@@ -111,6 +137,25 @@ export default function ViewCourse({ courseData }) {
           >
             {course.published ? <FaCheckSquare className="mr-2" /> : <FaSquare className="mr-2" />} Published ?
           </span>
+          <div className="mt-4">
+            <div className="rounded-2xl bg45 pt-1 px-1 font-semibold flex items-center flex-wrap">
+              {course.tags.length === 0 && "NO TAGS YET"}
+              {course.tags.map(tag => (
+                <span key={tag.id} className="px-2 pt-1 pb-2 bg-black rounded-full text-xs mr-1 mb-1">
+                  {tag.name} <span className="font-bold twitter">({tag.timesItsUsed})</span>
+                  <span className="bg-red-500 hover:bg-red-600 px-2 pb-1 rounded-full cursor-pointer ml-2" onClick={() => handleDetachTag(tag)}>x</span>
+                </span>
+              ))}
+            </div>
+            {tags.length > 0 && <div className="mt-2">
+              <SelectLabel fieldRef={tagRef} errorNeeds={[errors, setErrors, "tag"]} label="New tag for this course" className="mb-2" id="course_tag" text="Select a tag">
+                {
+                  tags.map(tag => <OptionSelect key={tag.id} value={tag.id}>{tag.name} ({tag.timesItsUsed})</OptionSelect>)
+                }
+              </SelectLabel>
+              <button type="button" className="py-1 rounded-lg px-2 bg-blue-500 hover:bg-blue-600 font-bold tracking-widest float-right" onClick={handleAttachTag}>Add Tag</button>
+            </div>}
+          </div>
         </div>
         {/* Column 2 */}
         <div>
@@ -130,8 +175,8 @@ export default function ViewCourse({ courseData }) {
   )
 }
 
-export async function getServerSideProps({ params, req, res }) {
-  try {
+export async function getServerSideProps({ params, req }) {
+  return await getPageProps(async () => {
     const { slug, id } = params;
     const response = await axios.get(`${ADMIN_API_URL}/course/${slug}/${id}`, {
       headers: {
@@ -140,23 +185,16 @@ export async function getServerSideProps({ params, req, res }) {
         cookie: req.headers.cookie
       }
     });
-    const courseData = response.status === 404 ? null : response.data;
+    const { courseData, tags } = response.data;
+
     return {
       props: {
         page: {
           title: `Course - ${courseData.title}`
         },
-        courseData
+        courseData,
+        tags
       }
     }
-  } catch (e) {
-    return {
-      props: {
-        page: {
-          title: "Page not found - IanaTek"
-        },
-        notFound: true
-      }
-    }
-  }
+  });
 }

@@ -41,6 +41,9 @@ function AdminSidebar() {
         <SidebarMenuItem text="Create a blog" href="/admin/blog/new" />
       </SidebarMenuItem>
 
+      {/* Tag */}
+      <SidebarMenuItem text="Tags" href="/admin/tags" />
+
       <MenusHeader>Filemanager</MenusHeader>
       <SidebarMenuItem
         text="Images" href={`${FILEMANAGER_IMAGES}`} target="_blank"

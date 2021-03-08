@@ -9,7 +9,7 @@ import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 
 export default function EditCourseStructure({ courseData }) {
-
+  console.log(courseData);
   // S T A T E S
   const [course, setCourse] = React.useState({});
   const [groups, setGroups] = React.useReducer(groupReducer, courseData.chapters_groups);
@@ -93,10 +93,10 @@ export default function EditCourseStructure({ courseData }) {
 
       {/* All groups and their chapters */}
       {
-        groups.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80">No Groups Yet</div>
+        groups && groups.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80">No Groups Yet</div>
       }
       {
-        groups.map((group, index) => <ChaptersGroup key={Math.random()} groupData={group} setGroups={setGroups} notFree={course.price !== 0} />)
+        groups && groups.map((group, index) => <ChaptersGroup key={Math.random()} groupData={group} setGroups={setGroups} notFree={course.price !== 0} />)
       }
 
       {/* Create a new group */}
@@ -132,7 +132,7 @@ export async function getServerSideProps({ params, req, res }) {
         cookie: req.headers.cookie
       }
     });
-    const courseData = response.data;
+    const { courseData } = response.data;
     return {
       props: {
         page: {
