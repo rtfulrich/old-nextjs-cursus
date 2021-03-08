@@ -9,7 +9,7 @@ import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 
 export default function EditCourseStructure({ courseData }) {
-  console.log(courseData);
+  // console.log(courseData);
   // S T A T E S
   const [course, setCourse] = React.useState({});
   const [groups, setGroups] = React.useReducer(groupReducer, courseData.chapters_groups);

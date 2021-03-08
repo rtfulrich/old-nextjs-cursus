@@ -1,10 +1,12 @@
 import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap';
 import { FaCheckSquare, FaEdit, FaEye, FaImage, FaTrash, FaVideoSlash } from 'react-icons/fa';
 import { RiFileTextLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
-import { ADMIN_API_URL, DEFAULT_IMAGE_COVER } from '../../../../_constants/URLs';
+import { ADMIN_API_URL, DEFAULT_IMAGE_COVER, FRONT_ADMIN_URL } from '../../../../_constants/URLs';
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import ChooseLfmImage from '../fields/ChooseLfmImage';
 import InputLabel from '../fields/InputLabel';
@@ -75,6 +77,9 @@ function Chapter({ chapterData, setChapters, notFree }) {
     toast.success(message);
   });
 
+  // V A R I A B L E S
+  const router = useRouter(); //console.log(router);
+
   // J S X
   let OK = true;
   if (chapter.image_cover === DEFAULT_IMAGE_COVER) OK = false;
@@ -84,7 +89,9 @@ function Chapter({ chapterData, setChapters, notFree }) {
     <>
       <div className="ml-4 px-4 my-2 flex justify-between items-center hover:bg-gray-900 bg-opacity-40 py-2 cursor-pointer rounded-lg">
         <h4 className="font-bold tracking-widest">
-          <span className="w-12 text-center mr-2">{chapter.rank}</span> {chapter.title}
+          <Link href={`${FRONT_ADMIN_URL}/course/${router.query.slug}/chapter/${chapter.slug}/edit-content`}>
+            <a className="hover:text-yellow-300"><span className="w-12 text-center mr-2">{chapter.rank}</span> {chapter.title} </a>
+          </Link>
         </h4>
         <div className="flex items-center cursor-pointer">
           {(notFree && chapter.show_anyway == true) ? <FaEye className="mr-4" title="Visible though paid course" /> : null}
