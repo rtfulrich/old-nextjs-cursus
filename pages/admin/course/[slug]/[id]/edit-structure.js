@@ -52,7 +52,8 @@ export default function EditCourseStructure({ courseData }) {
         if (data.errors.courseID) toast.error(data.errors.courseID[0]);
       }
       else toast.error(data.message);
-    });
+    }
+  );
 
   const handlePublish = () => sanctumRequest(async () => {
     const response = await axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, { published: !course.published });

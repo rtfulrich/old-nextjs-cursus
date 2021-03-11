@@ -71,7 +71,7 @@ export default function ViewCourse({ courseData, tags }) {
     else toast.warn(notification);
     setCourse({ ...course, published });
     // });
-  })
+  });
 
   const handleAttachTag = () => sanctumRequest(
     async () => {
@@ -93,7 +93,7 @@ export default function ViewCourse({ courseData, tags }) {
     const confirmation = `Do you really want to detach the tag "${tag.name}" from this course ?`;
     if (!confirm(confirmation)) return;
     await axios.delete(`${ADMIN_API_URL}/course/${course.id}/detach-a-tag/${tag.id}`);
-    router.reload();
+    router.push(`admin/course/${course.slug}/${course.id}`);
   });
 
   // J S X
