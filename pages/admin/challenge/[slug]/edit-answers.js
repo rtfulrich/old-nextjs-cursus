@@ -11,7 +11,7 @@ import getPageProps from '../../../../_helpers/getPageProps'
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 
 export default function EditChallengeAnswers({ challengeData }) {
-  console.log(challengeData);
+  // console.log(challengeData);
 
   // V A R I A B L E S
   const router = useRouter();

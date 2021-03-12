@@ -31,14 +31,14 @@ function AdminSidebar() {
 
       {/* Tutorials */}
       <SidebarMenuItem text="Tutorials">
-        <SidebarMenuItem text="All" href="/admin/tutorial/all" />
-        <SidebarMenuItem text="Create a tutorial" href="/admin/tutorial/new" />
+        <SidebarMenuItem text="All" href="#" />
+        <SidebarMenuItem text="Create a tutorial" href="#" />
       </SidebarMenuItem>
 
       {/* Blogs */}
       <SidebarMenuItem text="Blogs">
-        <SidebarMenuItem text="All" href="/admin/blog/all" />
-        <SidebarMenuItem text="Create a blog" href="/admin/blog/new" />
+        <SidebarMenuItem text="All" href="#" />
+        <SidebarMenuItem text="Create a blog" href="#" />
       </SidebarMenuItem>
 
       {/* Tag */}

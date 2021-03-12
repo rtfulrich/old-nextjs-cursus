@@ -30,7 +30,7 @@ function Sidebar() {
   if (router.pathname.match(/^\/admin/)) sidebar = <AdminSidebar />
   else sidebar = <FrontSidebar />
   return (
-    <nav className={`fixed flex init`} id="sidebar">
+    <nav className={`fixed z-50 flex init`} id="sidebar">
       <nav className="w-48 bg33 h-full">
         {sidebar}
       </nav>

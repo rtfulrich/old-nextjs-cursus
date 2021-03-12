@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap';
-import { FaCheckSquare, FaEdit, FaEye, FaImage, FaTrash, FaVideoSlash } from 'react-icons/fa';
+import { FaCheckSquare, FaEdit, FaEye, FaImage, FaLock, FaTrash, FaVideoSlash } from 'react-icons/fa';
 import { RiFileTextLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { ADMIN_API_URL, DEFAULT_IMAGE_COVER, FRONT_ADMIN_URL } from '../../../../_constants/URLs';
@@ -94,7 +94,10 @@ function Chapter({ chapterData, setChapters, notFree }) {
           </Link>
         </h4>
         <div className="flex items-center cursor-pointer">
-          {(notFree && chapter.show_anyway == true) ? <FaEye className="mr-4" title="Visible though paid course" /> : null}
+          {(notFree && chapter.show_anyway == true)
+            ? <FaEye className="mr-4" title="Accessible though paid course" />
+            : <FaLock className="mr-4" title="Not accessible unless bought" />
+          }
           <div className={`${OK ? "success-bg" : "bg-red-300"} rounded-lg p-1 mr-4 flex items-center`}>
             {OK && <FaCheckSquare title="Everything is good" />}
             {chapter.image_cover === DEFAULT_IMAGE_COVER && <FaImage className="text-black mx-1" title="Image cover is still the default" />}

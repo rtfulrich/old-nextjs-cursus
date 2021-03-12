@@ -80,7 +80,7 @@ export default function ViewCourse({ courseData, tags }) {
       const data = { tagID: tagRef.current.value };
       const response = await axios.put(`${ADMIN_API_URL}/course/${course.id}/attach-a-tag`, data);
       const { message } = response.data;
-      tagRef.current.value = null;
+      // tagRef.current.value = null;
       router.reload();
       toast.success(message);
     },
@@ -93,7 +93,7 @@ export default function ViewCourse({ courseData, tags }) {
     const confirmation = `Do you really want to detach the tag "${tag.name}" from this course ?`;
     if (!confirm(confirmation)) return;
     await axios.delete(`${ADMIN_API_URL}/course/${course.id}/detach-a-tag/${tag.id}`);
-    router.push(`admin/course/${course.slug}/${course.id}`);
+    router.reload();
   });
 
   // J S X
