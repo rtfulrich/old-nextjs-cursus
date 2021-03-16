@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import InputForm from '../../../_components/simple-components/InputForm';
 import { API_URL } from '../../../_constants/URLs';
 import useSanctum from '../../../_hooks/useSanctum';
@@ -38,8 +39,10 @@ function Login({ setShowAuthModal, setInModal }) {
         if (status === 400) setErrors({ ...errors, other: message });
         else if (status === 200) {
           const user = response.data.user;
+          const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.pseudo;
           setUser({ type: AUTH_TRUE, payload: user });
           setShowAuthModal(false);
+          toast.success(<>Miarahaba anao, <span classname="font-bold text-lg tracking-widest">{name}</span> !</>)
         }
       })
       // Catch request errors
@@ -91,16 +94,16 @@ function Login({ setShowAuthModal, setInModal }) {
             />
           }
         />
-        <div className="flex justify-between mb-2">
-          <label htmlFor="remember" className="cursor-pointer">
-            <input type="checkbox" id="remember" ref={rememberRef} className="cursor-pointer" /> <span className="font-bold">Tadidiana aho</span>
-          </label>
-          <span className="font-bold py-0 text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer">Adino ny tenimiafina ?</span>
-        </div>
         <button className={`py-1 rounded-full w-full ${loading ? "bg-gray-400" : "twitter-bg twitter-bg-hover"} transition-colors duration-150 font-bold tracking-widest text-xl flex items-center justify-center`} onClick={handleSubmit}>
           I S E R A
-        </button>
-        <div className="font-bold my-4 text-center text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer" onClick={() => setInModal("register-form")}>Hisoratra aho ?</div>
+          </button>
+        <div className="flex justify-between items-center">
+          {/* <label htmlFor="remember" className="cursor-pointer">
+            <input type="checkbox" id="remember" ref={rememberRef} className="cursor-pointer" /> <span className="font-bold">Tadidiana aho</span>
+          </label> */}
+          <div className="font-bold my-4 text-center text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer" onClick={() => setInModal("register-form")}>Hisoratra aho ?</div>
+          <span className="font-bold py-0 text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer">Adino ny tenimiafina ?</span>
+        </div>
       </div>
     </>
   )

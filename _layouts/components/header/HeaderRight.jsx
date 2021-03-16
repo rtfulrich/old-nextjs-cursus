@@ -31,8 +31,10 @@ function HeaderRight() {
       });
   }
 
-  const handleAuthModal = async (clickEvent) => {
-    clickEvent.preventDefault()
+  const handleAuthModal = (clickEvent) => {
+    clickEvent.preventDefault();
+    const modal = clickEvent.target.dataset.modal;
+    setInModal(modal);
     setShowAuthModal(true);
   }
 
@@ -57,7 +59,10 @@ function HeaderRight() {
       }
       {/* @else */}
       {
-        !user && <a href="#" className="px-2 py-1 rounded-lg border-twitter border-2 transition-colors ease-in-out duration-200 twitter-bg-hover font-bold tracking-widest text-white" onClick={handleAuthModal} style={{ textDecoration: "none" }}>Isera</a>
+        !user && <>
+          <a href="#" data-modal="login-form" className="px-2 py-1 rounded-lg border-twitter border-2 transition-colors ease-in-out duration-200 twitter-bg-hover font-bold tracking-widest text-white mr-2" onClick={handleAuthModal} style={{ textDecoration: "none" }}>Isera</a>
+          <a href="#" data-modal="register-form" className="px-2 py-1 rounded-lg border-twitter border-2 transition-colors ease-in-out duration-200 twitter-bg-hover font-bold tracking-widest text-white" onClick={handleAuthModal} style={{ textDecoration: "none" }}>Isoratra</a>
+        </>
       }
       <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} size="login"
         className="" centered

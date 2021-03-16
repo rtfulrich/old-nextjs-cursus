@@ -19,14 +19,14 @@ function SidebarMenuItem({
   }
 
   return (
-    <li className={`flex items-center ${children ? "relative" : ""}`}>
+    <li className={`relative`}>
       <Link href={href}>
         <a
-          className={`flex-1 flex items-center pr-2 py-1 ${active ? "bg19" : "hover:bg19"} ${router.pathname.match("/admin") ? "twitter-hover" : ""} transition-colors duration-150 font-semibold`}
+          className={`flex items-center pr-2 py-1 ${active ? "bg19" : "hover:bg19"} ${router.pathname.match("/admin") ? "twitter-hover" : ""} transition-colors duration-150 font-semibold`}
           style={{ textDecoration: "none" }} onClick={handleClick} target={target}
         >
           {/* Icon */}
-          <span className={`w-8 flex justify-center items-center ${iconClass}`}>
+          <span className={`w-10 flex justify-center items-center ${iconClass}`}>
             {icon}
           </span>
 
@@ -48,6 +48,6 @@ export default SidebarMenuItem
 
 export function MenusHeader({ children }) {
   return (
-    <h4 className="text-center pt-3 pb-2 font-bold tracking-widest">{children}</h4>
+    <h4 className="text-center pt-3 pb-2 font-bold tracking-widest text-gray-300 text-opacity-75">{children}</h4>
   )
 }
