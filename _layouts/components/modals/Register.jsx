@@ -1,7 +1,12 @@
+import axios from 'axios';
 import React from 'react'
 import { HiOutlineMail, HiUser } from 'react-icons/hi';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import InputForm from '../../../_components/simple-components/InputForm';
+import { API_URL } from '../../../_constants/URLs';
+import sanctumRequest from "../../../_helpers/sanctumRequest";
+import UserContext, { AUTH_TRUE } from '../../../_react-contexts/user-context';
 
 function Register({ setShowAuthModal, setInModal }) {
   // S T A T E S
@@ -9,7 +14,7 @@ function Register({ setShowAuthModal, setInModal }) {
   const [email, setEmail] = React.useState("");
 
   const [password, setPassword] = React.useState("");
-  const [confimPassword, setConfirmPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
@@ -17,18 +22,55 @@ function Register({ setShowAuthModal, setInModal }) {
     email: null, pseudo: null, password: null, confimPassword: null
   });
 
-  // M E T H O D S
-  function handleSubmit(e) {
+  // C O N T E X T S
+  const { setUser } = React.useContext(UserContext);
 
-    console.log(pseudo, email, password, confimPassword);
-  }
+  // M E T H O D S
+  const handleSubmit = () => sanctumRequest(
+    async () => {
+      if (loading) return;
+      setErrors({ email: null, pseudo: null, password: null, confirmPassword: null, other: null });
+      setLoading(true);
+
+      const response = await axios.post(`${API_URL}/register`, { pseudo, email, password, confirmPassword });
+      // console.log(response, "r");
+      const { message } = response.data;
+      const { status } = response;
+      if (status === 400) setErrors({ ...errors, other: message });
+      else if (status === 200) {
+        console.log("ok");
+        const user = response.data.user;
+        setUser({ type: AUTH_TRUE, payload: user });
+        setShowAuthModal(false);
+        toast.success(message);
+      }
+    },
+    (e) => {
+      const response = e.response;
+      const { data, status } = response;
+      // Forbidden (probably because the user is already authenticated)
+      if (status === 403) setShowAuthModal(false);
+      // Invalid data sent to the api
+      if (status === 422) {
+        let { pseudo, email, password, confirmPassword } = response.data.errors;
+        pseudo = pseudo ? pseudo[0] : null;
+        email = email ? email[0] : null;
+        password = password ? password[0] : null;
+        confirmPassword = confirmPassword ? confirmPassword[0] : null;
+        setErrors({ ...errors, pseudo, email, password, confirmPassword });
+      }
+      // Internal server error
+      if (status === 500) setErrors({ ...errors, other: data.message });
+    },
+    () => setLoading(false)
+  );
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })
 
   // J S X
   return (
     <>
-      <h2 className="text-center text-uppercase tracking-widest font-bold border-b border-gray-200 bg24 py-2 rounded-t-lg text-lg">I S O R A T R A</h2>
+      <h2 className="text-center text-uppercase tracking-widest font-bold border-b border-gray-200 bg24 py-2 rounded-t-lg text-lg">R E G I S T E R</h2>
       <div className="px-3 py-2">
         {<small className={`text-red-400 font-bold text-xs text-center block tracking-widest leading-3 input-error ${errors.other ? "show" : ""}`}>{errors.other || "Lorem ipsum"}</small>}
         <InputForm
@@ -56,11 +98,11 @@ function Register({ setShowAuthModal, setInModal }) {
         />
         <InputForm
           label="Avereno ny tenimiafina" type={!showPassword ? "password" : "text"} id="register-confirm-password" loading={loading} others={{ showPassword, setShowPassword }}
-          state={[confimPassword, setConfirmPassword]} error={errors.confimPassword}
+          state={[confirmPassword, setConfirmPassword]} error={errors.confirmPassword}
           clearError={() => clearError("confirmPassword")} marginBottom="mb-8"
           icon={
             <RiLockPasswordLine
-              className={`absolute right-2 top-1 text-xl transition-color ease-in-out duration-200 cursor-pointer ${focus ? "twitter" : (errors.confimPassword ? "text-red-400" : "")}`}
+              className={`absolute right-2 top-1 text-xl transition-color ease-in-out duration-200 cursor-pointer ${focus ? "twitter" : (errors.confirmPassword ? "text-red-400" : "")}`}
               onClick={() => setShowPassword(!showPassword)}
             />
           }

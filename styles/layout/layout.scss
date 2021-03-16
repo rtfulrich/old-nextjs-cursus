@@ -42,9 +42,12 @@ $mediaBgs: (
 			background-color: darken($color, 10);
 		}
 	}
-	.border-#{$name},
-	.focus\:border-#{$name}:focus {
+	.border-#{$name} {
 		border-color: $color;
+	}
+	.focus\:border-#{$name}:focus,
+	.border-#{$name}-hover:hover {
+		border-color: darken($color, 10);
 	}
 }
 .modal-login {

@@ -15,6 +15,7 @@ function HeaderRight() {
   // S T A T E S
   const [showAuthModal, setShowAuthModal] = React.useState(false);
   const [inModal, setInModal] = React.useState("login-form");
+  // const []
 
   // M E T H O D S
   const handleSignout = (clickEvent) => {
@@ -36,29 +37,32 @@ function HeaderRight() {
   }
 
   // J S X
+  const name = user ? (user.first_name ? `${user.first_name} ${user.last_name}` : user.pseudo) : null;
   return (
     <>
       {/* @auth */}
       {
         user && <div className="flex items-center">
-          <RiMessengerFill className="mr-4 text-lg" />
-          <RiNotification2Fill className="mr-4 text-lg" />
-          <a href="#" className="px-2 py-1 rounded-lg bg-danger" onClick={handleSignout}>Hiala sera</a>
+          {/* <RiMessengerFill className="mr-4 text-lg" /> */}
+          {/* <RiNotification2Fill className="mr-4 text-lg" /> */}
+          <span className="relative hidden md:flex items-center mr-4 pr-4 rounded-full bg-black border-2 border-black twitter-hover transition-all duration-200 ease-in-out cursor-pointer">
+            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={name} />
+            <span className="pl-2 font-bold tracking-widest">{name}</span>
+          </span>
+          <span className="relative flex md:hidden items-center mr-4 rounded-full transition-all duration-200 ease-in-out cursor-pointer border-2 border-transparent border-twitter-hover">
+            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={name} />
+          </span>
+          <a href="#" className="px-2 py-1 rounded-lg border-twitter border-2 twitter-bg-hover transition-colors duration-200 ease-in-out font-bold tracking-widest text-white" style={{ textDecoration: "none" }} onClick={handleSignout}>Hiala sera</a>
         </div>
       }
       {/* @else */}
       {
-        !user && <a href="#" className="px-2 py-1 rounded-lg bg-danger" onClick={handleAuthModal}>Isera</a>
+        !user && <a href="#" className="px-2 py-1 rounded-lg border-twitter border-2 transition-colors ease-in-out duration-200 twitter-bg-hover font-bold tracking-widest text-white" onClick={handleAuthModal} style={{ textDecoration: "none" }}>Isera</a>
       }
       <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} size="login"
         className="" centered
       >
-        {/* <CloseButton
-          className="absolute hover:bg-red-700 rounded-full px-2 pb-2"
-          style={{ top: "-10px", right: "-10px", zIndex: "1050", background: "rgba(220,38,38, 1)", opacity: 0.9, color: "white" }}
-          onClick={() => setShowAuthModal(false)}
-        /> */}
-        <div className="bg45 rounded-xl border-2 border-gray-400">
+        <div className="bg45 rounded-xl border-2 border-yellow-400">
           {inModal === "login-form" && <Login setShowAuthModal={setShowAuthModal} setInModal={setInModal} />}
           {inModal === "register-form" && <Register setShowAuthModal={setShowAuthModal} setInModal={setInModal} />}
         </div>
