@@ -6,7 +6,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { FaCheckSquare, FaEdit, FaEye, FaImage, FaLock, FaTrash, FaVideoSlash } from 'react-icons/fa';
 import { RiFileTextLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
-import { ADMIN_API_URL, DEFAULT_IMAGE_COVER, FRONT_ADMIN_URL } from '../../../../_constants/URLs';
+import { ADMIN_API_URL, BACK_URL, DEFAULT_IMAGE_COVER, FRONT_ADMIN_URL } from '../../../../_constants/URLs';
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import ChooseLfmImage from '../fields/ChooseLfmImage';
 import InputLabel from '../fields/InputLabel';
@@ -89,14 +89,26 @@ function Chapter({ chapterData, setChapters, notFree }) {
     <>
       <div className="ml-4 px-4 my-2 flex justify-between items-center hover:bg-gray-900 bg-opacity-40 py-2 cursor-pointer rounded-lg">
         <h4 className="font-bold tracking-widest">
-          <Link href={`${FRONT_ADMIN_URL}/course/${router.query.slug}/chapter/${chapter.slug}/edit-content`}>
-            <a className="hover:text-yellow-300"><span className="w-12 text-center mr-2">{chapter.rank}</span> {chapter.title} </a>
+          {/* <Link href={`${BACK_URL}/admin/course/${router.query.slug}/chapter/${chapter.slug}/edit-content`}> */}
+          <a
+            href={`${BACK_URL}/admin/course/${router.query.slug}/chapter/${chapter.slug}/edit-content`} className="hover:text-yellow-300" target="_blank"
+          >
+            <span className="w-12 text-center mr-2">{chapter.rank}</span> {chapter.title}
+          </a>
+          {/* </Link> */}
+          <Link href={`/admin/course/${router.query.slug}/chapter/${chapter.slug}/preview-content`}>
+            <a className="text-yellow-300 hover:text-black hover:bg-yellow-300 px-1 text-xs font-semibold rounded-lg border-2 border-yellow-300 ml-2" style={{ textDecoration: "none" }}>
+              Preview
+            </a>
           </Link>
         </h4>
         <div className="flex items-center cursor-pointer">
-          {(notFree && chapter.show_anyway == true)
-            ? <FaEye className="mr-4" title="Accessible though paid course" />
-            : <FaLock className="mr-4" title="Not accessible unless bought" />
+          {notFree
+            ? (chapter.show_anyway
+              ? <FaEye className="mr-4" title="Accessible though paid course" />
+              : <FaLock className="mr-4" title="Not accessible unless bought" />
+            )
+            : null
           }
           <div className={`${OK ? "success-bg" : "bg-red-300"} rounded-lg p-1 mr-4 flex items-center`}>
             {OK && <FaCheckSquare title="Everything is good" />}

@@ -14,7 +14,8 @@ function Header() {
         </div>
         <h1 className="ml-4 h-full flex items-center my-auto">
           <Link href="/"><a style={{ textDecoration: "none" }} className="text-white flex items-center">
-            <img src="/favicon.svg" alt="Logo" width="30" /> <span className="text-2xl font-bold tracking-widest mx-3">IanaTek</span>
+            <img src="/favicon.svg" alt="Logo" width="30" />
+            <span className="text-2xl font-bold tracking-widest mx-3 twitter">&lt;IanaTek/&gt;</span>
           </a></Link>
         </h1>
       </div>

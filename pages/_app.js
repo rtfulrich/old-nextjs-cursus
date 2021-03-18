@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'tailwindcss/dist/tailwind.min.css';
 import '../styles/globals.css'
 import "../styles/layout/layout.scss";
+import "../styles/modules/laraberg.scss"
 import React from 'react';
 import UserContext, { userReducer } from '../_react-contexts/user-context';
 import AppLayout from '../_layouts/AppLayout';
