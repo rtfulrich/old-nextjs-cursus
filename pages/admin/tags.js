@@ -8,7 +8,6 @@ import sanctumRequest from '../../_helpers/sanctumRequest';
 import { useRouter } from 'next/router';
 
 function Tags({ tags }) {
-  console.log(tags)
 
   // V A R I A B L E S
   const router = useRouter();
@@ -61,9 +60,9 @@ function Tags({ tags }) {
         </div>
         <div className="col-span-2">
           <h2 className="font-semibold tracking-widest text-lg mb-3">List of all tags</h2>
-          <div className="p-2 pb-3 bg45 rounded-2xl font-semibold">
+          <div className="p-2 pb-3 bg45 rounded-2xl font-semibold flex flex-wrap">
             {tags.map(tag => (
-              <span key={tag.id} className="px-2 pt-1 pb-2 bg-black rounded-full text-xs mr-1">
+              <span key={tag.id} className="px-2 pt-1 pb-2 bg-black rounded-full text-xs my-1 mr-1">
                 {tag.name} <span className="twitter font-bold">({tag.timesItsUsed})</span>
                 <span className="bg-red-500 hover:bg-red-600 px-2 pb-1 rounded-full cursor-pointer ml-2" onClick={() => handleRemoveTag(tag)}>x</span>
               </span>
