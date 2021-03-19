@@ -40,7 +40,7 @@ function AppLayout({ children, title = null, withFooter = true }) {
         console.log(error.response)
         alert("Error : " + error)
       })
-  }, [])
+  }, []);
 
   // J S X
   let pageContent;
@@ -57,16 +57,17 @@ function AppLayout({ children, title = null, withFooter = true }) {
 
       {/* <Online> */}
 
-      {/* Page is loading */}
-      {pageLoading && (
-        <div className="z-50 h-full w-full bg-black flex items-center justify-center absolute text-white text-9xl">
-          Loading ...
-        </div>
-      )}
-
       {/* Page has finished loading */}
-      {!pageLoading && (
-        <>
+      <div>
+        {pageLoading && (
+          <div
+            className="h-screen w-screen bg-black flex items-center justify-center fixed text-white text-9xl"
+            style={{ zIndex: 1000 }}
+          >
+            Loading ...
+          </div>
+        )}
+        <div className={`${pageLoading ? "hidden" : ""}`}>
           <Header />
           <div className="mt-12 flex">
             <Sidebar />
@@ -77,8 +78,8 @@ function AppLayout({ children, title = null, withFooter = true }) {
               {withFooter && <Footer />}
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
 
       {/* </Online>
         <Offline>

@@ -14,14 +14,13 @@ function FrontSidebar() {
   return (
     <div className="min-h-full flex flex-col justify-between mb-3">
       <ul className="menus">
+        <SidebarMenuItem text="Pejitrano" icon={<RiHome2Line className="twitter" />} href="/" />
+
         {user && user.pseudo === ADMIN_PSEUDO && (
           <SidebarMenuItem text="Admin" href="/admin" />
         )}
 
-        {user
-          ? <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />
-          : <SidebarMenuItem text="Pejitrano" icon={<RiHome2Line className="twitter" />} href="/" />
-        }
+        {user && <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />}
 
         {/* POSTS */}
         {/* <MenusHeader /> */}
@@ -34,16 +33,17 @@ function FrontSidebar() {
         <MenusHeader>Frontend</MenusHeader>
         <SidebarMenuItem text="HTML &amp; CSS" iconClass="text-xs"
           icon={<>
-            <RiHtml5Fill className="text-blue-500" /><RiCss3Fill className="text-yellow-500" />
+            {/* <img src="/images/tech-icons/html-css-icon.png" width="20px" className="" /> */}
+            <RiHtml5Fill className="text-blue-500" style={{ fontSize: "15px" }} /><RiCss3Fill className="text-yellow-500" style={{ fontSize: "15px" }} />
           </>
           }
         />
-        <SidebarMenuItem text="Javascript" />
-        <SidebarMenuItem text="React JS" icon={<img src="/images/react-icon.svg" width="20px" />} />
+        <SidebarMenuItem text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
+        <SidebarMenuItem text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
         {/* BACKEND */}
         <MenusHeader>Backend</MenusHeader>
-        <SidebarMenuItem text="PHP" />
-        <SidebarMenuItem text="Laravel" />
+        <SidebarMenuItem text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
+        <SidebarMenuItem text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
 
         {/* Other menus */}
         <MenusHeader />

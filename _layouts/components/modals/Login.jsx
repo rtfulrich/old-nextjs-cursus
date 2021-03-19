@@ -42,7 +42,7 @@ function Login({ setShowAuthModal, setInModal }) {
           const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.pseudo;
           setUser({ type: AUTH_TRUE, payload: user });
           setShowAuthModal(false);
-          toast.success(<>Miarahaba anao, <span classname="font-bold text-lg tracking-widest">{name}</span> !</>)
+          toast.success(<>Miarahaba anao, <span className="font-bold text-lg tracking-widest">{name}</span> !</>)
         }
       })
       // Catch request errors

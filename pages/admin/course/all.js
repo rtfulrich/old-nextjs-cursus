@@ -46,7 +46,7 @@ function AllCourses({ result }) {
               </div>
               {/* if course is published */}
               {
-                course.published === 1 && (<>
+                course.published && (<>
                   <span className="absolute top-1 right-1 z-10"><FaCheck /></span>
                   <div className="absolute -top-2 -right-6 transform rotate-45 bg-blue-500 w-16 h-9"></div>
                 </>

@@ -1,5 +1,13 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+/* Bootstrap */
+// import "bootstrap/scss/_functions.scss"
+// import "bootstrap/scss/_variables.scss"
+// import "bootstrap/scss/_mixins.scss"
+// import "bootstrap/scss/_root.scss"
+// import "bootstrap/scss/_modal.scss"
+import "../styles/custom-bootstrap.scss";
+/* End bootstrap */
 import 'tailwindcss/dist/tailwind.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css'
 import "../styles/layout/layout.scss";
 import "../styles/modules/laraberg.scss"
