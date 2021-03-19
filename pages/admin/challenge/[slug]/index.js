@@ -10,7 +10,7 @@ import InputLabel from '../../../../_components/admin/posts/fields/InputLabel';
 import OptionSelect from '../../../../_components/admin/posts/fields/OptionSelect';
 import SelectLabel from '../../../../_components/admin/posts/fields/SelectLabel';
 import TextareaLabel from '../../../../_components/admin/posts/fields/TextareaLabel';
-import { ADMIN_API_URL, FRONT_ADMIN_URL, FRONT_URL } from '../../../../_constants/URLs';
+import { ADMIN_API_URL, BACK_URL, FRONT_ADMIN_URL, FRONT_URL } from '../../../../_constants/URLs';
 import getPageProps from '../../../../_helpers/getPageProps'
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 
@@ -100,10 +100,14 @@ export default function EditChallengeData({ challengeData, tags }) {
   return (
     <>
       <div className="p-4">
-        <div className="flex justify-between flex-col lg:flex-row items-center mb-4">
+        <div className="flex justify-between flex-col lg:flex-row items-center mb-2">
           <h1 className={`text-3xl tracking-widest font-bold mb-3 md:mb-0 ${challengeData.published ? "success" : "text-yellow-300"} flex-1 flex justify-between items-end`}>
-            <span className="flex-1">{challengeData.title}</span>
-            <span className="mr-4 text-base text-red-400 hover:text-red-500 cursor-pointer">
+            <span className="flex-1">
+              <Link href={`${BACK_URL}/admin/challenge/${challengeData.slug}/edit-content`}>
+                <a target="_blank" className="hover:text-yellow-300">{challengeData.title}</a>
+              </Link>
+            </span>
+            <span className="mx-4 text-base text-red-400 hover:text-red-500 cursor-pointer">
               <FaTrash onClick={() => setConfirmDelete(true)} title="Delete this challenge ?" />
             </span>
           </h1>

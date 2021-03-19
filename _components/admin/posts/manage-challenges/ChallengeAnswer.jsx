@@ -5,7 +5,7 @@ import React from 'react'
 import { Button, Modal } from 'react-bootstrap';
 import { FaEdit, FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { ADMIN_API_URL } from '../../../../_constants/URLs';
+import { ADMIN_API_URL, BACK_URL } from '../../../../_constants/URLs';
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import ChooseLfmImage from '../fields/ChooseLfmImage';
 import InputLabel from '../fields/InputLabel';
@@ -76,9 +76,12 @@ function ChallengeAnswer({ answer }) {
   return (
     <>
       <div className="ml-4 px-4 my-2 flex justify-between items-center hover:bg-gray-900 bg-opacity-40 py-2 cursor-pointer rounded-lg">
-        <h4 className="font-bold tracking-widest">
-          <Link href={`/admin/challenge/${router.query.slug}/answer/${answer.slug}/edit-content`}>
-            <a className="hover:text-yellow-300"><span className="w-12 text-center mr-2">{answer.rank}</span> {answer.title} </a>
+        <h4 className="font-bold tracking-widest flex items-center">
+          <Link href={`${BACK_URL}/admin/challenge/${router.query.slug}/answer/${answer.slug}/edit-content`}>
+            <a target="_blank" className="hover:text-yellow-300"><span className="w-12 text-center mr-2">{answer.rank}</span> {answer.title} </a>
+          </Link>
+          <Link href={`/admin/challenge/${router.query.slug}/answer/${answer.slug}/preview-content`}>
+            <a className="ml-4"><FaEye className="text-yellow-300 hover:text-yellow-400" title="Preview the content" /></a>
           </Link>
         </h4>
         <div className="flex items-center cursor-pointer">

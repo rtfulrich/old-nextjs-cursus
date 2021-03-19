@@ -58,7 +58,9 @@ export default function EditChallengeAnswers({ challengeData }) {
     <div className="p-4">
       <div className="flex justify-between flex-col lg:flex-row items-center mb-4">
         <h1 className={`text-3xl tracking-widest font-bold mb-3 md:mb-0 ${challengeData.published ? "success" : "text-yellow-300"}`}>
-          {challengeData.title}
+          <Link href={`/admin/challenge/${challengeData.slug}/preview-content`}>
+            <a className="hover:text-yellow-300">{challengeData.title}</a>
+          </Link>
         </h1>
         <div className="flex">
           <Link href={`/admin/challenge/${challengeData.slug}`}>
