@@ -1,34 +1,14 @@
 import axios from "axios";
 import Link from "next/link";
 import { FaMoneyBill } from "react-icons/fa";
+import { technologies } from "../_constants/techs";
 import { API_URL } from "../_constants/URLs";
 import getPageProps from "../_helpers/getPageProps";
 
-const techs = [
-  {
-    tag: "html_css",
-    image: "html-css-cover.jpg",
-  },
-  {
-    tag: "php",
-    image: "php-cover.jpg",
-  },
-  {
-    tag: "laravel",
-    image: "laravel-cover.jpg"
-  },
-  {
-    tag: "javascript",
-    image: "javascript-cover.png",
-  },
-  {
-    tag: "react",
-    image: "react-cover.jpg"
-  }
-];
-
 export default function Home({ courses, challenges }) {
   // console.log(props.withFooter);
+
+  const techs = technologies;
   return (
     <div>
       <div className="relative">
@@ -37,10 +17,12 @@ export default function Home({ courses, challenges }) {
           <h1 className="text-3xl md:text-5xl xl:text-6xl text-black font-bold tracking-widest">Tongasoa eto amy IanaTek</h1>
         </div>
       </div>
+
+      {/* Technologies */}
       <div className="px-2 md:px-16 py-4">
         <div className="grid grid-cols-5 gap-2 md:gap-8">
           {techs.map(tech => (
-            <div className="rounded-xl overflow-hidden transition-colors duration-300 ease-in-out border-2 border-transparent hover:border-blue-500 -mt-12 z-10" key={tech.tag}>
+            <div className="rounded-xl  overflow-hidden transition-colors duration-300 ease-in-out border-2 border-black hover:border-blue-500 -mt-12 z-10" key={tech.tag}>
               <Link href={`/${tech.tag}`}>
                 <a>
                   <img src={`/images/tech-covers/${tech.image}`} alt={tech.tag} className="w-full h-full transition-all duration-300 transform hover:scale-110" />
@@ -51,6 +33,7 @@ export default function Home({ courses, challenges }) {
         </div>
       </div>
 
+      {/* Courses */}
       {courses.length > 0 && (
         <div className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
@@ -63,15 +46,17 @@ export default function Home({ courses, challenges }) {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
             {courses.map(course => {
-              const tag = course.tags.length > 0 ? `/${course.tags[0].name}` : "/";
+              // const tag = course.tags.length > 0 ? `/${course.tags[0].name}` : "/";
               return (
                 <div key={course.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
-                  <div className="flex justify-center items-center overflow-hidden">
+                  <div className="flex justify-center items-center overflow-hidden relative">
                     <img src={course.image_cover} className="min-h-full min-w-full w-auto" />
+                    <div className="absolute bottom-1 right-1 font-bold tracking-widest text-xs text-black">{course.level}</div>
                   </div>
                   <div className="my-2 px-2 flex-1 flex flex-col justify-between">
                     <h1 className="font-bold mb-2">
-                      <Link href={`/fampianarana${tag}/${course.slug}`}>
+                      {/* <Link href={`/fampianarana${tag}/${course.slug}`}> */}
+                      <Link href={`/fampianarana/${course.slug}`}>
                         <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{course.title}</a>
                       </Link>
                     </h1>
@@ -101,6 +86,7 @@ export default function Home({ courses, challenges }) {
         </div>
       )}
 
+      {/* Challenges */}
       {challenges.length > 0 && (
         <div className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
@@ -113,7 +99,7 @@ export default function Home({ courses, challenges }) {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
             {challenges.map(challenge => {
-              const tag = challenge.tags.length > 0 ? `/${challenge.tags[0].name}` : "/";
+              // const tag = challenge.tags.length > 0 ? `/${challenge.tags[0].name}` : "/";
               return (
                 <div key={challenge.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
                   <div className="flex justify-center items-center overflow-hidden">
@@ -121,7 +107,8 @@ export default function Home({ courses, challenges }) {
                   </div>
                   <div className="my-2 px-2 flex-1 flex flex-col justify-between">
                     <h1 className="font-bold mb-2">
-                      <Link href={`/challenges${tag}/${challenge.slug}`}>
+                      {/* <Link href={`/challenges${tag}/${challenge.slug}`}> */}
+                      <Link href={`/challenges/${challenge.slug}`}>
                         <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{challenge.title}</a>
                       </Link>
                     </h1>
@@ -155,7 +142,7 @@ export default function Home({ courses, challenges }) {
   )
 }
 
-export async function getStaticProps({ req, res }) {
+export async function getStaticProps() {
   return await getPageProps(async () => {
 
     const response = await axios.get(`${API_URL}`);

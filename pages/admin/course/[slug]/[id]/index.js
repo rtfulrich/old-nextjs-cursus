@@ -15,9 +15,9 @@ import getPageProps from '../../../../../_helpers/getPageProps';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 import NotFound from "../../../../../_layouts/components/errors/NotFound";
 
-export default function ViewCourse({ courseData, tags }) {
+export default function ViewCourse({ course, tags }) {
   // console.log(tags, courseData);
-  if (!courseData) return <NotFound />
+  if (!course) return <NotFound />
 
   // V A R I A B L E S
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function ViewCourse({ courseData, tags }) {
   const [errors, setErrors] = React.useState({
     title: null, image_cover: null, level: null, price: null
   });
-  const [course, setCourse] = React.useState(courseData);
+  // const [course, setCourse] = React.useState(courseData);
   const [canSubmit, setCanSubmit] = React.useState(true);
   const [confirmDelete, setConfirmDelete] = React.useState(false);
 
@@ -56,11 +56,11 @@ export default function ViewCourse({ courseData, tags }) {
       const { message, newCourse } = response.data;
 
       // redirect to the new link
-      if (router.query.slug !== newCourse.slug)
-        router.push(`${FRONT_ADMIN_URL}/course/${newCourse.slug}/${newCourse.id}`);
+      // if (router.query.slug !== newCourse.slug)
+      router.push(`${FRONT_ADMIN_URL}/course/${newCourse.slug}/${newCourse.id}`);
 
       toast.success(<span className="font-bold tracking-widest">{message}</span>);
-      setCourse(newCourse);
+      // setCourse(newCourse);
     }
   }, null, () => setCanSubmit(true));
 
@@ -71,7 +71,8 @@ export default function ViewCourse({ courseData, tags }) {
     const notification = <span className="font-bold tracking-widest">{message}</span>;
     if (published) toast.success(notification);
     else toast.warn(notification);
-    setCourse({ ...course, published });
+    router.push(`${FRONT_ADMIN_URL}/course/${course.slug}/${course.id}`);
+    // setCourse({ ...course, published });
     // });
   });
 
@@ -83,7 +84,8 @@ export default function ViewCourse({ courseData, tags }) {
       const response = await axios.put(`${ADMIN_API_URL}/course/${course.id}/attach-a-tag`, data);
       const { message } = response.data;
       // tagRef.current.value = null;
-      router.reload();
+      // router.reload();
+      router.push(`${FRONT_ADMIN_URL}/course/${course.slug}/${course.id}`);
       toast.success(message);
     },
     (e) => {
@@ -95,7 +97,8 @@ export default function ViewCourse({ courseData, tags }) {
     const confirmation = `Do you really want to detach the tag "${tag.name}" from this course ?`;
     if (!confirm(confirmation)) return;
     await axios.delete(`${ADMIN_API_URL}/course/${course.id}/detach-a-tag/${tag.id}`);
-    router.reload();
+    // router.reload();
+    router.push(`${FRONT_ADMIN_URL}/course/${course.slug}/${course.id}`);
   });
 
   const handleDeleteCourse = () => sanctumRequest(async () => {
@@ -135,7 +138,7 @@ export default function ViewCourse({ courseData, tags }) {
             <InputLabel defaultValue={course.title} fieldRef={titleRef} label="Title" id="course_title" errorNeeds={[errors, setErrors, "title"]} className="mb-3">
               Title of the course
           </InputLabel>
-            <InputLabel defaultValue={course.price} fieldRef={priceRef} label="Price" id="course_price" errorNeeds={[errors, setErrors, "price"]} type="number" min="0" defaultValue={0} step={1000} className="mb-3">
+            <InputLabel defaultValue={parseInt(course.price.replace(".", ""))} fieldRef={priceRef} label="Price" id="course_price" errorNeeds={[errors, setErrors, "price"]} type="number" min="0" step={1000} className="mb-3">
               Price of the course (ar)
           </InputLabel>
             <SelectLabel value={course.level} fieldRef={levelRef} errorNeeds={[errors, setErrors, "level"]} label="Level" className="mb-4" id="course_level" text="Select a level">
@@ -222,7 +225,7 @@ export async function getServerSideProps({ params, req }) {
         page: {
           title: `Course - ${courseData.title}`
         },
-        courseData,
+        course: courseData,
         tags
       }
     }

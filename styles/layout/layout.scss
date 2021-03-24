@@ -97,6 +97,11 @@ ul.menus {
 	}
 }
 
+#course-contents-structure {
+	column-count: 1;
+	column-gap: 4rem;
+}
+
 @import "sm";
 @import "md";
 @import "lg";

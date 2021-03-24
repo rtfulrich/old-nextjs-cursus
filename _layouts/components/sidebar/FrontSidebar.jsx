@@ -20,7 +20,7 @@ function FrontSidebar() {
           <SidebarMenuItem text="Admin" href="/admin" />
         )}
 
-        {user && <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />}
+        {user && user.pseudo !== ADMIN_PSEUDO && <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />}
 
         {/* POSTS */}
         {/* <MenusHeader /> */}
