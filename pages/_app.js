@@ -33,7 +33,7 @@ function IanaTek({ Component, pageProps }) {
   if (router.pathname.match("/admin")) { pageProps.page.noFooter = true; }
 
   // C O N T E X T S
-  const [user, userDispatch] = React.useReducer(userReducer, undefined);
+  const [user, userDispatch] = React.useReducer(userReducer, null);
   const [pageLoading, pageLoadingDispatch] = React.useReducer(loadingReducer, true);
 
   // J S X

@@ -9,7 +9,7 @@ export default function PostContent({ content }) {
 		contentParentRef.current.innerHTML = content;
 		const html = contentParentRef.current.innerHTML;
 		contentParentRef.current.innerHTML = html.replaceAll("&nbsp;", " ");
-	}, []);
+	});
 
 	return (
 		<div className="break-normal" ref={contentParentRef}>
