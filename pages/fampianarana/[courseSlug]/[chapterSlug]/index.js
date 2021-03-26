@@ -6,6 +6,8 @@ import { API_URL } from '../../../../_constants/URLs';
 import PostContent from "../../../../_components/front/PostContent";
 import { useRouter } from 'next/router';
 import Link from "next/link";
+import { FaLock } from "react-icons/fa";
+import ChapterAside from '../../../../_components/front/ChapterAside';
 
 export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) {
 	// if (chapter) console.log("chapter", chapter);
@@ -27,6 +29,7 @@ export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) 
 	}
 
 	const router = useRouter();
+	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Andraso kely ...</div>;
 
 	// M O U N T  E F F E C T
 	React.useEffect(() => {
@@ -50,35 +53,12 @@ export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) 
 					</div>
 				</div>
 				<div className="hidden md:block md:col-span-3">
-
+					<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
 					{groups.map(group => (
 						<div key={group.id} className="mb-2">
-							<h3 className="py-1 twitter-bg font-bold text-center text-black">{group.title}</h3>
+							{group.show && <h3 className="py-1 twitter-bg font-bold text-center text-black">{group.title}</h3>}
 							<div>
-								{group.chapters.map(chapter => {
-									const matched = !!router.asPath.match(chapter.slug);
-									const { canBeSeen } = chapter;
-									// console.log(chapter.title, canBeSeen);
-									const { courseSlug } = router.query;
-									return (
-										<div
-											className={`flex items-center transition-all duration-200 ease-in-out px-1 my-1 cursor-pointer ${matched ? "success-bg" : `${canBeSeen ? "hover:bg-gray-300 hover:text-black" : "hover:text-red-400"}`}`}
-											key={chapter.id} title={matched ? "Efa io amy pejy io !" : (canBeSeen ? "" : "Hoan zay nividy ihany !")}
-										>
-											<div className={`w-6 ${!canBeSeen ? "text-red-500" : ""}`}>{chapter.rank}</div>
-											<div className="flex-1">
-												<h2 className="text-xs font-bold">
-													{matched || !canBeSeen
-														? chapter.title
-														: <Link href={`/fampianarana/${courseSlug}/${chapter.slug}`}>
-															<a className="inline-block h-full w-full">{chapter.title}</a>
-														</Link>
-													}
-												</h2>
-											</div>
-										</div>
-									)
-								})}
+								{group.chapters.map(chapter => <ChapterAside key={chapter.id} chapter={chapter} />)}
 							</div>
 						</div>
 					))}
