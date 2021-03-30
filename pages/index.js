@@ -67,7 +67,7 @@ export default function Home({ courses, challenges }) {
                   </div>}
                       <div>
                         {course.tags.map(tag => (
-                          <span className="mr-1 px-2 text-xs font-semibold pb-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
+                          <span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
                         ))}
                       </div>
                     </div>
@@ -109,7 +109,7 @@ export default function Home({ courses, challenges }) {
                   <div className="my-2 px-2 flex-1 flex flex-col justify-between">
                     <h1 className="font-bold mb-2">
                       {/* <Link href={`/challenges${tag}/${challenge.slug}`}> */}
-                      <Link href={`/challenges/${challenge.slug}`}>
+                      <Link href={`/challenge/${challenge.id}/${challenge.slug}`}>
                         <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{challenge.title}</a>
                       </Link>
                     </h1>
@@ -119,7 +119,7 @@ export default function Home({ courses, challenges }) {
                   </div>}
                       <div>
                         {challenge.tags.map(tag => (
-                          <span className="mr-1 px-2 text-xs font-semibold pb-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
+                          <span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
                         ))}
                       </div>
                     </div>

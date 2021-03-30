@@ -97,6 +97,7 @@ export default function EditChallengeData({ challengeData, tags }) {
     toast.info(`"${challengeData.title}" has just being deleted !`);
   });
 
+  const price = parseInt(challengeData.price.replace(".", ""));
   return (
     <>
       <div className="p-4">
@@ -132,7 +133,7 @@ export default function EditChallengeData({ challengeData, tags }) {
             <InputLabel defaultValue={challengeData.title} fieldRef={titleRef} label="Title" id="challenge_title" errorNeeds={[errors, setErrors, "title"]} className="mb-3">
               Title of the challenge
           </InputLabel>
-            <InputLabel defaultValue={challengeData.price} fieldRef={priceRef} label="Price" id="challenge_price" errorNeeds={[errors, setErrors, "price"]} type="number" min="0" step={1000} className="mb-3">
+            <InputLabel defaultValue={price} fieldRef={priceRef} label="Price" id="challenge_price" errorNeeds={[errors, setErrors, "price"]} type="number" min="0" step={1000} className="mb-3">
               Price of the challenge (ar)
           </InputLabel>
             <InputLabel defaultValue={challengeData.video.url} fieldRef={videoUrlRef} label="Video URL" id="challenge_video_url" errorNeeds={[errors, setErrors, "video_url"]} className="mb-3">
