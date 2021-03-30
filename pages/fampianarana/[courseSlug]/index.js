@@ -3,12 +3,15 @@ import React from 'react';
 import ChaptersGroup from '../../../_components/front/ChaptersGroup';
 import { REVALIDATE } from '../../../_constants/nextConstants';
 import { API_URL } from '../../../_constants/URLs';
-import getPageProps from '../../../_helpers/getPageProps'
+import { useRouter } from "next/router";
 
 export default function ViewCourse({ course = [] }) {
 	// console.log(course === undefined);
 
 	// V A R I A B L E S
+	const router = useRouter();
+	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Vetivety ...</div>;
+
 	let chaptersGroups = course.chapters_groups || [];
 	if (chaptersGroups.length !== 0) {
 		chaptersGroups = chaptersGroups.sort((a, b) => {
@@ -84,8 +87,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-	return await getPageProps(async () => {
-
+	try {
 		const response = await axios.get(`${API_URL}/course/${params.courseSlug}`);
 
 		const { course } = response.data;
@@ -99,5 +101,9 @@ export async function getStaticProps({ params }) {
 			},
 			revalidate: REVALIDATE
 		}
-	});
+	} catch (error) {
+		return {
+			notFound: true
+		};
+	}
 }

@@ -4,6 +4,7 @@ import { FaMoneyBill } from "react-icons/fa";
 import { technologies } from "../_constants/techs";
 import { API_URL } from "../_constants/URLs";
 import getPageProps from "../_helpers/getPageProps";
+import { REVALIDATE } from "../_constants/nextConstants";
 
 export default function Home({ courses, challenges }) {
   // console.log(props.withFooter);
@@ -157,7 +158,7 @@ export async function getStaticProps() {
         },
         courses, challenges
       },
-      revalidate: 60 * 60 * 12,
+      revalidate: REVALIDATE,
     }
   });
 }
