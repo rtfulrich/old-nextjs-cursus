@@ -35,7 +35,7 @@ export default function ViewCourse({ course = [] }) {
 					<img src={course.image_cover} alt={course.slug} className="max-w-full rounded-xl" />
 					<div className="absolute bottom-1 left-0">
 						{course && course.tags && course.tags.map(tag => (
-							<span key={tag.id} className="bg-black text-xs font-semibold tracking-widest mx-1 px-2 pb-1 rounded-full">{tag.name}</span>
+							<span key={tag.id} className="bg-black text-xs font-semibold tracking-widest mx-1 px-2 py-1 rounded-full">{tag.name}</span>
 						))}
 					</div>
 				</div>
