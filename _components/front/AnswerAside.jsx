@@ -30,7 +30,7 @@ function ChapterAside({ answer, challenge }) {
 		setMatched(!!router.asPath.match(`/${answer.slug}${challenge.price !== "0" ? "/" : ""}`));
 	}, [answer])
 
-	let url = `/challenge/${challenge.id}/${challenge.slug}/${answer.id}/${answer.slug}`;
+	let url = `/challenge/${challenge.id}/${challenge.slug}/toko/${answer.id}/${answer.slug}`;
 	if (challenge.price !== "0") url += "/premium";
 	return (
 		<div

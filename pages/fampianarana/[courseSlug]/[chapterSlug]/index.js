@@ -6,7 +6,7 @@ import { API_URL } from '../../../../_constants/URLs';
 import PostContent from "../../../../_components/front/PostContent";
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import { FaLock } from "react-icons/fa";
+import { FaArrowLeft, FaLock } from "react-icons/fa";
 import ChapterAside from '../../../../_components/front/ChapterAside';
 
 export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) {
@@ -43,7 +43,7 @@ export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) 
 	const videoDuration = chapter?.video.duration;
 	return (
 		<div className="px-4 md:pl-8 md:pr-2">
-			<div className="my-8 grid grid-cols-12 gap-4 relative">
+			<div className="my-8 grid grid-cols-12 gap-4 md:gap-x-8">
 				<div className="col-span-12 md:col-span-9">
 					{videoURL && <div className="flex justify-center mb-8 bg-gray-300">
 						<ReactPlayer url={videoURL} />
@@ -53,10 +53,17 @@ export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) 
 					</div>
 				</div>
 				<div className="hidden md:block md:col-span-3">
+					<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
+						<h1 className="font-bold tracking-wider text-lg flex items-center justify-center">
+							<Link href={`/challenge/${chapter.id}/${chapter.slug}`}>
+								<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {chapter.title}</a>
+							</Link>
+						</h1>
+					</div>
 					<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
 					{groups.map(group => (
 						<div key={group.id} className="mb-2">
-							{group.show && <h3 className="py-1 twitter-bg font-bold text-center text-black">{group.title}</h3>}
+							{group.show && <h3 className="py-1 bg-yellow-300 bg-opacity-70 bg-gradient-to-br font-bold text-center text-black">{group.title}</h3>}
 							<div>
 								{group.chapters.map(chapter => <ChapterAside key={chapter.id} chapter={chapter} />)}
 							</div>
