@@ -20,7 +20,7 @@ export default function ViewPremiumChapter({ chapter, groups = [], urlRedirect }
 	// user E F F E C T
 	React.useEffect(() => {
 		// const isLoggedIn = user; // u = is user not logged in
-		console.log("NLI", user === null);
+		// console.log("NLI", user === null);
 		if (user === null) router.replace(urlRedirect);
 	}, [user]);
 
@@ -91,7 +91,7 @@ export async function getServerSideProps({ params, req }) {
 		return {
 			redirect: {
 				destination: `/fampianarana/${params.courseSlug}`,
-				permanent: false
+				permanent: true
 			}
 		}
 	}
