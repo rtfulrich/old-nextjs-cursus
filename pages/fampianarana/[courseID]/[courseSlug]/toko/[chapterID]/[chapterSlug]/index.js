@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React from 'react'
 import ReactPlayer from 'react-player';
-import { REVALIDATE } from '../../../../_constants/nextConstants';
-import { API_URL } from '../../../../_constants/URLs';
-import PostContent from "../../../../_components/front/PostContent";
+import { REVALIDATE } from '../../../../../../../_constants/nextConstants';
+import { API_URL } from '../../../../../../../_constants/URLs';
+import PostContent from "../../../../../../../_components/front/PostContent";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import { FaArrowLeft, FaLock } from "react-icons/fa";
-import ChapterAside from '../../../../_components/front/ChapterAside';
+import ChapterAside from '../../../../../../../_components/front/ChapterAside';
 
-export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) {
+export default function ViewFreeChapter({ chapter, groups = [], courseTitle, unauthorized }) {
 	// if (chapter) console.log("chapter", chapter);
 
 	if (groups) {
@@ -56,7 +56,7 @@ export default function ViewFreeChapter({ chapter, groups = [], unauthorized }) 
 					<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
 						<h1 className="font-bold tracking-wider text-lg flex items-center justify-center">
 							<Link href={`/challenge/${chapter.id}/${chapter.slug}`}>
-								<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {chapter.title}</a>
+								<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {courseTitle}</a>
 							</Link>
 						</h1>
 					</div>
@@ -89,7 +89,9 @@ export async function getStaticPaths() {
 			chapters.forEach(chapter => {
 				paths.push({
 					params: {
+						courseID: course.id.toString(),
 						courseSlug: course.slug,
+						chapterID: chapter.id.toString(),
 						chapterSlug: chapter.slug
 					}
 				});
@@ -105,8 +107,8 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	try {
-		const response = await axios.get(`${API_URL}/course/${params.courseSlug}/chapter/${params.chapterSlug}`);
-		const { chapter, groups } = response.data;
+		const response = await axios.get(`${API_URL}/course/${params.courseID}/chapter/${params.chapterID}`);
+		const { chapter, groups, courseTitle } = response.data;
 
 		return {
 			props: {
@@ -114,7 +116,8 @@ export async function getStaticProps({ params }) {
 					title: chapter.title
 				},
 				chapter,
-				groups
+				groups,
+				courseTitle
 			},
 			revalidate: REVALIDATE
 		}
@@ -126,7 +129,7 @@ export async function getStaticProps({ params }) {
 					page: {
 						title: "Redirecting ... - IanaTek"
 					},
-					unauthorized: { redirect: `/fampianarana/${params.courseSlug}` }
+					unauthorized: { redirect: `/fampianarana/${params.courseID}/${params.courseSlug}` }
 				}
 			}
 			: {

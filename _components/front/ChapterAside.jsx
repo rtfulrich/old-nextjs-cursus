@@ -21,7 +21,6 @@ function ChapterAside({ chapter }) {
 			.then(response => {
 				setCanBeSeen(response.data.can);
 				setIsPremium(currentValue => response.data.isPremium);
-				// setMatched(!!router.asPath.match(`/${chapter.slug}${isPremium ? "/" : ""}`));
 			})
 			.catch(e => { });
 		else axios
@@ -35,17 +34,13 @@ function ChapterAside({ chapter }) {
 				setIsPremium(!chapter.show_anyway);
 			})
 			.catch(e => { });
-		// console.log("c", chapter.content === undefined);
-		// setCanBeSeen(chapter.content != undefined);
-		// setIsPremium(currentValue => chapter.content === undefined);
-		// setMatched(!!router.asPath.match(`/${chapter.slug}${isPremium ? "/" : ""}`));
 	}, [user]);
 
 	React.useEffect(() => {
 		setMatched(!!router.asPath.match(`/${chapter.slug}${isPremium ? "/" : ""}`));
 	}, [isPremium, chapter])
 
-	let url = isPremium === null ? "#" : `/fampianarana/${router.query.courseSlug}/${chapter.slug}`;
+	let url = isPremium === null ? "#" : `/fampianarana/${router.query.courseID}/${router.query.courseSlug}/toko/${chapter.id}/${chapter.slug}`;
 	if (isPremium) url += "/premium";
 	return (
 		<div

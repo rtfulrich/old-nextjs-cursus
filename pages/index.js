@@ -57,7 +57,7 @@ export default function Home({ courses, challenges }) {
                   <div className="my-2 px-2 flex-1 flex flex-col justify-between">
                     <h1 className="font-bold mb-2">
                       {/* <Link href={`/fampianarana${tag}/${course.slug}`}> */}
-                      <Link href={`/fampianarana/${course.slug}`}>
+                      <Link href={`/fampianarana/${course.id}/${course.slug}`}>
                         <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{course.title}</a>
                       </Link>
                     </h1>

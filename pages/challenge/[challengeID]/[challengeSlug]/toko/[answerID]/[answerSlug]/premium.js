@@ -20,6 +20,7 @@ export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }
 	// user E F F E C T
 	React.useEffect(() => {
 		if (user === null) router.replace(urlRedirect);
+		else router.replace(`/challenge/${challenge.id}/${challenge.slug}/toko/${answer.id}/${answer.slug}/premium`);
 	}, [user]);
 
 	const answers = challenge.answers.sort((a, b) => {

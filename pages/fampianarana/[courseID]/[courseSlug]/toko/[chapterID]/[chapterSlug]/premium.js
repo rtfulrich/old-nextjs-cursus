@@ -2,13 +2,14 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
-import ChapterAside from '../../../../_components/front/ChapterAside';
-import PostContent from '../../../../_components/front/PostContent';
-import { API_URL, FRONT_URL } from '../../../../_constants/URLs';
-import UserContext from '../../../../_react-contexts/user-context';
+import ChapterAside from '../../../../../../../_components/front/ChapterAside';
+import PostContent from '../../../../../../../_components/front/PostContent';
+import { API_URL, FRONT_URL } from '../../../../../../../_constants/URLs';
+import UserContext from '../../../../../../../_react-contexts/user-context';
 
-export default function ViewPremiumChapter({ chapter, groups = [], urlRedirect }) {
+export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, urlRedirect }) {
 	// console.log("GROUPS prem", groups);
 
 	// V A R I A B L E S
@@ -19,9 +20,9 @@ export default function ViewPremiumChapter({ chapter, groups = [], urlRedirect }
 
 	// user E F F E C T
 	React.useEffect(() => {
-		// const isLoggedIn = user; // u = is user not logged in
-		// console.log("NLI", user === null);
+		const { courseID, courseSlug } = router.query;
 		if (user === null) router.replace(urlRedirect);
+		else router.replace(`/fampianarana/${courseID}/${courseSlug}/toko/${chapter.id}/${chapter.slug}/premium`);
 	}, [user]);
 
 	// J S X
@@ -50,10 +51,17 @@ export default function ViewPremiumChapter({ chapter, groups = [], urlRedirect }
 						</div>
 					</div>
 					<div className="hidden md:block md:col-span-3">
+						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
+							<h1 className="font-bold tracking-wider text-lg flex items-center justify-center">
+								<Link href={`/challenge/${chapter.id}/${chapter.slug}`}>
+									<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {courseTitle}</a>
+								</Link>
+							</h1>
+						</div>
 						<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
 						{groups.map(group => (
 							<div key={group.id} className="mb-2">
-								{group.show && <h3 className="py-1 twitter-bg font-bold text-center text-black">{group.title}</h3>}
+								{group.show && <h3 className="py-1 bg-yellow-300 bg-opacity-70 bg-gradient-to-br font-bold text-center text-black">{group.title}</h3>}
 								<div>
 									{group.chapters.map(chapter => <ChapterAside key={chapter.id} chapter={chapter} />)}
 								</div>
@@ -69,11 +77,11 @@ export default function ViewPremiumChapter({ chapter, groups = [], urlRedirect }
 
 export async function getServerSideProps({ params, req }) {
 	try {
-		const response = await axios.get(`${API_URL}/course/${params.courseSlug}/chapter/${params.chapterSlug}/premium`, {
+		const response = await axios.get(`${API_URL}/course/${params.courseID}/chapter/${params.chapterID}/premium`, {
 			headers: { credentials: "include", referer: FRONT_URL, cookie: req.headers.cookie }
 		});
 
-		const { chapter, groups } = response.data;
+		const { chapter, groups, courseTitle } = response.data;
 
 		return {
 			props: {
@@ -82,7 +90,8 @@ export async function getServerSideProps({ params, req }) {
 				},
 				chapter,
 				groups,
-				urlRedirect: `/fampianarana/${params.courseSlug}`
+				courseTitle,
+				urlRedirect: `/fampianarana/${params.courseID}/${params.courseSlug}`
 			}
 		}
 	}
@@ -90,7 +99,7 @@ export async function getServerSideProps({ params, req }) {
 		console.log(e, e.response);
 		return {
 			redirect: {
-				destination: `/fampianarana/${params.courseSlug}`,
+				destination: `/fampianarana/${params.courseID}/${params.courseSlug}`,
 				permanent: true
 			}
 		}

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React from 'react';
-import ChaptersGroup from '../../../_components/front/ChaptersGroup';
-import { REVALIDATE } from '../../../_constants/nextConstants';
-import { API_URL } from '../../../_constants/URLs';
+import ChaptersGroup from '../../../../_components/front/ChaptersGroup';
+import { REVALIDATE } from '../../../../_constants/nextConstants';
+import { API_URL } from '../../../../_constants/URLs';
 import { useRouter } from "next/router";
 
 export default function ViewCourse({ course = [] }) {
@@ -78,7 +78,7 @@ export async function getStaticPaths() {
 	const response = await axios.get(`${API_URL}/courses?published`);
 
 	const { courses } = response.data;
-	const paths = courses.map(course => ({ params: { courseSlug: course.slug } }));
+	const paths = courses.map(course => ({ params: { courseID: course.id.toString(), courseSlug: course.slug } }));
 
 	return {
 		paths,
@@ -88,7 +88,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	try {
-		const response = await axios.get(`${API_URL}/course/${params.courseSlug}`);
+		const response = await axios.get(`${API_URL}/course/${params.courseID}`);
 
 		const { course } = response.data;
 

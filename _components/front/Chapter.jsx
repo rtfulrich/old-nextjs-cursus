@@ -28,7 +28,7 @@ function Chapter({ chapter, course }) {
 		else setCanSeeChapter(!isPrem);
 	}, [user]);
 
-	const href = `/fampianarana/${course.slug}/${chapter.slug}${isPrem ? "/premium" : ""}`;
+	const href = `/fampianarana/${course.id}/${course.slug}/toko/${chapter.id}/${chapter.slug}${isPrem ? "/premium" : ""}`;
 	const preventToast = <span className="text-black font-semibold">Tsy afaka mijery io toko io enao !</span>;
 	return (
 		// <div className="">
