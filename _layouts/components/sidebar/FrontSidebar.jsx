@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaBrain, FaQq } from 'react-icons/fa';
-import { RiAccountCircleLine, RiBracesLine, RiBracketsLine, RiCss3Fill, RiDashboardFill, RiFacebookFill, RiFacebookLine, RiHome2Fill, RiHome2Line, RiHtml5Fill, RiQuestionLine, RiYoutubeFill } from 'react-icons/ri';
+import { RiAccountCircleLine, RiBracesLine, RiBracketsLine, RiCss3Fill, RiDashboardFill, RiFacebookFill, RiFacebookLine, RiHome2Fill, RiHome2Line, RiHtml5Fill, RiLinkedinFill, RiQuestionLine, RiYoutubeFill } from 'react-icons/ri';
 import SidebarMenuItem, { MenusHeader } from '../../../_components/simple-components/SidebarMenuItem';
 import { ADMIN_PSEUDO } from '../../../_constants/users';
 import UserContext from '../../../_react-contexts/user-context';
@@ -24,37 +24,38 @@ function FrontSidebar() {
 
         {/* POSTS */}
         {/* <MenusHeader /> */}
-        <SidebarMenuItem text="Fampianarana" icon={<RiBracesLine className="success" />} />
-        <SidebarMenuItem text="Challenges" icon={<FaBrain className="text-yellow-600" />} />
+        <SidebarMenuItem href="/fampianarana" text="Fampianarana" icon={<RiBracesLine className="success" />} />
+        <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} />
 
         {/* Technologies */}
         {/* <MenusHeader /> */}
         {/* FRONTEND */}
         <MenusHeader>Frontend</MenusHeader>
-        <SidebarMenuItem text="HTML &amp; CSS" iconClass="text-xs"
+        <SidebarMenuItem text="HTML &amp; CSS" iconClass="text-xs" href="/html_css"
           icon={<>
             {/* <img src="/images/tech-icons/html-css-icon.png" width="20px" className="" /> */}
             <RiHtml5Fill className="text-blue-500" style={{ fontSize: "15px" }} /><RiCss3Fill className="text-yellow-500" style={{ fontSize: "15px" }} />
           </>
           }
         />
-        <SidebarMenuItem text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
-        <SidebarMenuItem text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
+        <SidebarMenuItem href="/javascript" text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
+        <SidebarMenuItem href="/react_js" text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
         {/* BACKEND */}
         <MenusHeader>Backend</MenusHeader>
-        <SidebarMenuItem text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
-        <SidebarMenuItem text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
+        <SidebarMenuItem href="/php" text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
+        <SidebarMenuItem href="/laravel" text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
 
         {/* Other menus */}
         <MenusHeader />
         {/* <MenusHeader /> */}
-        <SidebarMenuItem text="Ny kaontiko" icon={<RiAccountCircleLine />} />
-        <SidebarMenuItem text="F A Q s" icon={<RiQuestionLine className="text-yellow-300" />} />
+        {user && <SidebarMenuItem href="/kaontiko" text="Ny kaontiko" icon={<RiAccountCircleLine />} />}
+        <SidebarMenuItem href="/faq" text="F A Q s" icon={<RiQuestionLine className="text-yellow-300" />} />
 
         {/* Social links */}
         <MenusHeader>Rohy sôsialy</MenusHeader>
         <SidebarMenuItem text="Facebook" icon={<RiFacebookFill className="text-blue-600" />} />
         <SidebarMenuItem text="Youtube" icon={<RiYoutubeFill className="text-red-500" />} />
+        <SidebarMenuItem text="LinkedIn" icon={<RiLinkedinFill className="twitter" />} />
 
       </ul>
       <ul className="flex">
