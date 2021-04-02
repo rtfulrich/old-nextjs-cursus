@@ -1,22 +1,27 @@
 export const technologies = [
 	{
-		tag: "html_css",
+		// tag: "html_css",
+		tag: "#",
 		image: "html-css-cover.jpg",
 	},
 	{
-		tag: "php",
+		tag: "#",
+		// tag: "php",
 		image: "php-cover.jpg",
 	},
 	{
-		tag: "laravel",
+		// tag: "laravel",
+		tag: "#",
 		image: "laravel-cover.jpg"
 	},
 	{
-		tag: "javascript",
+		// tag: "javascript",
+		tag: "#",
 		image: "javascript-cover.png",
 	},
 	{
-		tag: "react",
+		// tag: "react",
+		tag: "#",
 		image: "react-cover.jpg"
 	}
 ];

@@ -20,7 +20,7 @@ function FrontSidebar() {
           <SidebarMenuItem text="Admin" href="/admin" />
         )}
 
-        {user && user.pseudo !== ADMIN_PSEUDO && <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />}
+        {/* {user && user.pseudo !== ADMIN_PSEUDO && <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />} */}
 
         {/* POSTS */}
         {/* <MenusHeader /> */}
@@ -28,22 +28,21 @@ function FrontSidebar() {
         <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} />
 
         {/* Technologies */}
-        {/* <MenusHeader /> */}
         {/* FRONTEND */}
         <MenusHeader>Frontend</MenusHeader>
-        <SidebarMenuItem text="HTML &amp; CSS" iconClass="text-xs" href="/html_css"
+        <SidebarMenuItem text="HTML &amp; CSS" iconClass="text-xs"
           icon={<>
-            {/* <img src="/images/tech-icons/html-css-icon.png" width="20px" className="" /> */}
             <RiHtml5Fill className="text-blue-500" style={{ fontSize: "15px" }} /><RiCss3Fill className="text-yellow-500" style={{ fontSize: "15px" }} />
           </>
           }
         />
-        <SidebarMenuItem href="/javascript" text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
-        <SidebarMenuItem href="/react_js" text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
+        <SidebarMenuItem text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
+        <SidebarMenuItem text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
+
         {/* BACKEND */}
         <MenusHeader>Backend</MenusHeader>
-        <SidebarMenuItem href="/php" text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
-        <SidebarMenuItem href="/laravel" text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
+        <SidebarMenuItem text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
+        <SidebarMenuItem text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
 
         {/* Other menus */}
         <MenusHeader />

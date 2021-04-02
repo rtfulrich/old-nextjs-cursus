@@ -9,7 +9,7 @@ import Link from "next/link";
 import { FaArrowLeft, FaLock } from "react-icons/fa";
 import ChapterAside from '../../../../../../../_components/front/ChapterAside';
 
-export default function ViewFreeChapter({ chapter, groups = [], courseTitle, unauthorized }) {
+export default function ViewFreeChapter({ chapter, groups = [], course, unauthorized }) {
 	// if (chapter) console.log("chapter", chapter);
 
 	if (groups) {
@@ -41,6 +41,7 @@ export default function ViewFreeChapter({ chapter, groups = [], courseTitle, una
 
 	const videoURL = chapter?.video.url;
 	const videoDuration = chapter?.video.duration;
+	const courseTitle = course.title;
 	return (
 		<div className="px-4 md:pl-8 md:pr-2">
 			<div className="my-8 grid grid-cols-12 gap-4 md:gap-x-8">
@@ -55,7 +56,7 @@ export default function ViewFreeChapter({ chapter, groups = [], courseTitle, una
 				<div className="hidden md:block md:col-span-3">
 					<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
 						<h1 className="font-bold tracking-wider text-lg flex items-center justify-center">
-							<Link href={`/challenge/${chapter.id}/${chapter.slug}`}>
+							<Link href={`/fampianarana/${course.id}/${course.slug}`}>
 								<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {courseTitle}</a>
 							</Link>
 						</h1>
@@ -108,7 +109,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
 	try {
 		const response = await axios.get(`${API_URL}/course/${params.courseID}/chapter/${params.chapterID}`);
-		const { chapter, groups, courseTitle } = response.data;
+		const { chapter, groups, course } = response.data;
 
 		return {
 			props: {
@@ -117,7 +118,7 @@ export async function getStaticProps({ params }) {
 				},
 				chapter,
 				groups,
-				courseTitle
+				course
 			},
 			revalidate: REVALIDATE
 		}
