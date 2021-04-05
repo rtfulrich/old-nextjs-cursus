@@ -7,7 +7,7 @@ import getPageProps from "../_helpers/getPageProps";
 import { REVALIDATE } from "../_constants/nextConstants";
 
 export default function Home({ courses, challenges }) {
-  // console.log(props.withFooter);
+  // console.log(courses, challenges);
 
   const techs = technologies;
   return (
@@ -22,8 +22,8 @@ export default function Home({ courses, challenges }) {
       {/* Technologies */}
       <div className="px-2 md:px-16 py-4">
         <div className="grid grid-cols-5 gap-2 md:gap-8">
-          {techs.map(tech => (
-            <div className="rounded-xl  overflow-hidden transition-colors duration-300 ease-in-out border-2 border-black hover:border-blue-500 -mt-12 z-10" key={tech.tag}>
+          {techs.map((tech, index) => (
+            <div className="rounded-xl  overflow-hidden transition-colors duration-300 ease-in-out border-2 border-black hover:border-blue-500 -mt-12 z-10" key={index}>
               {/* <Link href={`/${tech.tag}`}> */}
               <Link href="#">
                 <a onClick={e => e.preventDefault()}>
@@ -36,7 +36,7 @@ export default function Home({ courses, challenges }) {
       </div>
 
       {/* Courses */}
-      {courses.length > 0 && (
+      {courses && courses.length > 0 && (
         <div className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-lg font-bold tracking-widest">Ireo fampianarana farany</h1>
@@ -47,10 +47,10 @@ export default function Home({ courses, challenges }) {
             }
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
-            {courses.map(course => {
+            {courses.map((course, index) => {
               // const tag = course.tags.length > 0 ? `/${course.tags[0].name}` : "/";
               return (
-                <div key={course.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
+                <div key={index} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
                   <div className="flex justify-center items-center overflow-hidden relative">
                     <img src={course.image_cover} className="min-h-full min-w-full w-auto" />
                     <div className="absolute bottom-1 right-1 font-bold tracking-widest text-xs text-black">{course.level}</div>
@@ -89,7 +89,7 @@ export default function Home({ courses, challenges }) {
       )}
 
       {/* Challenges */}
-      {challenges.length > 0 && (
+      {challenges && challenges.length > 0 && (
         <div className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-lg font-bold tracking-widest">Ireo challenges farany</h1>
@@ -100,10 +100,10 @@ export default function Home({ courses, challenges }) {
             }
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
-            {challenges.map(challenge => {
+            {challenges.map((challenge, index) => {
               // const tag = challenge.tags.length > 0 ? `/${challenge.tags[0].name}` : "/";
               return (
-                <div key={challenge.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
+                <div key={index} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
                   <div className="flex justify-center items-center overflow-hidden">
                     <img src={challenge.image_cover} className="min-h-full min-w-full w-auto" />
                   </div>

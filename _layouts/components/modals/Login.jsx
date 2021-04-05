@@ -12,7 +12,6 @@ function Login({ setShowAuthModal, setInModal }) {
   // S T A T E S
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const rememberRef = React.useRef(false)
   const [errors, setErrors] = React.useState({
     email: null,
     password: null,
@@ -24,25 +23,27 @@ function Login({ setShowAuthModal, setInModal }) {
   // C O N T E X T S
   const { user, setUser } = React.useContext(UserContext);
 
-  // E F F E C T S
-  // React.useEffect(() => console.log("user", user), [user])
+  // M O U N T  E F F E C T S
+  React.useEffect(() => () => null, []);
 
   // M E T H O D S
   const handleSubmit = async () => {
     if (loading) return;
     setErrors({ email: null, password: null, other: null });
     setLoading(true);
-    axios.post(`${API_URL}/login`, { email, password, remember: rememberRef.current.checked })
+    axios.post(`${API_URL}/login`, { email, password })
       .then(response => {
-        // console.log("login response", response);
         const { status, message } = response.data;
         if (status === 400) setErrors({ ...errors, other: message });
         else if (status === 200) {
-          const user = response.data.user;
-          const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.pseudo;
-          setUser({ type: AUTH_TRUE, payload: user });
-          setShowAuthModal(false);
-          toast.success(<>Miarahaba anao, <span className="font-bold text-lg tracking-widest">{name}</span> !</>)
+          const newUser = response.data.user;
+          const name = newUser.first_name ? `${newUser.first_name} ${newUser.last_name}` : newUser.pseudo;
+          setUser({ type: AUTH_TRUE, payload: newUser });
+          setLoading(false);
+          setTimeout(() => {
+            setShowAuthModal(false);
+            toast.success(<>Miarahaba anao, <br /><span className="font-bold text-lg tracking-widest">{name}</span> !</>);
+          }, 100);
         }
       })
       // Catch request errors
@@ -66,8 +67,10 @@ function Login({ setShowAuthModal, setInModal }) {
         }
         // Internal server error
         if (status === 500) setErrors({ ...errors, other: data.message });
+
+        setLoading(false)
       })
-      .finally(() => setLoading(false))
+    // .finally(() => )
   }
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })

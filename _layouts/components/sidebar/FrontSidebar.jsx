@@ -47,12 +47,12 @@ function FrontSidebar() {
         {/* Other menus */}
         <MenusHeader />
         {/* <MenusHeader /> */}
-        {user && <SidebarMenuItem href="/kaontiko" text="Ny kaontiko" icon={<RiAccountCircleLine />} />}
-        <SidebarMenuItem href="/faq" text="F A Q s" icon={<RiQuestionLine className="text-yellow-300" />} />
+        {/* {user && <SidebarMenuItem href="/kaontiko" text="Ny kaontiko" icon={<RiAccountCircleLine />} />} */}
+        {/* <SidebarMenuItem href="/faq" text="F A Q s" icon={<RiQuestionLine className="text-yellow-300" />} /> */}
 
         {/* Social links */}
         <MenusHeader>Rohy sôsialy</MenusHeader>
-        <SidebarMenuItem text="Facebook" icon={<RiFacebookFill className="text-blue-600" />} />
+        <SidebarMenuItem text="Facebook" icon={<RiFacebookFill className="text-blue-500" />} />
         <SidebarMenuItem text="Youtube" icon={<RiYoutubeFill className="text-red-500" />} />
         <SidebarMenuItem text="LinkedIn" icon={<RiLinkedinFill className="twitter" />} />
 
