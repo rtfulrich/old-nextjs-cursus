@@ -47,17 +47,17 @@ function HeaderRight() {
         user && <div className="flex items-center">
           {/* <RiMessengerFill className="mr-4 text-lg" /> */}
           {/* <RiNotification2Fill className="mr-4 text-lg" /> */}
-          <Link href="/kaontiko">
-            <a className="relative hidden md:flex items-center mr-4 pr-4 rounded-full bg-black border-2 border-black twitter-hover transition-all duration-200 ease-in-out cursor-pointer">
-              <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={user.name} />
-              <span className="pl-2 font-bold tracking-widest">{user.name}</span>
-            </a>
-          </Link>
-          <Link href="/kaontiko">
-            <a className="relative flex md:hidden items-center mr-4 rounded-full transition-all duration-200 ease-in-out cursor-pointer border-2 border-transparent border-twitter-hover">
-              <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={name} />
-            </a>
-          </Link>
+          {/* <Link href="#"> */}
+          <a className="relative hidden md:flex items-center mr-4 pr-4 rounded-full bg-black border-2 border-black twitter-hover transition-all duration-200 ease-in-out cursor-pointer">
+            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={user.name} />
+            <span className="pl-2 font-bold tracking-widest">{user.name}</span>
+          </a>
+          {/* </Link> */}
+          {/* <Link href="#"> */}
+          <a className="relative flex md:hidden items-center mr-4 rounded-full transition-all duration-200 ease-in-out cursor-pointer border-2 border-transparent border-twitter-hover">
+            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={name} />
+          </a>
+          {/* </Link> */}
           <a href="#" className="px-2 py-1 rounded-lg border-twitter border-2 twitter-bg-hover transition-colors duration-200 ease-in-out font-bold tracking-widest text-white" style={{ textDecoration: "none" }} onClick={handleSignout}>Hiala sera</a>
         </div>
       }

@@ -12,8 +12,8 @@ function FrontSidebar() {
 
   // J S X
   return (
-    <div className="min-h-full flex flex-col justify-between mb-3">
-      <ul className="menus">
+    <div className="min-h-full flex flex-col justify-between">
+      <ul className="menus flex-1">
         <SidebarMenuItem text="Pejitrano" icon={<RiHome2Line className="twitter" />} href="/" />
 
         {user && user.pseudo === ADMIN_PSEUDO && (
@@ -25,7 +25,7 @@ function FrontSidebar() {
         {/* POSTS */}
         {/* <MenusHeader /> */}
         <SidebarMenuItem href="/fampianarana" text="Fampianarana" icon={<RiBracesLine className="success" />} />
-        <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} />
+        {/* <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} /> */}
 
         {/* Technologies */}
         {/* FRONTEND */}
@@ -52,17 +52,26 @@ function FrontSidebar() {
 
         {/* Social links */}
         <MenusHeader>Rohy sôsialy</MenusHeader>
-        <SidebarMenuItem text="Facebook" icon={<RiFacebookFill className="text-blue-500" />} />
-        <SidebarMenuItem text="Youtube" icon={<RiYoutubeFill className="text-red-500" />} />
-        <SidebarMenuItem text="LinkedIn" icon={<RiLinkedinFill className="twitter" />} />
+        <SidebarMenuItem
+          href="https://web.facebook.com/ianatek/" text="Facebook"
+          icon={<RiFacebookFill className="text-blue-500" />}
+        />
+        <SidebarMenuItem
+          href="https://www.youtube.com/channel/UCLTSmmsHyMQ9ArU5u_TJ52A" text="Youtube"
+          icon={<RiYoutubeFill className="text-red-500" />}
+        />
+        <SidebarMenuItem
+          href="https://www.linkedin.com/in/tahirintsoa-ulrich-0018121a1/" text="LinkedIn"
+          icon={<RiLinkedinFill className="twitter" />}
+        />
 
       </ul>
-      <ul className="flex">
+      {/* <ul className="flex">
         <li>lskdjf</li>
         <li>sdfsdf</li>
         <li>sdsdf</li>
         <li>qsdf</li>
-      </ul>
+      </ul> */}
     </div>
   )
 }
