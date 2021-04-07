@@ -53,16 +53,16 @@ function FrontSidebar() {
         {/* Social links */}
         <MenusHeader>Rohy sôsialy</MenusHeader>
         <SidebarMenuItem
-          href="https://web.facebook.com/ianatek/" text="Facebook"
-          icon={<RiFacebookFill className="text-blue-500" />}
+          href="https://web.facebook.com/IanatekTahirintsoaUlrich/" text="Facebook"
+          icon={<RiFacebookFill className="text-blue-500" />} target="_blank"
         />
         <SidebarMenuItem
           href="https://www.youtube.com/channel/UCLTSmmsHyMQ9ArU5u_TJ52A" text="Youtube"
-          icon={<RiYoutubeFill className="text-red-500" />}
+          icon={<RiYoutubeFill className="text-red-500" />} target="_blank"
         />
         <SidebarMenuItem
           href="https://www.linkedin.com/in/tahirintsoa-ulrich-0018121a1/" text="LinkedIn"
-          icon={<RiLinkedinFill className="twitter" />}
+          icon={<RiLinkedinFill className="twitter" />} target="_blank"
         />
 
       </ul>

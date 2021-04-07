@@ -44,20 +44,22 @@ function Footer() {
         {/* <h1 className="text-lg font-semibold tracking-widest mr-4">Ireo teknôlôjy nanaovana an IanaTek :</h1> */}
         <div className="flex items-center mt-2 mb-2">
           <Link href="https://laravel.com">
-            <a className="mx-8"><img src="https://laravel.com/img/logomark.min.svg" className="w-8" alt="Laravel" /></a>
+            <a className="mx-8" target="_blank" title="Laravel">
+              <img src="https://laravel.com/img/logomark.min.svg" className="w-8" alt="Laravel" />
+            </a>
           </Link>
           <Link href="https://nextjs.org">
-            <a className="mx-8" target="_blank">
+            <a className="mx-8" target="_blank" title="Next JS">
               <img src="/images/tech-icons/nextjs-icon.png" className="w-8" alt="Next JS" />
             </a>
           </Link>
           <Link href="https://reactjs.org">
-            <a className="mx-8" target="_blank">
+            <a className="mx-8" target="_blank" title="React JS">
               <img src="/images/tech-icons/react-icon.svg" className="w-8" alt="React JS" />
             </a>
           </Link>
           <Link href="https://sass-lang.com">
-            <a className="mx-8" target="_blank">
+            <a className="mx-8" target="_blank" title="Sass">
               <img src="https://sass-lang.com/assets/img/logos/logo-b6e1ef6e.svg" className="w-8" alt="Sass" />
             </a>
           </Link>
