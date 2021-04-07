@@ -13,13 +13,15 @@ export default function PreviewChapterContent({ content, courseID }) {
 	const router = useRouter();
 
 	return (
-		<div className="p-4 relative">
-			<PostContent content={content} />
-			<Link href={`/admin/course/${router.query.slug}/${courseID}/edit-structure`}>
-				<a className="absolute top-0 right-0 px-2 py-1 font-bold flex items-center border-2 border-yellow-300 text-yellow-300 hover:text-yellow-400" style={{ textDecoration: "none" }}>
-					<FaArrowLeft /> <span>Go back</span>
-				</a>
-			</Link>
+		<div className="p-4 relative flex justify-center">
+			<div className="w-full md:w-2/3">
+				<PostContent content={content} />
+				<Link href={`/admin/course/${router.query.slug}/${courseID}/edit-structure`}>
+					<a className="absolute top-0 right-0 px-2 py-1 font-bold flex items-center border-2 border-yellow-300 text-yellow-300 hover:text-yellow-400" style={{ textDecoration: "none" }}>
+						<FaArrowLeft /> <span>Go back</span>
+					</a>
+				</Link>
+			</div>
 		</div>
 	)
 }

@@ -37,8 +37,8 @@ function AdminSidebar() {
 
       {/* Blogs */}
       <SidebarMenuItem text="Blogs">
-        <SidebarMenuItem text="All" href="#" />
-        <SidebarMenuItem text="Create a blog" href="#" />
+        <SidebarMenuItem text="All" href="/admin/blog/all" />
+        <SidebarMenuItem text="Create a blog" href="/admin/blog/new" />
       </SidebarMenuItem>
 
       {/* Tag */}

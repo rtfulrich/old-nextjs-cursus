@@ -48,16 +48,15 @@ function Login({ setShowAuthModal, setInModal }) {
       })
       // Catch request errors
       .catch(async error => {
-        // console.log(error.response);
         const response = error.response;
         const { data, status } = response;
-        // Forbidden (probably because the user is already authenticated)
-        if (status === 403) setShowAuthModal(false);
+
         // Csrf token mismatch
         if (status === 419) {
           useSanctum();
           setErrors({ ...errors, other: "Nisy olana kely, miangavy anao hamerina" });
         }
+
         // Invalid data sent to the api
         if (status === 422) {
           let { email, password } = response.data.errors;
@@ -65,10 +64,14 @@ function Login({ setShowAuthModal, setInModal }) {
           password = password ? password[0] : null;
           setErrors({ ...errors, email, password });
         }
+
         // Internal server error
         if (status === 500) setErrors({ ...errors, other: data.message });
 
-        setLoading(false)
+        setLoading(false);
+
+        // Forbidden (probably because the user is already authenticated)
+        if (status === 403) setShowAuthModal(false);
       })
     // .finally(() => )
   }
