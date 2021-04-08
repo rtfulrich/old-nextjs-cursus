@@ -27,7 +27,7 @@ function Login({ setShowAuthModal, setInModal }) {
   React.useEffect(() => () => null, []);
 
   // M E T H O D S
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (loading) return;
     setErrors({ email: null, password: null, other: null });
     setLoading(true);
@@ -39,15 +39,14 @@ function Login({ setShowAuthModal, setInModal }) {
           const newUser = response.data.user;
           const name = newUser.first_name ? `${newUser.first_name} ${newUser.last_name}` : newUser.pseudo;
           setUser({ type: AUTH_TRUE, payload: newUser });
-          setLoading(false);
-          setTimeout(() => {
-            setShowAuthModal(false);
-            toast.success(<>Miarahaba anao, <br /><span className="font-bold text-lg tracking-widest">{name}</span> !</>);
-          }, 100);
+          // setTimeout(() => {
+          toast.success(<>Miarahaba anao, <br /><span className="font-bold text-lg tracking-widest">{name}</span> !</>);
+          setShowAuthModal(false);
+          // }, 100);
         }
       })
       // Catch request errors
-      .catch(async error => {
+      .catch(error => {
         const response = error.response;
         const { data, status } = response;
 
@@ -68,12 +67,11 @@ function Login({ setShowAuthModal, setInModal }) {
         // Internal server error
         if (status === 500) setErrors({ ...errors, other: data.message });
 
-        setLoading(false);
-
         // Forbidden (probably because the user is already authenticated)
         if (status === 403) setShowAuthModal(false);
+        else setLoading(false);
       })
-    // .finally(() => )
+    // .finally(() => );
   }
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })
