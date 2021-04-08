@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaBrain, FaQq } from 'react-icons/fa';
+import { FaBlog, FaBlogger, FaBloggerB, FaBrain, FaHandPointUp, FaHighlighter, FaLanguage, FaLightbulb, FaQq, FaRegHandPointUp, FaRegLightbulb } from 'react-icons/fa';
 import { RiAccountCircleLine, RiBracesLine, RiBracketsLine, RiCss3Fill, RiDashboardFill, RiFacebookFill, RiFacebookLine, RiHome2Fill, RiHome2Line, RiHtml5Fill, RiLinkedinFill, RiQuestionLine, RiYoutubeFill } from 'react-icons/ri';
 import SidebarMenuItem, { MenusHeader } from '../../../_components/simple-components/SidebarMenuItem';
 import { ADMIN_PSEUDO } from '../../../_constants/users';
@@ -24,8 +24,10 @@ function FrontSidebar() {
 
         {/* POSTS */}
         {/* <MenusHeader /> */}
-        <SidebarMenuItem href="/fampianarana" text="Fampianarana" icon={<RiBracesLine className="success" />} />
+        <SidebarMenuItem href="/fampianarana" text="Fampianarana" icon={<FaLanguage className="success text-xl transform -rotate-45" />} />
         {/* <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} /> */}
+        <SidebarMenuItem href="/tutorials" text="Tutorials" icon={<FaRegLightbulb className="text-yellow-300" />} />
+        <SidebarMenuItem href="/blogs" text="Blogs" icon={<FaBlogger className="text-pink-500" />} />
 
         {/* Technologies */}
         {/* FRONTEND */}
