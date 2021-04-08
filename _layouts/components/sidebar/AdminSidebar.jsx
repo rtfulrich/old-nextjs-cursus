@@ -31,8 +31,8 @@ function AdminSidebar() {
 
       {/* Tutorials */}
       <SidebarMenuItem text="Tutorials">
-        <SidebarMenuItem text="All" href="#" />
-        <SidebarMenuItem text="Create a tutorial" href="#" />
+        <SidebarMenuItem text="All" href="/admin/tutorial/all" />
+        <SidebarMenuItem text="Create a tutorial" href="/admin/tutorial/new" />
       </SidebarMenuItem>
 
       {/* Blogs */}

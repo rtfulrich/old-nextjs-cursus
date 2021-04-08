@@ -8,7 +8,7 @@ import TextareaLabel from '../../../_components/admin/posts/fields/TextareaLabel
 import { ADMIN_API_URL, BACK_URL } from '../../../_constants/URLs';
 import sanctumRequest from '../../../_helpers/sanctumRequest';
 
-export default function NewBlog() {
+export default function NewTutorial() {
 
 	// V A R I A B L E S
 	const router = useRouter();
@@ -37,9 +37,9 @@ export default function NewBlog() {
 			const description = descriptionRef.current.value;
 
 			const data = { title, image_cover, video_url, video_duration, description };
-			const response = await axios.post(`${ADMIN_API_URL}/blog/store`, data);
-			const { message, blog } = response.data;
-			router.push(`/admin/blog/${blog.id}/${blog.slug}`);
+			const response = await axios.post(`${ADMIN_API_URL}/tutorial/store`, data);
+			const { message, tutorial } = response.data;
+			router.push(`/admin/tutorial/${tutorial.id}/${tutorial.slug}`);
 			toast.success(message);
 		},
 		e => {
@@ -55,34 +55,34 @@ export default function NewBlog() {
 	return (
 		<div className="p-4">
 			{/* <div className="flex justify-between items-center pb-4"> */}
-			<h1 className="text-2xl md:text-4xl tracking-widest font-bold mb-4">Create a new blog</h1>
+			<h1 className="text-2xl md:text-4xl tracking-widest font-bold mb-4">Create a new tutorial</h1>
 			{/* </div> */}
 
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 				{/* Column 1 */}
 				<div className="flex flex-col">
-					<InputLabel fieldRef={titleRef} label="Title" id="blog_title" errorNeeds={[errors, setErrors, "title"]} className="mb-3">
-						Title of the blog
+					<InputLabel fieldRef={titleRef} label="Title" id="tutorial_title" errorNeeds={[errors, setErrors, "title"]} className="mb-3">
+						Title of the tutorial
           </InputLabel>
-					<InputLabel fieldRef={videoUrlRef} label="Video URL" id="blog_video_url" errorNeeds={[errors, setErrors, "video_url"]} className="mb-3">
-						Video URL for the blog
+					<InputLabel fieldRef={videoUrlRef} label="Video URL" id="tutorial_video_url" errorNeeds={[errors, setErrors, "video_url"]} className="mb-3">
+						Video URL for the tutorial
           </InputLabel>
-					<InputLabel fieldRef={videoDurationRef} label="Video duration" id="blog_video_duration" errorNeeds={[errors, setErrors, "video_duration"]} className="mb-3">
+					<InputLabel fieldRef={videoDurationRef} label="Video duration" id="tutorial_video_duration" errorNeeds={[errors, setErrors, "video_duration"]} className="mb-3">
 						Duration of the video
           </InputLabel>
 					<button className="py-2 flex-1 text-center font-bold text-3xl bg-blue-500 hover:bg-blue-600 transition-colors duration-150 w-full rounded-lg tracking-widest" type="button" onClick={handleSubmit}>
-						Create the blog
+						Create the tutorial
           </button>
 				</div>
 				{/* Column 2 */}
 				<div>
-					<TextareaLabel fieldRef={descriptionRef} id="blog_description" rows="21" label="Description">
-						Description of the blog
+					<TextareaLabel fieldRef={descriptionRef} id="tutorial_description" rows="21" label="Description">
+						Description of the tutorial
           </TextareaLabel>
 				</div>
 				{/* Column 3 */}
 				<div>
-					<ChooseLfmImage fieldRef={imageCoverRef} id="blog_image_cover" errorNeeds={[errors, setErrors, "image_cover"]} defaultValue={BACK_URL + "/images/post-cover.png"} />
+					<ChooseLfmImage fieldRef={imageCoverRef} id="tutorial_image_cover" errorNeeds={[errors, setErrors, "image_cover"]} defaultValue={BACK_URL + "/images/post-cover.png"} />
 				</div>
 			</div>
 		</div>
@@ -93,7 +93,7 @@ export async function getServerSideProps({ req }) {
 	return {
 		props: {
 			page: {
-				title: "Create a new Blog"
+				title: "Create a new Tutorial"
 			}
 		}
 	}
