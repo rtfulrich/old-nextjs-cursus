@@ -5,22 +5,22 @@ import React from 'react'
 import { API_URL } from '../../_constants/URLs';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa"
 
-function ViewAllBlogs({ result }) {
-	// console.log(result);
+function ViewAllTutorials({ result }) {
+	console.log(result);
 	const router = useRouter();
 
-	const blogs = result.data;
+	const tutorials = result.data;
 	const links = result.links;
 
 	let prevUrl = links[0].url;
 	let nextUrl = links[links.length - 1].url;
 	if (prevUrl) {
 		let page = parseInt(prevUrl.split("page=")[1]);
-		prevUrl = `/blogs${page === 1 ? "" : `?page=${page}`}`;
+		prevUrl = `/tutorials${page === 1 ? "" : `?page=${page}`}`;
 	}
 	if (nextUrl) {
 		let page = parseInt(nextUrl.split("page=")[1]);
-		nextUrl = `/blogs?page=${page}`;
+		nextUrl = `/tutorials?page=${page}`;
 	}
 
 	const { page } = router.query;
@@ -28,33 +28,33 @@ function ViewAllBlogs({ result }) {
 		<div className="px-4 py-3 md:px-8 md:-py-4">
 			<div className="flex justify-between flex-col lg:flex-row items-center mb-4">
 				<h1 className={`text-3xl tracking-widest font-bold md:mb-0`}>
-					Ireo blogs farany {page ? `- Pejy ${page}` : ""}
+					Ireo tutorials farany {page ? `- Pejy ${page}` : ""}
 				</h1>
 			</div>
 
-			{/* List of blogs */}
+			{/* List of tutorials */}
 			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-				{blogs.map(blog => {
-					const dateInstance = new Date(blog.updated_at);
+				{tutorials.map(tutorial => {
+					const dateInstance = new Date(tutorial.updated_at);
 					const date = dateInstance.toUTCString();
 					const year = dateInstance.getFullYear();
 					const toPrint = `${date.split(year)[0]} ${year}`;
 					return (
-						<div key={blog.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col">
+						<div key={tutorial.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col">
 							<div className="h-40 flex justify-center items-center overflow-hidden relative">
-								<img src={blog.image_cover} className="min-h-full min-w-full w-auto" />
+								<img src={tutorial.image_cover} className="min-h-full min-w-full w-auto" />
 								<div className="absolute bottom-0 right-1 text-black font-semibold tracking-widest text-xs">
 									{toPrint}
 								</div>
 							</div>
 							<div className="my-2 px-2 flex-1 flex flex-col justify-between">
 								<h1 className="font-bold mb-2">
-									<Link href={`/blog/${blog.id}/${blog.slug}`}>
-										<a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{blog.title}</a>
+									<Link href={`/tutorial/${tutorial.id}/${tutorial.slug}`}>
+										<a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{tutorial.title}</a>
 									</Link>
 								</h1>
 								<div className={`flex items-center justify-end`}>
-									{blog.tags.map(tag => (
+									{tutorial.tags.map(tag => (
 										<span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
 									))}
 								</div>
@@ -92,19 +92,19 @@ function ViewAllBlogs({ result }) {
 	)
 }
 
-export default ViewAllBlogs
+export default ViewAllTutorials
 
 export const getServerSideProps = async ({ query }) => {
 	try {
 		let page = null;
 		if (query.page) page = query.page;
-		const response = await axios.get(`${API_URL}/blogs/paginated?${page ? `&page=${page}` : ""}`);
+		const response = await axios.get(`${API_URL}/tutorials/paginated?${page ? `&page=${page}` : ""}`);
 		const { result } = response.data;
 
 		return {
 			props: {
 				page: {
-					title: "Ireo blogs farany",
+					title: "Ireo tutorials farany",
 				},
 				result
 			}
@@ -112,7 +112,7 @@ export const getServerSideProps = async ({ query }) => {
 	} catch (error) {
 		return {
 			redirect: {
-				destination: "/blogs",
+				destination: "/tutorials",
 				permanent: true
 			}
 		};
