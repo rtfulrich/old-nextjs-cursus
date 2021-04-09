@@ -6,7 +6,7 @@ import { API_URL } from '../../_constants/URLs';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa"
 
 function ViewAllTutorials({ result }) {
-	console.log(result);
+
 	const router = useRouter();
 
 	const tutorials = result.data;
@@ -38,7 +38,8 @@ function ViewAllTutorials({ result }) {
 					const dateInstance = new Date(tutorial.updated_at);
 					const date = dateInstance.toUTCString();
 					const year = dateInstance.getFullYear();
-					const toPrint = `${date.split(year)[0]} ${year}`;
+					const withDay = `${date.split(year)[0]} ${year}`;
+					const toPrint = withDay.split(",")[1];
 					return (
 						<div key={tutorial.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col">
 							<div className="h-40 flex justify-center items-center overflow-hidden relative">

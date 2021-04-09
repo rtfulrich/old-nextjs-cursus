@@ -11,7 +11,7 @@ function Footer() {
           <img src="/images/image-cv.jpg" alt="Tahirintsoa Ulrich" className="w-16 rounded-full" />
           <h1 className="flex flex-col mx-4 justify-center items-center">
             <span className="font-bold tracking-widest text-2xl">Tahirintsoa Ulrich</span>
-            <span className="text-sm">( IanaTek's creator )</span>
+            <span className="text-sm">( IanaTek's creator - Fullstack Web Developer )</span>
           </h1>
         </div>
         <div className="flex items-center text-2xl">
