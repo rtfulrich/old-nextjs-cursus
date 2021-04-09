@@ -52,7 +52,7 @@ function AppLayout({ children, title = null, withFooter = true }) {
     <>
       <Head>
         {typeof title === "string" && <title>{title}</title>}
-        <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/images/logo7.webp" type="image/webp" />
       </Head>
 
       {/* <Online> */}
