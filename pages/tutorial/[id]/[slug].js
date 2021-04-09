@@ -10,11 +10,11 @@ export default function ViewTutorialContent({ tutorial }) {
 		<div className="px-4 md:pl-8 md:pr-2">
 			<div className="my-4 grid grid-cols-12 gap-x-4 md:gap-x-8">
 				<div className="col-span-12 md:col-span-8">
-					{tutorial.video.url && <div className="flex justify-center mb-8 bg-gray-300">
+					{tutorial && tutorial.video.url && <div className="flex justify-center mb-8 bg-gray-300">
 						<ReactPlayer url={tutorial.video.url} />
 					</div>}
 					<div>
-						<PostContent content={tutorial.content} />
+						<PostContent content={tutorial?.content} />
 					</div>
 				</div>
 				<div className="hidden md:block md:col-span-4">

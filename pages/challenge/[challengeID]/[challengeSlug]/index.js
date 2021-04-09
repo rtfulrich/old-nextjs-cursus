@@ -45,7 +45,7 @@ export default function ViewAChallenge({ challenge }) {
 			<div className="px-4 xl:pl-8 md:pr-2">
 				<div className="my-4 grid grid-cols-12 gap-4 md:gap-x-8 relative">
 					<div className="col-span-12 md:col-span-8">
-						{challenge.video.url && <div className="flex justify-center mb-4 bg-gray-300">
+						{challenge && challenge.video.url && <div className="flex justify-center mb-4 bg-gray-300">
 							<ReactPlayer url={challenge.video.url} />
 						</div>}
 						<div>
@@ -55,7 +55,7 @@ export default function ViewAChallenge({ challenge }) {
 					<div className="col-span-12 md:col-span-4 my-4">
 						<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
 						<div className="mb-2">
-							{answers.map(answer => <AnswerAside key={answer.id} answer={answer} challenge={challenge} />)}
+							{answers && answers.map(answer => <AnswerAside key={answer.id} answer={answer} challenge={challenge} />)}
 						</div>
 					</div>
 				</div>
