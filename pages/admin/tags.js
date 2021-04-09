@@ -63,7 +63,7 @@ function Tags({ tags }) {
           <div className="p-2 pb-3 bg45 rounded-2xl font-semibold flex flex-wrap">
             {tags.map(tag => (
               <span key={tag.id} className="px-2 pt-1 pb-2 bg-black rounded-full text-xs my-1 mr-1">
-                {tag.name} <span className="twitter font-bold">({tag.timesItsUsed})</span>
+                {tag.name} <span className="twitter font-bold">({tag.times_its_used})</span>
                 <span className="bg-red-500 hover:bg-red-600 px-2 pb-1 rounded-full cursor-pointer ml-2" onClick={() => handleRemoveTag(tag)}>x</span>
               </span>
             ))}
