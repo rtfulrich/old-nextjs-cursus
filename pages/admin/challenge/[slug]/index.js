@@ -147,7 +147,7 @@ export default function EditChallengeData({ challengeData, tags }) {
                 {challengeData.tags.length === 0 && "NO TAGS YET"}
                 {challengeData.tags.map(tag => (
                   <span key={tag.id} className="px-2 pt-1 pb-2 bg-black rounded-full text-xs mr-1 mb-1">
-                    {tag.name} <span className="font-bold twitter">({tag.timesItsUsed})</span>
+                    {tag.name} <span className="font-bold twitter">({tag.times_its_used})</span>
                     <span className="bg-red-500 hover:bg-red-600 px-2 pb-1 rounded-full cursor-pointer ml-2" onClick={() => handleDetachTag(tag)}>x</span>
                   </span>
                 ))}
@@ -155,7 +155,7 @@ export default function EditChallengeData({ challengeData, tags }) {
               {tags.length > 0 && <div className="mt-2">
                 <SelectLabel fieldRef={tagRef} errorNeeds={[errors, setErrors, "tag"]} label="New tag for this challenge" className="mb-2" id="challenge_tag" text="Select a tag">
                   {
-                    tags.map(tag => <OptionSelect key={tag.id} value={tag.id}>{tag.name} ({tag.timesItsUsed})</OptionSelect>)
+                    tags.map(tag => <OptionSelect key={tag.id} value={tag.id}>{tag.name} ({tag.times_its_used})</OptionSelect>)
                   }
                 </SelectLabel>
                 <button type="button" className="py-1 rounded-lg px-2 bg-blue-500 hover:bg-blue-600 font-bold tracking-widest float-right" onClick={handleAttachTag}>Add Tag</button>

@@ -5,7 +5,7 @@ import SelectLabel from '../../../_components/admin/posts/fields/SelectLabel';
 import TextareaLabel from '../../../_components/admin/posts/fields/TextareaLabel';
 import OptionSelect from '../../../_components/admin/posts/fields/OptionSelect';
 import axios from 'axios';
-import { ADMIN_API_URL } from '../../../_constants/URLs';
+import { ADMIN_API_URL, DEFAULT_IMAGE_COVER } from '../../../_constants/URLs';
 import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
 import sanctumRequest from '../../../_helpers/sanctumRequest';
@@ -85,7 +85,7 @@ export default function CreateCourse() {
         </div>
         {/* Column 3 */}
         <div>
-          <ChooseLfmImage fieldRef={imageCoverRef} id="course_image_cover" errorNeeds={[errors, setErrors, "image_cover"]} />
+          <ChooseLfmImage fieldRef={imageCoverRef} id="course_image_cover" errorNeeds={[errors, setErrors, "image_cover"]} defaultValue={DEFAULT_IMAGE_COVER} />
         </div>
       </div>
     </div>

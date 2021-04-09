@@ -6,16 +6,17 @@ import { FaArrowCircleRight, FaCheckSquare, FaSquare } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import ChooseLfmImage from '../../../../../_components/admin/posts/fields/ChooseLfmImage';
 import InputLabel from '../../../../../_components/admin/posts/fields/InputLabel';
+import OptionSelect from '../../../../../_components/admin/posts/fields/OptionSelect';
+import SelectLabel from '../../../../../_components/admin/posts/fields/SelectLabel';
 import TextareaLabel from '../../../../../_components/admin/posts/fields/TextareaLabel';
-import { ADMIN_API_URL, BACK_URL, FRONT_URL } from '../../../../../_constants/URLs';
+import { ADMIN_API_URL, BACK_URL, FRONT_ADMIN_URL, FRONT_URL } from '../../../../../_constants/URLs';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 
-export default function EditATutorial({ tutorial }) {
-	// console.log("tutorial", tutorial);
+export default function EditATutorial({ tutorial, tags }) {
 
 	// S T A T E S
 	const [errors, setErrors] = React.useState({
-		title: null, video_url: null, video_duration: null, image_cover: null
+		title: null, video_url: null, video_duration: null, image_cover: null, tag: null
 	});
 
 	// V A R I A B L E S
@@ -27,6 +28,7 @@ export default function EditATutorial({ tutorial }) {
 	const videoDurationRef = React.useRef();
 	const imageCoverRef = React.useRef();
 	const descriptionRef = React.useRef();
+	const tagRef = React.useRef();
 
 	// M E T H O D S
 	const handlePublish = () => sanctumRequest(async () => {
@@ -58,6 +60,28 @@ export default function EditATutorial({ tutorial }) {
 			if (errors.video_duration) setErrors({ ...errors, video_duration: errors.video_duration[0] });
 		}
 	);
+
+	const handleAttachTag = () => sanctumRequest(
+		async () => {
+			const tagID = parseInt(tagRef.current.value);
+			if (isNaN(tagID)) return;
+			const data = { tagID };
+			const response = await axios.put(`${ADMIN_API_URL}/tutorial/${tutorial.id}/attach-a-tag`, data);
+			const { message } = response.data;
+			router.push(`${FRONT_ADMIN_URL}/tutorial/${tutorial.id}/${tutorial.slug}`);
+			toast.success(message);
+		},
+		(e) => {
+			if (e.response?.status === 422) setErrors({ ...errors, tag: e.response.data.errors.tagID[0] });
+		}
+	);
+
+	const handleDetachTag = (tag) => sanctumRequest(async () => {
+		const confirmation = `Do you really want to detach the tag "${tag.name}" from this tutorial ?`;
+		if (!confirm(confirmation)) return;
+		await axios.delete(`${ADMIN_API_URL}/tutorial/${tutorial.id}/detach-a-tag/${tag.id}`);
+		router.push(`${FRONT_ADMIN_URL}/tutorial/${tutorial.id}/${tutorial.slug}`);
+	});
 
 	return (
 		<div className="p-4">
@@ -99,6 +123,29 @@ export default function EditATutorial({ tutorial }) {
 					<InputLabel fieldRef={videoDurationRef} label="Video duration" id="tutorial_video_duration" errorNeeds={[errors, setErrors, "video_duration"]} className="mb-3" defaultValue={tutorial.video.duration}>
 						Duration of the video
           </InputLabel>
+
+					<div className="mb-4">
+						<div className="rounded-2xl bg45 pt-1 px-1 font-semibold flex items-center flex-wrap">
+							{tutorial.tags.length === 0 && "NO TAGS YET"}
+							{tutorial.tags.map(tag => (
+								<span key={tag.id} className="px-2 pt-1 pb-2 bg-black rounded-full text-xs mr-1 mb-1">
+									{tag.name} <span className="font-bold twitter">({tag.times_its_used})</span>
+									<span className="bg-red-500 hover:bg-red-600 px-2 pb-1 rounded-full cursor-pointer ml-2" onClick={() => handleDetachTag(tag)}>x</span>
+								</span>
+							))}
+						</div>
+						{tags.length > 0 && <div className="mt-2">
+							<div className="flex justify-between items-end">
+								<SelectLabel fieldRef={tagRef} errorNeeds={[errors, setErrors, "tag"]} label="New tag for this tutorial" className="flex-1 mr-2" id="tutorial_tag" text="Select a tag">
+									{
+										tags.map(tag => <OptionSelect key={tag.id} value={tag.id}>{tag.name} ({tag.times_its_used})</OptionSelect>)
+									}
+								</SelectLabel>
+								<button type="button" className="py-1 rounded-lg px-2 bg-blue-500 hover:bg-blue-600 font-bold tracking-widest float-right" onClick={handleAttachTag}>Add Tag</button>
+							</div>
+						</div>}
+					</div>
+
 					<button className="py-2 flex-1 text-center font-bold text-3xl bg-blue-500 hover:bg-blue-600 transition-colors duration-150 w-full rounded-lg tracking-widest" type="button" onClick={handleSubmit}>
 						Update the tutorial
           </button>
@@ -123,13 +170,14 @@ export async function getServerSideProps({ params, req }) {
 		const response = await axios.get(`${ADMIN_API_URL}/tutorial/${params.id}/${params.slug}`, {
 			headers: { credentials: "include", referer: FRONT_URL, cookie: req.headers.cookie }
 		});
-		const { tutorial } = response.data;
+		const { tutorial, tags } = response.data;
 		return {
 			props: {
 				page: {
 					title: tutorial.title
 				},
-				tutorial
+				tutorial,
+				tags
 			}
 		}
 	} catch (error) {
