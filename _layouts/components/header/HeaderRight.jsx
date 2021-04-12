@@ -47,12 +47,12 @@ function HeaderRight() {
         user && <div className="flex items-center">
           {/* <RiMessengerFill className="mr-4 text-lg" /> */}
           {/* <RiNotification2Fill className="mr-4 text-lg" /> */}
-          {/* <Link href="#"> */}
-          <a className="relative hidden md:flex items-center mr-4 pr-4 rounded-full bg-black border-2 border-black twitter-hover transition-all duration-200 ease-in-out cursor-pointer">
-            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={user.name} />
-            <span className="pl-2 font-bold tracking-widest">{user.name}</span>
-          </a>
-          {/* </Link> */}
+          <Link href="/kaontiko">
+            <a className="relative hidden md:flex items-center mr-4 pr-4 rounded-full bg-black border-2 border-black twitter-hover transition-all duration-200 ease-in-out cursor-pointer">
+              <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={user.name} />
+              <span className="pl-2 font-bold tracking-widest">{user.name}</span>
+            </a>
+          </Link>
           {/* <Link href="#"> */}
           <a className="relative flex md:hidden items-center mr-4 rounded-full transition-all duration-200 ease-in-out cursor-pointer border-2 border-transparent border-twitter-hover">
             <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={name} />

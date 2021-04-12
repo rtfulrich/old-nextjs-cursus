@@ -2,18 +2,18 @@ import React from 'react'
 import { HiOutlineMail } from "react-icons/hi"
 import { RiLockPasswordLine } from "react-icons/ri"
 
-function InputForm({ 
-  state, type = "text", 
-  label = "Label", 
-  id = "", 
+function InputForm({
+  state, type = "text",
+  label = "Label",
+  id = "",
   icon = null,
-  marginBottom = "mb-12", 
-  loading = false, 
-  error = null, 
-  clearError = () => { }, 
-  others = {} 
+  marginBottom = "mb-12",
+  loading = false,
+  error = null,
+  clearError = () => { },
+  others = {}
 }) {
-  
+
   const [focus, setFocus] = React.useState(false);
   const [move, setMove] = React.useState(false)
 
@@ -36,7 +36,7 @@ function InputForm({
   const handleChange = e => {
     if (!loading) state[1](e.target.value)
   }
-  
+
   return (
     <div className={`${marginBottom}`}>
       <div className={`relative transition-border duration-200 ease-in-out border-b-2 font-bold mt-4 pb-1 ${focus ? "border-twitter" : (error ? "border-red-400" : "border-white")}`}>
@@ -48,12 +48,6 @@ function InputForm({
           className={`text-lg outline-none bg-transparent relative tracking-widest font-bold`}
           onFocus={handleFocus} onBlur={handleBlur} onChange={handleChange}
         />
-        {/* {
-          type === "email" && <HiOutlineMail className={`absolute right-2 top-1 text-xl transition-color ease-in-out duration-200 ${focus ? "twitter" : (error ? "text-red-400" : "")}`} />
-        }
-        {
-          id === "password" && others.showPassword !== "undefined" && <RiLockPasswordLine className={`absolute right-2 top-1 text-xl transition-color ease-in-out duration-200 cursor-pointer ${focus ? "twitter" : (error ? "text-red-400" : "")}`} onClick={handleShowPassword} />
-        } */}
         {icon}
       </div>
       {<small className={`text-red-400 font-bold text-xs block relative top-2 tracking-widest leading-3 input-error ${error ? "show" : ""}`}>{error || "Lorem ipsum"}</small>}

@@ -6,6 +6,12 @@ import { API_URL, FRONT_URL } from '../_constants/URLs';
 import { FaEdit, FaLock, FaPhone, FaPlus, FaTrash, FaUser } from 'react-icons/fa';
 import InputLabel from '../_components/admin/posts/fields/InputLabel';
 import { toast } from 'react-toastify';
+import ChangePassword from '../_components/front/modals/ChangePassword';
+import { Modal } from 'react-bootstrap';
+import ResetPassword from '../_components/front/modals/ResetPassword';
+
+export const CHANGE_PASSWORD_MODAL = "CHANGE_PASSWORD";
+export const RESET_PASSWORD_MODAL = "RESET_PASSWORD";
 
 export default function Kaontiko({ currentUser }) {
 	// console.log(currentUser);
@@ -17,6 +23,8 @@ export default function Kaontiko({ currentUser }) {
 	const [errors, setErrors] = React.useState({
 		first_name: null, last_name: null, email: null, pseudo: null, phone_number: null
 	});
+	const [showModal, setShowModal] = React.useState(false);
+	const [inModal, setInModal] = React.useState(CHANGE_PASSWORD_MODAL);
 
 	// R E F S
 	const fnameRef = React.useRef();
@@ -56,6 +64,11 @@ export default function Kaontiko({ currentUser }) {
 			});
 	}
 
+	const handleShowModal = () => {
+		setInModal(CHANGE_PASSWORD_MODAL);
+		setShowModal(true);
+	};
+
 	return (
 		<>
 			{user && (
@@ -66,7 +79,7 @@ export default function Kaontiko({ currentUser }) {
 								<h1 className="flex items-center text-xl font-bold tracking-widest">
 									<FaUser className="mr-4" /> <span>Momba ahy</span>
 								</h1>
-								<span className="flex items-center text-xs font-semibold twitter twitter-hover cursor-pointer">
+								<span className="flex items-center text-xs font-semibold twitter twitter-hover cursor-pointer" onClick={handleShowModal}>
 									<FaLock className="mr-2" /> Hanova tenimiafina
 								</span>
 							</div>
@@ -122,7 +135,12 @@ export default function Kaontiko({ currentUser }) {
 							)}
 						</div>
 					</div>
-
+					<Modal show={showModal} onHide={() => setShowModal(false)} size="sm" centered>
+						<div className="bg45 rounded-xl border-2 overflow-hidden border-yellow-400">
+							{inModal === CHANGE_PASSWORD_MODAL && <ChangePassword setShowModal={setShowModal} setInModal={setInModal} />}
+							{inModal === RESET_PASSWORD_MODAL && <ResetPassword setShowModal={setShowModal} setInModal={setInModal} />}
+						</div>
+					</Modal>
 				</div>
 			)}
 			{!user && (
@@ -143,7 +161,7 @@ export async function getServerSideProps({ req }) {
 		return {
 			props: {
 				page: {
-					title: currentUser.first_name ? `${currentUser.first_name} ${currentUser.last_name}` : currentUser.pseudo,
+					title: currentUser.name,
 				},
 				currentUser
 			}
