@@ -3,6 +3,8 @@ import Link from 'next/link';
 import React from 'react'
 import { Modal } from 'react-bootstrap';
 import { RiMessengerFill, RiNotification2Fill } from 'react-icons/ri';
+import { RESET_PASSWORD_MODAL } from '../../../pages/kaontiko';
+import ResetPassword from '../../../_components/front/modals/ResetPassword';
 import { API_URL } from '../../../_constants/URLs';
 import UserContext, { AUTH_FALSE } from '../../../_react-contexts/user-context';
 import Login from '../modals/Login';
@@ -70,6 +72,7 @@ function HeaderRight() {
             <div className="bg45 rounded-xl border-2 border-yellow-400">
               {inModal === "login-form" && <Login setShowAuthModal={setShowAuthModal} setInModal={setInModal} />}
               {inModal === "register-form" && <Register setShowAuthModal={setShowAuthModal} setInModal={setInModal} />}
+              {inModal === RESET_PASSWORD_MODAL && <ResetPassword setShowModal={setShowAuthModal} setInModal={setInModal} />}
             </div>
           </Modal>
           {/* @endauth */}

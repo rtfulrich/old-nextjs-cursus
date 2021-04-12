@@ -3,6 +3,7 @@ import React from 'react';
 import { HiOutlineMail } from 'react-icons/hi';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
+import { RESET_PASSWORD_MODAL } from '../../../pages/kaontiko';
 import InputForm from '../../../_components/simple-components/InputForm';
 import { API_URL } from '../../../_constants/URLs';
 import useSanctum from '../../../_hooks/useSanctum';
@@ -33,16 +34,15 @@ function Login({ setShowAuthModal, setInModal }) {
     setLoading(true);
     axios.post(`${API_URL}/login`, { email, password })
       .then(response => {
+        setLoading(false);
         const { status, message } = response.data;
         if (status === 400) setErrors({ ...errors, other: message });
         else if (status === 200) {
           const newUser = response.data.user;
           const name = newUser.first_name ? `${newUser.first_name} ${newUser.last_name}` : newUser.pseudo;
           setUser({ type: AUTH_TRUE, payload: newUser });
-          // setTimeout(() => {
           toast.success(<>Miarahaba anao, <br /><span className="font-bold text-lg tracking-widest">{name}</span> !</>);
           setShowAuthModal(false);
-          // }, 100);
         }
       })
       // Catch request errors
@@ -67,11 +67,11 @@ function Login({ setShowAuthModal, setInModal }) {
         // Internal server error
         if (status === 500) setErrors({ ...errors, other: data.message });
 
+        setLoading(false);
         // Forbidden (probably because the user is already authenticated)
         if (status === 403) setShowAuthModal(false);
-        else setLoading(false);
-      })
-    // .finally(() => );
+        // else setLoading(false);
+      });
   }
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })
@@ -102,11 +102,8 @@ function Login({ setShowAuthModal, setInModal }) {
           I S E R A
           </button>
         <div className="flex justify-between items-center">
-          {/* <label htmlFor="remember" className="cursor-pointer">
-            <input type="checkbox" id="remember" ref={rememberRef} className="cursor-pointer" /> <span className="font-bold">Tadidiana aho</span>
-          </label> */}
           <div className="font-bold my-4 text-center text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer" onClick={() => setInModal("register-form")}>Hisoratra aho ?</div>
-          <span className="font-bold py-0 text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer">Adino ny tenimiafina ?</span>
+          <span className="font-bold py-0 text-xs twitter twitter-hover transition-colors duration-150 ease-in-out cursor-pointer" onClick={() => setInModal(RESET_PASSWORD_MODAL)}>Adino ny tenimiafina ?</span>
         </div>
       </div>
     </>

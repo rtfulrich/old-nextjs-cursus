@@ -35,7 +35,7 @@ function ResetPassword({ setShowModal, setInModal }) {
 			const { messages } = response.data;
 			messages.forEach(message => toast.success(message));
 		},
-		error => setErrors({ ...errors, email: error.response.data.message }),
+		error => setErrors({ ...errors, email: error.response.data.errors.email[0] }),
 		() => setLoading(false)
 	);
 
@@ -78,7 +78,7 @@ function ResetPassword({ setShowModal, setInModal }) {
 			<div className="font-semibold border-b border-gray-200 bg24 p-2 rounded-t-lg flex justify-center">
 				<h2 className="text-uppercase tracking-widest text-lg">Tenimiafina adino :(</h2>
 			</div>
-			<div className="px-3 py-2 bg-black text-xs relative">
+			<div className="px-3 py-2 bg-black text- relative rounded-b-lg">
 				{loading && <div className="absolute w-full h-full bg-black bg-opacity-70 flex justify-center items-center text-2xl font-bold tracking-widest">
 					L O A D I N G . . .
 				</div>}
@@ -103,9 +103,9 @@ function ResetPassword({ setShowModal, setInModal }) {
 				<button className="w-full py-1 rounded-lg twitter-bg twitter-bg-hover font-bold tracking-widest" onClick={handleResetPassword}>
 					A L E F A
 				</button>
-				<p className="text-center text-sm font-semibold mt-2 twitter twitter-hover hover:underline cursor-pointer" onClick={() => setInModal(CHANGE_PASSWORD_MODAL)}>
+				{user && <p className="text-center text-sm font-semibold mt-2 twitter twitter-hover hover:underline cursor-pointer" onClick={() => setInModal(CHANGE_PASSWORD_MODAL)}>
 					Fantatro ny tenimiafina ako
-				</p>
+				</p>}
 			</div>
 		</>
 	)

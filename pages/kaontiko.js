@@ -135,7 +135,7 @@ export default function Kaontiko({ currentUser }) {
 							)}
 						</div>
 					</div>
-					<Modal show={showModal} onHide={() => setShowModal(false)} size="sm" centered>
+					<Modal show={showModal} onHide={() => setShowModal(false)} size="login" centered>
 						<div className="bg45 rounded-xl border-2 overflow-hidden border-yellow-400">
 							{inModal === CHANGE_PASSWORD_MODAL && <ChangePassword setShowModal={setShowModal} setInModal={setInModal} />}
 							{inModal === RESET_PASSWORD_MODAL && <ResetPassword setShowModal={setShowModal} setInModal={setInModal} />}
