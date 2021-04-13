@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { FaArrowCircleLeft, FaCheckSquare, FaPlus, FaSquare } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -11,19 +12,12 @@ import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 export default function EditCourseStructure({ courseData }) {
   console.log("CD", courseData);
   // S T A T E S
-  const [course, setCourse] = React.useState({});
-  const [groups, setGroups] = React.useReducer(groupReducer, courseData.chapters_groups);
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
 
-  // M O U N T  E F F E C T
-  React.useEffect(() => {
-    setCourse(courseData);
-    setGroups({ type: "SORT" });
-
-    return () => null;
-  }, []);
-
-  // const sortGroups = React.useReducer()
+  // V A R I A B L E S
+  const router = useRouter();
+  const course = courseData;
+  const groups = courseData.chapters_groups;
 
   // R E F S
   const groupRankRef = React.useRef();
@@ -32,6 +26,7 @@ export default function EditCourseStructure({ courseData }) {
   // M E T H O D S
   const addChaptersGroup = () => sanctumRequest(
     async () => {
+      setGroupErrors({ title: null, rank: null });
       const title = groupTitleRef.current.value;
       const rank = groupRankRef.current.value;
       const courseID = course.id;
@@ -39,8 +34,8 @@ export default function EditCourseStructure({ courseData }) {
       groupTitleRef.current.value = "";
       groupRankRef.current.value = "";
       const { message, group } = response.data;
-      setGroups({ type: "ADD_SORT", payload: group });
       toast.success(<span className="font-bold tracking-widest">{message}</span>);
+      router.replace(`/admin/course/${courseData.slug}/${courseData.id}`);
     },
     e => {
       const { status, data } = e.response;
@@ -61,7 +56,7 @@ export default function EditCourseStructure({ courseData }) {
     const notification = <span className={`font-bold tracking-widest ${published ? "" : "text-black"}`}>{message}</span>;
     if (published) toast.success(notification);
     else toast.warn(notification);
-    setCourse({ ...course, published });
+    router.replace(`/admin/course/${course.slug}/${course.id}`);
   });
 
   // J S X
@@ -97,7 +92,7 @@ export default function EditCourseStructure({ courseData }) {
         groups && groups.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80">No Groups Yet</div>
       }
       {
-        groups && groups.map((group, index) => <ChaptersGroup key={Math.random()} groupData={group} setGroups={setGroups} notFree={course.price !== 0} />)
+        groups && groups.map((group, index) => <ChaptersGroup key={Math.random()} group={group} notFree={course.price !== 0} />)
       }
 
       {/* Create a new group */}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap';
 import { FaAngleDoubleDown, FaAngleDoubleUp, FaCheck, FaEdit, FaEye, FaEyeSlash, FaPlus, FaTrash } from 'react-icons/fa';
@@ -8,24 +9,17 @@ import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import InputLabel from '../fields/InputLabel';
 import Chapter from './Chapter'
 
-function ChaptersGroup({ groupData, setGroups, notFree }) {
+function ChaptersGroup({ group, notFree }) {
 
   // S T A T E S
-  const [group, setGroup] = React.useState({ id: Math.random(), title: "", rank: "", show: true })
-  const [chapters, setChapters] = React.useReducer(chapterReducer, []);
   const [chapterErrors, setChapterErrors] = React.useState({ title: null, rank: null });
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
   const [editGroup, setEditGroup] = React.useState(false);
-  const [showChildren, setShowChildren] = React.useState(false);
+  const [showChildren, setShowChildren] = React.useState(true);
   const [groupToDelete, setGroupToDelete] = React.useState(null);
 
-  // M O U N T  E F F E C T
-  React.useEffect(() => {
-    setGroup(groupData);
-    setChapters({ type: "INIT", payload: groupData.chapters });
-
-    return () => null;
-  }, []);
+  // V A R I A B L E S
+  const router = useRouter();
 
   // R E F S
   const chapterTitleRef = React.useRef();
@@ -43,8 +37,8 @@ function ChaptersGroup({ groupData, setGroups, notFree }) {
       chapterTitleRef.current.value = "";
       chapterRankRef.current.value = "";
       const { message, newChapter } = response.data;
-      setChapters({ type: "ADD", payload: newChapter });
       toast.success(<span className="font-bold tracking-widest">{message}</span>);
+      router.replace(`/admin/course/${router.query.slug}/${router.query.id}/edit-structure`);
     },
     e => {
       const { status, data } = e.response;
@@ -65,11 +59,9 @@ function ChaptersGroup({ groupData, setGroups, notFree }) {
         : { show: !group.show };
       const response = await axios.put(`${ADMIN_API_URL}/chapters-group/update/${group.id}`, data);
       const { message, newGroup, chapters } = response.data;
-      setGroup(newGroup);
-      setGroups({ type: "UPDATE_SORT", payload: newGroup });
-      setChapters({ type: "INIT", payload: chapters })
-      setEditGroup(false);
       toast.success(<span className="font-bold tracking-widest">{message}</span>);
+      setEditGroup(false);
+      router.replace(`/admin/course/${router.query.slug}/${router.query.id}/edit-structure`);
     },
     e => {
       const { status, data } = e.response;
@@ -88,10 +80,11 @@ function ChaptersGroup({ groupData, setGroups, notFree }) {
     setGroupToDelete(null);
     const { message, groupData } = response.data;
     toast.success(message);
-    setGroups({ type: "DELETE", payload: groupData })
+    router.replace(`/admin/course/${router.query.slug}/${router.query.id}/edit-structure`);
   });
 
   // J S X
+  const { chapters } = group;
   return (
     <>
       <div>
@@ -129,7 +122,7 @@ function ChaptersGroup({ groupData, setGroups, notFree }) {
 
             {/* All chapters */}
             {chapters && chapters.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80 ml-4 mt-2 text-red-300">No Chapters Yet</div>}
-            {chapters && chapters.map((chapter) => <Chapter chapterData={chapter} setChapters={setChapters} key={Math.random()} notFree={notFree} />)}
+            {chapters && chapters.map((chapter) => <Chapter chapter={chapter} key={Math.random()} notFree={notFree} />)}
 
             {/* Create a new chapter inside the parent group */}
             <div className="border-2 border-purple-500 grid grid-cols-12 gap-4 rounded-lg pr-2 overflow-hidden mt-2">

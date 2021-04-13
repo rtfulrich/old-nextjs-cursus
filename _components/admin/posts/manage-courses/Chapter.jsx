@@ -13,10 +13,9 @@ import InputLabel from '../fields/InputLabel';
 import OptionSelect from '../fields/OptionSelect';
 import SelectLabel from '../fields/SelectLabel';
 
-function Chapter({ chapterData, setChapters, notFree }) {
+function Chapter({ chapter, notFree }) {
 
   // S T A T E S
-  const [chapter, setChapter] = React.useState({ title: "", rank: "", video: { url: "", duration: "" } });
   const [editChapter, setEditChapter] = React.useState(false);
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [chapterErrors, setChapterErrors] = React.useState({ title: null, rank: null, image_cover: null, video_url: null, video_duration: null });
@@ -28,14 +27,6 @@ function Chapter({ chapterData, setChapters, notFree }) {
   const videoDurationRef = React.useRef();
   const imageCoverRef = React.useRef();
   const showAnywayRef = React.useRef();
-
-  // M O U N T  E F F E C T
-  React.useEffect(() => {
-    setChapter(chapterData);
-    setChapters({ type: "SORT" });
-
-    return () => null;
-  }, []);
 
   // M E T H O D S
   const updateChapterData = () => sanctumRequest(
@@ -50,10 +41,9 @@ function Chapter({ chapterData, setChapters, notFree }) {
       };
       const response = await axios.put(`${ADMIN_API_URL}/chapter/update/${chapter.id}`, data);
       const { message, newChapter } = response.data;
-      setChapter(newChapter);
-      setChapters({ type: "UPDATE", payload: newChapter });
       setEditChapter(false);
       toast.success(message);
+      router.replace(`/admin/course/${router.query.slug}/${router.query.id}/edit-structure`);
     },
     e => {
       const { status } = e.response;
@@ -72,9 +62,9 @@ function Chapter({ chapterData, setChapters, notFree }) {
   const deleteChapter = () => sanctumRequest(async () => {
     const response = await axios.delete(`${ADMIN_API_URL}/chapter/delete/${chapter.id}`);
     const { message, theChapter } = response.data;
-    setChapters({ type: "REMOVE", payload: theChapter });
     setConfirmDelete(false);
     toast.success(message);
+    router.replace(`/admin/course/${router.query.slug}/${router.query.id}/edit-structure`);
   });
 
   // V A R I A B L E S

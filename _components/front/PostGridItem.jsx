@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react'
-import { FaMoneyBill } from 'react-icons/fa';
 
 function PostGridItem({ post, url, showDate = false }) {
 
@@ -16,13 +15,19 @@ function PostGridItem({ post, url, showDate = false }) {
 	return (
 		<div className="rounded-xl relative flex flex-col transition-colors duration-300 ease-in-out">
 			<Link href={url}>
-				<a className="hover:text-blue-400 transition-all duration-300 ease-in-out">
-					<div className="flex justify-center items-center rounded-xl relative transition-all duration-500 ease-in-out transform hover:scale-105 hover:-rotate-1 border-2 border-black hover:border-blue-500">
+				<a className="hover:text-yellow-300 transition-all duration-300 ease-in-out">
+					<div className="flex justify-center items-center rounded-xl relative transition-all duration-500 ease-in-out transform hover:scale-105 hover:-rotate-1 border-2 border-black hover:border-yellow-300 bg-yellow-300">
 						<img src={post.image_cover} className="rounded-xl" />
+						{post.rank && (
+							<span className="absolute -top-2 -right-2 p-1 rounded-full font-bold tracking-widest bg-red-500 text-white text-xs">
+								{post.rank}
+							</span>
+						)}
 					</div>
 					<div className="my-2 flex-1 flex flex-col justify-between">
-						<h1 className="font-bold mb-2 text-center">
-							{post.title}
+						<h1 className="font-bold mb-2 text-center flex items-center justify-center">
+							{post.rank && <><span>{post.rank}</span><span className="mx-2">|</span></>}
+							<span>{post.title}</span>
 						</h1>
 					</div>
 				</a>
@@ -39,7 +44,7 @@ function PostGridItem({ post, url, showDate = false }) {
 					</div>
 				)}
 				<div className={`flex flex-wrap items-center ${showDate ? "justify-center" : "justify-around"}`}>
-					{post.tags.map(tag => (
+					{post.tags && post.tags.map(tag => (
 						<span className="twitter-bg mr-1 px-2 py-1 text-black mb-1 leading-3 rounded-full" key={tag.id}>{tag.name}</span>
 					))}
 				</div>
