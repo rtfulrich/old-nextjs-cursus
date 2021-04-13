@@ -25,7 +25,7 @@ function FrontSidebar() {
         {/* POSTS */}
         {/* <MenusHeader /> */}
         <SidebarMenuItem href="/fampianarana" text="Fampianarana" icon={<FaLanguage className="success text-xl transform -rotate-45" />} />
-        {/* <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} /> */}
+        <SidebarMenuItem href="/challenges" text="Challenges" icon={<FaBrain className="text-yellow-600" />} />
         <SidebarMenuItem href="/tutorials" text="Tutorials" icon={<FaRegLightbulb className="text-yellow-300" />} />
         <SidebarMenuItem href="/blogs" text="Blogs" icon={<FaBlogger className="text-pink-500" />} />
 

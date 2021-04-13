@@ -3,12 +3,13 @@ import React from 'react'
 import UserContext from "../_react-contexts/user-context";
 import { useRouter } from "next/router";
 import { API_URL, FRONT_URL } from '../_constants/URLs';
-import { FaEdit, FaLock, FaPhone, FaPlus, FaTrash, FaUser } from 'react-icons/fa';
+import { FaEdit, FaLock, FaPhone, FaPlus, FaSave, FaTrash, FaUser } from 'react-icons/fa';
 import InputLabel from '../_components/admin/posts/fields/InputLabel';
 import { toast } from 'react-toastify';
 import ChangePassword from '../_components/front/modals/ChangePassword';
 import { Modal } from 'react-bootstrap';
 import ResetPassword from '../_components/front/modals/ResetPassword';
+import sanctumRequest from '../_helpers/sanctumRequest';
 
 export const CHANGE_PASSWORD_MODAL = "CHANGE_PASSWORD";
 export const RESET_PASSWORD_MODAL = "RESET_PASSWORD";
@@ -64,6 +65,40 @@ export default function Kaontiko({ currentUser }) {
 			});
 	}
 
+	const updateUserInfo = () => sanctumRequest(
+		async () => {
+			const email = emailRef.current.value.trim();
+			if (email.length === 0) return;
+			if (email !== user.email) {
+				if (!confirm(`Tena ovaina ho "${email}" marina ve ny email anao ?`)) return;
+			}
+			setErrors({ ...errors, pseudo: null, first_name: null, last_name: null, email: null });
+			const pseudo = pseudoRef.current.value;
+			const first_name = fnameRef.current.value;
+			const last_name = lnameRef.current.value;
+			const data = { email, pseudo, first_name, last_name };
+			const response = await axios.put(`${API_URL}/current-user/update-infos`, data);
+			const { message } = response.data;
+			toast.info(message);
+			router.replace("/kaontiko");
+		},
+		error => {
+			const response = error.response;
+			const { data, status } = response;
+
+			// Invalid data sent to the api
+			if (status === 422) {
+				const e = {};
+				const errorsData = data.errors;
+				if (errorsData.email) e.email = errorsData.email[0];
+				if (errorsData.first_name) e.first_name = errorsData.first_name[0];
+				if (errorsData.last_name) e.last_name = errorsData.last_name[0];
+				if (errorsData.pseudo) e.pseudo = errorsData.pseudo[0];
+				setErrors({ ...errors, ...e });
+			}
+		}
+	);
+
 	const handleShowModal = () => {
 		setInModal(CHANGE_PASSWORD_MODAL);
 		setShowModal(true);
@@ -86,10 +121,10 @@ export default function Kaontiko({ currentUser }) {
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 								<InputLabel fieldRef={pseudoRef} label="Pseudo" id="pseudo" errorNeeds={[errors, setErrors, "pseudo"]} className="mb-3" defaultValue={currentUser.pseudo}>
 									Pseudo
-          		</InputLabel>
+          			</InputLabel>
 								<InputLabel fieldRef={emailRef} label="Email" id="email" errorNeeds={[errors, setErrors, "email"]} className="mb-3" defaultValue={currentUser.email} type="email">
 									Email
-          		</InputLabel>
+          			</InputLabel>
 
 								<InputLabel fieldRef={fnameRef} label="First name" id="fname" errorNeeds={[errors, setErrors, "first_name"]} className="mb-3" defaultValue={currentUser.first_name}>
 									First Name
@@ -97,8 +132,16 @@ export default function Kaontiko({ currentUser }) {
 								<InputLabel fieldRef={lnameRef} label="Last name" id="lname" errorNeeds={[errors, setErrors, "last_name"]} className="mb-3" defaultValue={currentUser.last_name}>
 									Last Name
           			</InputLabel>
+
+							</div>
+
+							<div className="">
+								<button className="font-bold tracking-widest py-1 px-2 rounded-lg twitter-bg twitter-bg-hover flex items-center float-right" onClick={updateUserInfo}>
+									<FaSave className="mr-4" /> Update
+									</button>
 							</div>
 						</div>
+
 						<div className="p-2 rounded-xl border-2 border-gray-500">
 							<div className="flex justify-center items-center">
 								<h1 className="flex items-center text-xl font-bold tracking-widest mb-4">
