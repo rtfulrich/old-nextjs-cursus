@@ -98,10 +98,9 @@ export async function getServerSideProps({ req, query }) {
 			}
 		};
 	} catch (error) {
+		console.log("e", error, error.response);
 		return {
-			props: {
-				notFound: true
-			}
+			notFound: true
 		}
 	}
 }

@@ -1,10 +1,10 @@
 import axios from "axios";
 import Link from "next/link";
-import { FaMoneyBill } from "react-icons/fa";
 import { technologies } from "../_constants/techs";
 import { API_URL } from "../_constants/URLs";
 import getPageProps from "../_helpers/getPageProps";
 import { REVALIDATE } from "../_constants/nextConstants";
+import PostGridItem from "../_components/front/PostGridItem";
 
 export default function Home({ courses, challenges, tutorials, blogs }) {
   // console.log(courses, challenges);
@@ -46,39 +46,9 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               </Link>
             }
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
             {courses.map((course, index) => (
-              <div key={index} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
-                <div className="flex justify-center items-center overflow-hidden relative">
-                  <img src={course.image_cover} className="min-h-full min-w-full w-auto" />
-                  <div className="absolute bottom-1 right-1 font-bold tracking-widest text-xs text-black">{course.level}</div>
-                </div>
-                <div className="my-2 px-2 flex-1 flex flex-col justify-between">
-                  <h1 className="font-bold mb-2">
-                    {/* <Link href={`/fampianarana${tag}/${course.slug}`}> */}
-                    <Link href={`/fampianarana/${course.id}/${course.slug}`}>
-                      <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{course.title}</a>
-                    </Link>
-                  </h1>
-                  <div className={`flex items-center ${course.price > 0 && course.tags.length > 0 ? "justify-between" : "justify-end"}`}>
-                    {course.price > 0 && <div className="px-2 text-xs bg-yellow-300 text-black rounded-full font-bold">
-                      {course.price} ar
-                  </div>}
-                    <div>
-                      {course.tags.map(tag => (
-                        <span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {/* if course is not free */}
-                {
-                  course.price > 0 && <>
-                    <span className="absolute top-1 left-2 transform -rotate-45 z-10"><FaMoneyBill /></span>
-                    <div className="absolute -top-2 -left-6 transform -rotate-45 success-bg w-16 h-9"></div>
-                  </>
-                }
-              </div>
+              <PostGridItem post={course} url={`/fampianarana/${course.id}/${course.slug}`} key={index} />
             ))}
           </div>
         </div>
@@ -95,38 +65,9 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               </Link>
             }
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
             {challenges.map((challenge, index) => (
-              <div key={index} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
-                <div className="flex justify-center items-center overflow-hidden">
-                  <img src={challenge.image_cover} className="min-h-full min-w-full w-auto" />
-                </div>
-                <div className="my-2 px-2 flex-1 flex flex-col justify-between">
-                  <h1 className="font-bold mb-2">
-                    {/* <Link href={`/challenges${tag}/${challenge.slug}`}> */}
-                    <Link href={`/challenge/${challenge.id}/${challenge.slug}`}>
-                      <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{challenge.title}</a>
-                    </Link>
-                  </h1>
-                  <div className={`flex items-center ${challenge.price > 0 && challenge.tags.length > 0 ? "justify-between" : "justify-end"}`}>
-                    {challenge.price > 0 && <div className="px-2 text-xs bg-yellow-300 text-black rounded-full font-bold">
-                      {challenge.price} ar
-                  </div>}
-                    <div>
-                      {challenge.tags.map(tag => (
-                        <span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {/* if course is not free */}
-                {
-                  challenge.price > 0 && <>
-                    <span className="absolute top-1 left-2 transform -rotate-45 z-10"><FaMoneyBill /></span>
-                    <div className="absolute -top-2 -left-6 transform -rotate-45 success-bg w-16 h-9"></div>
-                  </>
-                }
-              </div>
+              <PostGridItem post={challenge} url={`/challenge/${challenge.id}/${challenge.slug}`} key={index} />
             ))}
           </div>
         </div>
@@ -143,26 +84,9 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               </Link>
             }
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
             {tutorials.map((tutorial, index) => (
-              <div key={index} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
-                <div className="flex justify-center items-center overflow-hidden">
-                  <img src={tutorial.image_cover} className="min-h-full min-w-full w-auto" />
-                </div>
-                <div className="my-2 px-2 flex-1 flex flex-col justify-between">
-                  <h1 className="font-bold mb-2">
-                    {/* <Link href={`/challenges${tag}/${challenge.slug}`}> */}
-                    <Link href={`/tutorial/${tutorial.id}/${tutorial.slug}`}>
-                      <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{tutorial.title}</a>
-                    </Link>
-                  </h1>
-                  <div className={`flex items-center justify-end`}>
-                    {tutorial.tags.map(tag => (
-                      <span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <PostGridItem post={tutorial} url={`/tutorial/${tutorial.id}/${tutorial.slug}`} key={index} />
             ))}
           </div>
         </div>
@@ -179,27 +103,8 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               </Link>
             }
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
-            {blogs.map((blog, index) => (
-              <div key={index} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col transition-colors duration-300 ease-in-out">
-                <div className="flex justify-center items-center overflow-hidden">
-                  <img src={blog.image_cover} className="min-h-full min-w-full w-auto" />
-                </div>
-                <div className="my-2 px-2 flex-1 flex flex-col justify-between">
-                  <h1 className="font-bold mb-2">
-                    {/* <Link href={`/challenges${tag}/${challenge.slug}`}> */}
-                    <Link href={`/blog/${blog.id}/${blog.slug}`}>
-                      <a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{blog.title}</a>
-                    </Link>
-                  </h1>
-                  <div className={`flex items-center justify-end`}>
-                    {blog.tags.map(tag => (
-                      <span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
+            {blogs.map(blog => <PostGridItem key={blog.id} post={blog} url={`/blog/${blog.id}/${blog.slug}`} showDate={true} />)}
           </div>
         </div>
       )}
