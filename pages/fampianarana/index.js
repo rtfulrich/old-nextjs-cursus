@@ -4,6 +4,7 @@ import React from 'react'
 import { FaMoneyBill } from 'react-icons/fa';
 import { API_URL } from '../../_constants/URLs'
 import { useRouter } from "next/router";
+import PostGridItem from '../../_components/front/PostGridItem';
 
 function ViewAllCourses({ result }) {
 	// console.log("result", result);
@@ -25,36 +26,8 @@ function ViewAllCourses({ result }) {
 			{/* List of courses */}
 			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 				{
-					courses.map(course => (
-						<div key={course.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col">
-							<div className="h-40 flex justify-center items-center overflow-hidden">
-								<img src={course.image_cover} className="min-h-full min-w-full w-auto" />
-							</div>
-							<div className="my-2 px-2 flex-1 flex flex-col justify-between">
-								<h1 className="font-bold mb-2">
-									<Link href={`/fampianarana/${course.id}/${course.slug}`}>
-										<a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{course.title}</a>
-									</Link>
-								</h1>
-								<div className={`flex items-center ${course.price > 0 && course.tags.length > 0 ? "justify-between" : "justify-end"}`}>
-									{course.price > 0 && <div className="px-2 text-xs bg-yellow-300 text-black rounded-full font-semibold sm:font-bold tracking-widest">
-										{course.price} ar
-                  </div>}
-									<div>
-										{course.tags.map(tag => (
-											<span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
-										))}
-									</div>
-								</div>
-							</div>
-							{/* if course is not free */}
-							{
-								course.price > 0 && (<>
-									<span className="absolute top-1 left-2 transform -rotate-45 z-10"><FaMoneyBill /></span>
-									<div className="absolute -top-2 -left-6 transform -rotate-45 success-bg w-16 h-9"></div>
-								</>)
-							}
-						</div>
+					courses.map((course, index) => (
+						<PostGridItem post={course} url={`/fampianarana/${course.id}/${course.slug}`} key={index} />
 					))
 				}
 			</div>

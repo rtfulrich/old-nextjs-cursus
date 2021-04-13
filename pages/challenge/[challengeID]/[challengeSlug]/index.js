@@ -9,6 +9,9 @@ import { API_URL } from '../../../../_constants/URLs';
 export default function ViewAChallenge({ challenge }) {
 	// if (challenge) console.log(challenge);
 
+	// S T A T E S
+	// const [showAnswers, setShowAnswers] = React.useState(false);
+
 	const router = useRouter();
 	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Vetivety ...</div>;
 

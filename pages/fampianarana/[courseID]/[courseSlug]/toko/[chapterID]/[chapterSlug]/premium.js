@@ -81,7 +81,7 @@ export async function getServerSideProps({ params, req }) {
 			headers: { credentials: "include", referer: FRONT_URL, cookie: req.headers.cookie }
 		});
 
-		const { chapter, groups, courseTitle } = response.data;
+		const { chapter, groups, course } = response.data;
 
 		return {
 			props: {
@@ -90,7 +90,7 @@ export async function getServerSideProps({ params, req }) {
 				},
 				chapter,
 				groups,
-				courseTitle,
+				courseTitle: course.title,
 				urlRedirect: `/fampianarana/${params.courseID}/${params.courseSlug}`
 			}
 		}

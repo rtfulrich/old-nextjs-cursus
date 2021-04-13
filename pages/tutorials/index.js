@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import { API_URL } from '../../_constants/URLs';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa"
+import PostGridItem from '../../_components/front/PostGridItem';
 
 function ViewAllTutorials({ result }) {
 
@@ -34,35 +35,9 @@ function ViewAllTutorials({ result }) {
 
 			{/* List of tutorials */}
 			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-				{tutorials.map(tutorial => {
-					const dateInstance = new Date(tutorial.updated_at);
-					const date = dateInstance.toUTCString();
-					const year = dateInstance.getFullYear();
-					const withDay = `${date.split(year)[0]} ${year}`;
-					const toPrint = withDay.split(",")[1];
-					return (
-						<div key={tutorial.id} className="bg45 bg-opacity-10 rounded-xl overflow-hidden relative border-2 border-black hover:border-blue-500 flex flex-col">
-							<div className="h-40 flex justify-center items-center overflow-hidden relative">
-								<img src={tutorial.image_cover} className="min-h-full min-w-full w-auto" />
-								<div className="absolute bottom-0 right-1 text-black font-semibold tracking-widest text-xs">
-									{toPrint}
-								</div>
-							</div>
-							<div className="my-2 px-2 flex-1 flex flex-col justify-between">
-								<h1 className="font-bold mb-2">
-									<Link href={`/tutorial/${tutorial.id}/${tutorial.slug}`}>
-										<a className="hover:text-blue-500 text-sm sm:text-base lg:text-sm xl:text-base" style={{ textDecoration: "none" }}>{tutorial.title}</a>
-									</Link>
-								</h1>
-								<div className={`flex items-center justify-end`}>
-									{tutorial.tags.map(tag => (
-										<span className="mr-1 px-2 text-xs font-semibold py-1 bg-black mb-1 tracking-widest rounded-full" key={tag.id}>{tag.name}</span>
-									))}
-								</div>
-							</div>
-						</div>
-					)
-				})}
+				{tutorials.map((tutorial, index) => (
+					<PostGridItem post={tutorial} url={`/tutorial/${tutorial.id}/${tutorial.slug}`} key={index} />
+				))}
 			</div>
 
 			{/* Pagination buttons */}
