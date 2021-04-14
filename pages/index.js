@@ -86,7 +86,7 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
             {tutorials.map((tutorial, index) => (
-              <PostGridItem post={tutorial} url={`/tutorial/${tutorial.id}/${tutorial.slug}`} key={index} />
+              <PostGridItem post={tutorial} url={`/tutorial/${tutorial.id}/${tutorial.slug}`} key={index} showDate={true} />
             ))}
           </div>
         </div>
