@@ -10,14 +10,18 @@ import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 
 export default function EditCourseStructure({ courseData }) {
-  console.log("CD", courseData);
+  // console.log("CD", courseData);
   // S T A T E S
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
 
   // V A R I A B L E S
   const router = useRouter();
   const course = courseData;
-  const groups = courseData.chapters_groups;
+  const groups = courseData.chapters_groups.sort((a, b) => {
+    if (a.rank < b.rank) return -1;
+    else if (a.rank > b.rank) return 1;
+    return 0;
+  });
 
   // R E F S
   const groupRankRef = React.useRef();
@@ -35,7 +39,7 @@ export default function EditCourseStructure({ courseData }) {
       groupRankRef.current.value = "";
       const { message, group } = response.data;
       toast.success(<span className="font-bold tracking-widest">{message}</span>);
-      router.replace(`/admin/course/${courseData.slug}/${courseData.id}`);
+      router.replace(`/admin/course/${courseData.slug}/${courseData.id}/edit-structure`);
     },
     e => {
       const { status, data } = e.response;
@@ -56,7 +60,7 @@ export default function EditCourseStructure({ courseData }) {
     const notification = <span className={`font-bold tracking-widest ${published ? "" : "text-black"}`}>{message}</span>;
     if (published) toast.success(notification);
     else toast.warn(notification);
-    router.replace(`/admin/course/${course.slug}/${course.id}`);
+    router.replace(`/admin/course/${course.slug}/${course.id}/edit-structure`);
   });
 
   // J S X
@@ -92,7 +96,7 @@ export default function EditCourseStructure({ courseData }) {
         groups && groups.length === 0 && <div className="tracking-widest font-semibold mb-3 opacity-80">No Groups Yet</div>
       }
       {
-        groups && groups.map((group, index) => <ChaptersGroup key={Math.random()} group={group} notFree={course.price !== 0} />)
+        groups && groups.map((group, index) => <ChaptersGroup key={Math.random()} group={group} notFree={course.price > 0} />)
       }
 
       {/* Create a new group */}
@@ -149,44 +153,4 @@ export async function getServerSideProps({ params, req, res }) {
     }
   }
 
-}
-
-function groupReducer(state = [], action) {
-  switch (action.type) {
-
-    case "ADD":
-      return [...state, action.payload];
-
-    case "SORT":
-      return state.sort((a, b) => {
-        if (a.rank < b.rank) return -1;
-        else if (a.rank > b.rank) return 1;
-        return 0;
-      });
-
-    case "ADD_SORT":
-      // console.log("payload", action.payload);
-      return [...state, action.payload].sort((a, b) => {
-        if (a.rank < b.rank) return -1;
-        else if (a.rank > b.rank) return 1;
-        return 0;
-      });
-
-    case "UPDATE_SORT":
-      return state
-        .map(group => {
-          if (group.id === action.payload.id) return action.payload;
-          return group;
-        })
-        .sort((a, b) => {
-          if (a.rank < b.rank) return -1;
-          else if (a.rank > b.rank) return 1;
-          return 0;
-        });
-
-    case "DELETE":
-      return state.filter(group => group.id !== action.payload.id);
-
-    default: return state;
-  }
 }

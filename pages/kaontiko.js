@@ -43,27 +43,25 @@ export default function Kaontiko({ currentUser }) {
 	}, [user]);
 
 	// M E T H O D S
-	const addPhoneNumber = () => {
-		const phone_number = phoneRef.current.value;
-		axios.post(`${API_URL}/current-user/add-phone-number`, { phone_number })
-			.then(response => {
-				// console.log(response, response.data);
-				phoneRef.current.value = "";
-				router.replace("/kaontiko");
-				toast.success(response.data.message);
-			})
-			.catch(error => {
-				console.log(error.response);
-				const { status, message } = error.response;
-				if (status === 422) {
-					const errors = error.response.data.errors;
-					let phone_number = null;
-					if (errors.phone_count) phone_number = errors.phone_count[0];
-					if (errors.phone_number) phone_number = errors.phone_number[0];
-					setErrors({ ...errors, phone_number });
-				}
-			});
-	}
+	const addPhoneNumber = () => sanctumRequest(
+		async () => {
+			const phone_number = phoneRef.current.value;
+			const response = await axios.post(`${API_URL}/current-user/add-phone-number`, { phone_number });
+			phoneRef.current.value = "";
+			router.replace("/kaontiko");
+			toast.success(response.data.message);
+		},
+		error => {
+			const { status } = error.response;
+			if (status === 422) {
+				const errors = error.response.data.errors;
+				let phone_number = null;
+				if (errors.phone_count) phone_number = errors.phone_count[0];
+				if (errors.phone_number) phone_number = errors.phone_number[0];
+				setErrors({ ...errors, phone_number });
+			}
+		}
+	);
 
 	const updateUserInfo = () => sanctumRequest(
 		async () => {

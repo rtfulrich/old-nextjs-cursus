@@ -57,7 +57,7 @@ export default function ViewCourse({ course = [] }) {
 
 				{chaptersGroups && chaptersGroups.map(group => (
 					<div key={group.id}>
-						{chaptersGroups.length > 1 && (
+						{chaptersGroups.length > 1 && group.show && (
 							<h2 className="text-xl font-bold tracking-widest text-center bg45 rounded-full py-1 mb-4">
 								{group.title}
 							</h2>
@@ -82,7 +82,10 @@ export async function getStaticPaths() {
 	const response = await axios.get(`${API_URL}/courses?published`);
 
 	const { courses } = response.data;
-	const paths = courses.map(course => ({ params: { courseID: course.id.toString(), courseSlug: course.slug } }));
+	const paths = [];
+	courses.forEach(course => paths.push(
+		{ params: { courseID: course.id.toString(), courseSlug: course.slug } }
+	));
 
 	return {
 		paths,

@@ -84,7 +84,11 @@ function ChaptersGroup({ group, notFree }) {
   });
 
   // J S X
-  const { chapters } = group;
+  const chapters = group.chapters.sort((a, b) => {
+    if (a.rank < b.rank) return -1;
+    else if (a.rank > b.rank) return 1;
+    return 0;
+  });
   return (
     <>
       <div>

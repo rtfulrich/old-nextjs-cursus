@@ -8,8 +8,8 @@ export default async function sanctumRequest(callback, catchCallback = null, fin
   }
   catch (error) {
     console.clear();
-    console.log("error", error);
-    console.log("error resp", error.response);
+    // console.log("error", error);
+    // console.log("error resp", error.response);
     if (error.response && error.response.status && error.response.status === 419) {
       axios.get(`${BACK_URL}/sanctum/csrf-cookie`)
         .then(

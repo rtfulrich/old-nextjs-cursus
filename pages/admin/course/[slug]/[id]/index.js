@@ -16,7 +16,7 @@ import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 import NotFound from "../../../../../_layouts/components/errors/NotFound";
 
 export default function ViewCourse({ course, tags }) {
-  console.log(tags);
+  // console.log(tags);
   if (!course) return <NotFound />
 
   // V A R I A B L E S
