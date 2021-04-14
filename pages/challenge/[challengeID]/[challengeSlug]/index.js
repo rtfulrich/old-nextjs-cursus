@@ -4,13 +4,17 @@ import React from 'react'
 import ReactPlayer from 'react-player';
 import AnswerAside from '../../../../_components/front/AnswerAside';
 import PostContent from '../../../../_components/front/PostContent';
+import PostGridItem from '../../../../_components/front/PostGridItem';
 import { API_URL } from '../../../../_constants/URLs';
+
+const CONTENT = "CONTENT";
+const ANSWERS_GRID = "ANSWERS";
 
 export default function ViewAChallenge({ challenge }) {
 	// if (challenge) console.log(challenge);
 
 	// S T A T E S
-	// const [showAnswers, setShowAnswers] = React.useState(false);
+	const [mainToShow, setMainToShow] = React.useState(CONTENT);
 
 	const router = useRouter();
 	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Vetivety ...</div>;
@@ -45,23 +49,33 @@ export default function ViewAChallenge({ challenge }) {
 				</div>
 			</div>
 
-			<div className="px-4 xl:pl-8 md:pr-2">
-				<div className="my-4 grid grid-cols-12 gap-4 md:gap-x-8 relative">
-					<div className="col-span-12 md:col-span-8">
+			<div className="flex justify-center items-center mt-4 mb-6 font-bold tracking-widest">
+				<div className={`border-b-2 pb-2 mx-4 md:mx-8 xl:mx-16 cursor-pointer ${mainToShow === CONTENT ? "twitter border-twitter" : "border-transparent"} transition-colors ease-in-out duration-300`} onClick={() => setMainToShow(CONTENT)}>
+					VOTOATINY
+					</div>
+				<div className={`mx-4 pb-2 border-b-2 cursor-pointer ${mainToShow === ANSWERS_GRID ? "twitter border-twitter" : "border-transparent"} transition-colors ease-in-out duration-300`} onClick={() => setMainToShow(ANSWERS_GRID)}>
+					IREO VALINY
+					</div>
+			</div>
+
+			<div className="px-4 md:px-8">
+				{mainToShow === CONTENT && (
+					<>
 						{challenge && challenge.video.url && <div className="flex justify-center mb-4 bg-gray-300">
 							<ReactPlayer url={challenge.video.url} />
 						</div>}
 						<div>
 							<PostContent content={challenge?.content} />
 						</div>
+					</>
+				)}
+				{mainToShow === ANSWERS_GRID && answers && (
+					<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+						{answers.map(answer => (
+							<PostGridItem key={answer.id} post={answer} url={`/challenge/${challenge.id}/${challenge.slug}/toko/${answer.id}/${answer.slug}`} parent={challenge} />
+						))}
 					</div>
-					<div className="col-span-12 md:col-span-4 my-4">
-						<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
-						<div className="mb-2">
-							{answers && answers.map(answer => <AnswerAside key={answer.id} answer={answer} challenge={challenge} />)}
-						</div>
-					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	)

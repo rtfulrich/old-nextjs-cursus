@@ -36,6 +36,7 @@ function Register({ setShowAuthModal, setInModal }) {
       // console.log(response, "r");
       const { message } = response.data;
       const { status } = response;
+      setLoading(false)
       if (status === 400) setErrors({ ...errors, other: message });
       else if (status === 200) {
         console.log("ok");
@@ -48,6 +49,7 @@ function Register({ setShowAuthModal, setInModal }) {
     (e) => {
       const response = e.response;
       const { data, status } = response;
+      setLoading(false)
       // Forbidden (probably because the user is already authenticated)
       if (status === 403) setShowAuthModal(false);
       // Invalid data sent to the api
@@ -61,8 +63,7 @@ function Register({ setShowAuthModal, setInModal }) {
       }
       // Internal server error
       if (status === 500) setErrors({ ...errors, other: data.message });
-    },
-    () => setLoading(false)
+    }
   );
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })

@@ -97,7 +97,7 @@ export async function getServerSideProps({ req, query }) {
   return await getPageProps(async () => {
     let page = null;
     if (query.page) page = query.page;
-    const response = await axios.get(`${ADMIN_API_URL}/challenges${page ? `?page=${page}` : ""}`, {
+    const response = await axios.get(`${ADMIN_API_URL}/challenges/paginated${page ? `?page=${page}` : ""}`, {
       headers: {
         credentials: "include",
         referer: FRONT_URL,

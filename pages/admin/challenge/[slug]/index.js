@@ -81,8 +81,8 @@ export default function EditChallengeData({ challengeData, tags }) {
         toast.success(<span className="font-bold tracking-widest">{message}</span>);
 
         // redirect to the new link
-        if (router.query.slug !== newChallenge.slug)
-          router.push(`${FRONT_ADMIN_URL}/challenge/${newChallenge.slug}`);
+        // if (router.query.slug !== newChallenge.slug)
+        router.push(`${FRONT_ADMIN_URL}/challenge/${newChallenge.slug}`);
       }
     },
     (e) => {
