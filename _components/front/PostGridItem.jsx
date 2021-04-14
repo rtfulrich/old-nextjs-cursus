@@ -1,8 +1,46 @@
+import axios from 'axios';
 import Link from 'next/link';
 import React from 'react'
+import { FaLock } from 'react-icons/fa';
+import { API_URL } from '../../_constants/URLs';
+import UserContext from '../../_react-contexts/user-context';
 
-function PostGridItem({ post, url, showDate = false }) {
+function PostGridItem({ post, url, showDate = false, parent = null }) {
 
+	// C O N T E X T S
+	const { user } = React.useContext(UserContext);
+
+	// S T A T E S
+	const [canSeePost, setCanSeePost] = React.useState(null);
+
+	// E F F E C T S
+	React.useEffect(async () => {
+		if (parent) { // COURSE || CHALLENGE
+			if (user) { // User is authenticated
+				try {
+					const postType = parent.visits ? "chapter" : "answer";
+					const response = await axios.get(`${API_URL}/check-can-see-${postType}/${post.id}`);
+					const { can } = response.data;
+					setCanSeePost(can);
+				} catch (error) {
+					console.clear();
+					console.log("ecan", error, error.reponse);
+				}
+			}
+			else { // No authenticated user
+				if (post.show_anyway) setCanSeePost(true);
+				else setCanSeePost(parent.price === "0");
+			}
+		}
+		else setCanSeePost(true);
+	}, [user]);
+
+	// M E T H O D S
+	const handleLinkClick = e => {
+		if (!canSeePost) e.preventDefault();
+	}
+
+	// J S X
 	let toPrint = "";
 	if (showDate) {
 		const dateInstance = new Date(post.updated_at);
@@ -11,17 +49,22 @@ function PostGridItem({ post, url, showDate = false }) {
 		const withDay = `${date.split(year)[0]} ${year}`;
 		toPrint = withDay.split(",")[1];
 	}
-
+	if ((parent && parent.price > 0) && (post.show_anyway === false)) url += "/premium";
 	return (
 		<div className="rounded-xl relative flex flex-col transition-colors duration-300 ease-in-out">
 			<Link href={url}>
 				<a className="hover:text-yellow-300 transition-all duration-300 ease-in-out">
-					<div className="flex justify-center items-center rounded-xl relative transition-all duration-500 ease-in-out transform hover:scale-105 hover:-rotate-1 border-2 border-black hover:border-yellow-300 bg-yellow-300">
+					<div className="flex justify-center items-center rounded-xl relative transition-all duration-500 ease-in-out transform hover:scale-105 hover:-rotate-1 border-2 border-black hover:border-yellow-300 bg-yellow-300" onClick={handleLinkClick}>
 						<img src={post.image_cover} className="rounded-xl" />
 						{post.rank && (
 							<span className="absolute -top-2 -right-2 p-1 rounded-full font-bold tracking-widest bg-red-500 text-white text-xs">
 								{post.rank}
 							</span>
+						)}
+						{canSeePost === false && (
+							<div className="absolute top-0 left-0 p-1 rounded-full font-bold tracking-widest text-red-500 text-xs">
+								<FaLock />
+							</div>
 						)}
 					</div>
 					<div className="my-2 flex-1 flex flex-col justify-between">

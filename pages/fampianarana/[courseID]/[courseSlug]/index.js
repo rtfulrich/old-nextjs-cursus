@@ -1,13 +1,21 @@
 import axios from 'axios';
 import React from 'react';
-import ChaptersGroup from '../../../../_components/front/ChaptersGroup';
 import { REVALIDATE } from '../../../../_constants/nextConstants';
 import { API_URL } from '../../../../_constants/URLs';
 import { useRouter } from "next/router";
 import PostGridItem from '../../../../_components/front/PostGridItem';
+import UserContext from '../../../../_react-contexts/user-context';
 
 export default function ViewCourse({ course = [] }) {
 	// console.log("course", course);
+
+	// C O N T E X T S
+	const { user } = React.useContext(UserContext);
+
+	// E F F E C T S
+	// React.useEffect(() => {
+
+	// }, []);
 
 	// V A R I A B L E S
 	const router = useRouter();
@@ -54,7 +62,6 @@ export default function ViewCourse({ course = [] }) {
 			</div>
 
 			<div className={`px-4 sm:px-8 my-3 md:my-4`}>
-
 				{chaptersGroups && chaptersGroups.map(group => (
 					<div key={group.id}>
 						{chaptersGroups.length > 1 && group.show && (
@@ -64,14 +71,14 @@ export default function ViewCourse({ course = [] }) {
 						)}
 						<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
 							{group.chapters.map(chapter => (
-								<PostGridItem post={chapter} key={chapter.id} url={`/fampianarana/${course.id}/${course.slug}/toko/${chapter.id}/${chapter.slug}${course.price > 0 ? "/premium" : ""}`} />
+								<PostGridItem
+									post={chapter} key={chapter.id} parent={course}
+									url={`/fampianarana/${course.id}/${course.slug}/toko/${chapter.id}/${chapter.slug}`}
+								/>
 							))}
 						</div>
 					</div>
 				))}
-				{/* {chaptersGroups && chaptersGroups.length === 1 && chaptersGroups.map(
-					group => <ChaptersGroup course={course} key={group.id} group={group} />
-				)} */}
 			</div>
 		</div>
 	)

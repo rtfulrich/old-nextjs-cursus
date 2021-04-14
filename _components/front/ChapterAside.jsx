@@ -26,10 +26,10 @@ function ChapterAside({ chapter }) {
 		else axios
 			.get(`${API_URL}/is-course-premium/${router.query.courseSlug}`)
 			.then(response => {
-				// console.log(chapter.title, response.data.isPremium);
+				console.log(chapter.title, response.data);
 				let can = false;
-				if (response.data.isPremium) can = false;
-				if (chapter.show_anyway) can = true;
+				if (response.data.isPremium) can = chapter.show_anyway;
+				else can = true;
 				setCanBeSeen(can);
 				setIsPremium(!chapter.show_anyway);
 			})
