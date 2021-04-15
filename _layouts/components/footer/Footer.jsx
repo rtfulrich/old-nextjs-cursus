@@ -3,8 +3,7 @@ import React from "react";
 import { FaGooglePlusG, FaRegCopyright } from "react-icons/fa";
 import { RiFacebookFill, RiLinkedinFill, RiYoutubeFill } from "react-icons/ri";
 import IanaTekLogo from "../../../_components/front/IanaTekLogo";
-
-const IANATEK_YEAR_DEBUT = 2021;
+import { IANATEK_VERSION, IANATEK_YEAR_DEBUT } from "../../../_constants/ianatek-constants";
 
 function Footer() {
 
@@ -86,12 +85,8 @@ function Footer() {
           <div className="text-base mr-4">
             {year === IANATEK_YEAR_DEBUT ? year : `${IANATEK_YEAR_DEBUT} - ${year}`}
           </div>
-          <IanaTekLogo />
-<<<<<<< HEAD
-        <div className="text-xs px-2 py-4 border-2 rounded-full mr-4">v1.0</div>
-=======
->>>>>>> 71df1b9c56764626bbb5b6651dc18f889be05c6c
-      </div>
+          <IanaTekLogo version={IANATEK_VERSION} />
+        </div>
       </div>
     </footer >
   );
