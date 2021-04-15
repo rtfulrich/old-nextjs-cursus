@@ -1,10 +1,10 @@
 import React from 'react'
-import Link from "next/link"
 import { FaBars } from 'react-icons/fa'
 import { toggleSidebar } from '../../../_helpers/toggleSidebar'
 import HeaderRight from './HeaderRight';
 import LoadingContext from '../../../_react-contexts/loading-context';
 import IanaTekLogo from '../../../_components/front/IanaTekLogo';
+import { IANATEK_VERSION } from '../../../_constants/ianatek-constants';
 
 function Header() {
 
