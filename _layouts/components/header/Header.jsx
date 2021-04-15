@@ -4,6 +4,7 @@ import { FaBars } from 'react-icons/fa'
 import { toggleSidebar } from '../../../_helpers/toggleSidebar'
 import HeaderRight from './HeaderRight';
 import LoadingContext from '../../../_react-contexts/loading-context';
+import IanaTekLogo from '../../../_components/front/IanaTekLogo';
 
 function Header() {
 
@@ -16,10 +17,7 @@ function Header() {
           <FaBars className="text-2xl" />
         </div>
         <h1 className="ml-4 h-full flex items-center my-auto">
-          <Link href="/"><a style={{ textDecoration: "none" }} className="text-white flex items-center">
-            <img src="/images/logo7.webp" alt="Logo" width="40" />
-            <span className="text-2xl font-bold tracking-widest mx-3 twitter">IanaTek</span>
-          </a></Link>
+          <IanaTekLogo url="/" />
         </h1>
       </div>
       <div>
