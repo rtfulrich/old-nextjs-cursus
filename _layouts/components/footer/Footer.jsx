@@ -87,10 +87,13 @@ function Footer() {
             {year === IANATEK_YEAR_DEBUT ? year : `${IANATEK_YEAR_DEBUT} - ${year}`}
           </div>
           <IanaTekLogo />
-          <div className="text-xs px-2 py-4 border-2 rounded-full mr-4">v1.0</div>
-        </div>
+<<<<<<< HEAD
+        <div className="text-xs px-2 py-4 border-2 rounded-full mr-4">v1.0</div>
+=======
+>>>>>>> 71df1b9c56764626bbb5b6651dc18f889be05c6c
       </div>
-    </footer>
+      </div>
+    </footer >
   );
 }
 
