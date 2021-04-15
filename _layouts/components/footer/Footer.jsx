@@ -1,9 +1,15 @@
 import Link from "next/link";
 import React from "react";
-import { FaGooglePlusG } from "react-icons/fa";
-import { RiFacebookFill, RiGoogleLine, RiGooglePlayFill, RiLinkedinFill, RiYoutubeFill } from "react-icons/ri";
+import { FaGooglePlusG, FaRegCopyright } from "react-icons/fa";
+import { RiFacebookFill, RiLinkedinFill, RiYoutubeFill } from "react-icons/ri";
+import IanaTekLogo from "../../../_components/front/IanaTekLogo";
+
+const IANATEK_YEAR_DEBUT = 2020;
 
 function Footer() {
+
+  const year = (new Date).getFullYear();
+
   return (
     <footer id="main-footer" className="bg33">
       <div className="flex flex-col md:flex-row justify-between items-center py-2 sm:px-4 md:px-8">
@@ -40,29 +46,47 @@ function Footer() {
 
       <hr />
 
-      <div className="py-2 px-4 md:px-8 flex flex-col jusfify-center items-center">
+      <div className="py-2 px-4 md:px-8 flex flex-col lg:flex-row justify-center lg:justify-between items-center">
         {/* <h1 className="text-lg font-semibold tracking-widest mr-4">Ireo teknôlôjy nanaovana an IanaTek :</h1> */}
         <div className="flex items-center mt-2 mb-2">
+          <Link href="https://php.net">
+            <a className="mr-8">
+              <img src="/images/tech-icons/php-icon.png" className="w-8" alt="PHP" />
+            </a>
+          </Link>
+          <Link href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+            <a className="mr-8">
+              <img src="/images/tech-icons/javascript-icon.png" className="w-8" alt="Javascript" />
+            </a>
+          </Link>
           <Link href="https://laravel.com">
-            <a className="mx-8" target="_blank" title="Laravel">
+            <a className="mr-8" target="_blank" title="Laravel">
               <img src="https://laravel.com/img/logomark.min.svg" className="w-8" alt="Laravel" />
             </a>
           </Link>
           <Link href="https://nextjs.org">
-            <a className="mx-8" target="_blank" title="Next JS">
+            <a className="mr-8" target="_blank" title="Next JS">
               <img src="/images/tech-icons/nextjs-icon.png" className="w-8" alt="Next JS" />
             </a>
           </Link>
           <Link href="https://reactjs.org">
-            <a className="mx-8" target="_blank" title="React JS">
+            <a className="mr-8" target="_blank" title="React JS">
               <img src="/images/tech-icons/react-icon.svg" className="w-8" alt="React JS" />
             </a>
           </Link>
           <Link href="https://sass-lang.com">
-            <a className="mx-8" target="_blank" title="Sass">
+            <a className="mr-8" target="_blank" title="Sass">
               <img src="https://sass-lang.com/assets/img/logos/logo-b6e1ef6e.svg" className="w-8" alt="Sass" />
             </a>
           </Link>
+        </div>
+
+        <div className="flex items-center text-2xl font-bold tracking-widest my-4 lg:my-0">
+          <FaRegCopyright className="mr-4 text-base" />
+          <div className="text-base mr-4">
+            {year === IANATEK_YEAR_DEBUT ? year : `${IANATEK_YEAR_DEBUT} - ${year}`}
+          </div>
+          <IanaTekLogo />
         </div>
       </div>
     </footer>
