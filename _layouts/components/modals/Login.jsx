@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { RESET_PASSWORD_MODAL } from '../../../pages/kaontiko';
 import InputForm from '../../../_components/simple-components/InputForm';
 import { API_URL } from '../../../_constants/URLs';
-import useSanctum from '../../../_hooks/useSanctum';
+import sanctumRequest from '../../../_helpers/sanctumRequest';
 import UserContext, { AUTH_TRUE } from '../../../_react-contexts/user-context';
 
 function Login({ setShowAuthModal, setInModal }) {
@@ -28,51 +28,43 @@ function Login({ setShowAuthModal, setInModal }) {
   React.useEffect(() => () => null, []);
 
   // M E T H O D S
-  const handleSubmit = () => {
-    if (loading) return;
-    setErrors({ email: null, password: null, other: null });
-    setLoading(true);
-    axios.post(`${API_URL}/login`, { email, password })
-      .then(response => {
-        setLoading(false);
-        const { status, message } = response.data;
-        if (status === 400) setErrors({ ...errors, other: message });
-        else if (status === 200) {
-          const newUser = response.data.user;
-          const name = newUser.first_name ? `${newUser.first_name} ${newUser.last_name}` : newUser.pseudo;
-          setUser({ type: AUTH_TRUE, payload: newUser });
-          toast.success(<>Miarahaba anao, <br /><span className="font-bold text-lg tracking-widest">{name}</span> !</>);
-          setShowAuthModal(false);
-        }
-      })
-      // Catch request errors
-      .catch(error => {
-        const response = error.response;
-        const { data, status } = response;
+  const handleSubmit = () => sanctumRequest(
+    async () => {
+      if (loading) return;
+      setErrors({ email: null, password: null, other: null });
+      setLoading(true);
+      const response = await axios.post(`${API_URL}/login`, { email, password });
+      setLoading(false);
+      const { status, message } = response.data;
+      if (status === 400) setErrors({ ...errors, other: message });
+      else if (status === 200) {
+        const newUser = response.data.user;
+        const name = newUser.first_name ? `${newUser.first_name} ${newUser.last_name}` : newUser.pseudo;
+        setUser({ type: AUTH_TRUE, payload: newUser });
+        toast.success(<>Miarahaba anao, <br /><span className="font-bold text-lg tracking-widest">{name}</span> !</>);
+        setShowAuthModal(false);
+      }
+    },
+    error => {
+      const response = error.response;
+      const { data, status } = response;
 
-        // Csrf token mismatch
-        if (status === 419) {
-          useSanctum();
-          setErrors({ ...errors, other: "Nisy olana kely, miangavy anao hamerina" });
-        }
+      // Invalid data sent to the api
+      if (status === 422) {
+        let { email, password } = response.data.errors;
+        email = email ? email[0] : null;
+        password = password ? password[0] : null;
+        setErrors({ ...errors, email, password });
+      }
 
-        // Invalid data sent to the api
-        if (status === 422) {
-          let { email, password } = response.data.errors;
-          email = email ? email[0] : null;
-          password = password ? password[0] : null;
-          setErrors({ ...errors, email, password });
-        }
+      // Internal server error
+      if (status === 500) setErrors({ ...errors, other: data.message });
 
-        // Internal server error
-        if (status === 500) setErrors({ ...errors, other: data.message });
-
-        setLoading(false);
-        // Forbidden (probably because the user is already authenticated)
-        if (status === 403) setShowAuthModal(false);
-        // else setLoading(false);
-      });
-  }
+      setLoading(false);
+      // Forbidden (probably because the user is already authenticated)
+      if (status === 403) setShowAuthModal(false);
+    }
+  );
 
   const clearError = (property) => setErrors({ ...errors, other: null, [property]: null })
 

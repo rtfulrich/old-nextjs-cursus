@@ -4,7 +4,6 @@ import Sidebar from './components/sidebar/Sidebar';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import { Online, Offline } from "react-detect-offline"
-import useSanctum from '../_hooks/useSanctum';
 import axios from 'axios';
 import UserContext, { AUTH_FALSE, AUTH_TRUE } from '../_react-contexts/user-context';
 import { API_URL } from '../_constants/URLs';
@@ -12,6 +11,7 @@ import LoadingContext from '../_react-contexts/loading-context';
 import { useRouter } from 'next/router';
 import Unauthorized from './components/errors/Unauthorized';
 import { ADMIN_PSEUDO } from '../_constants/users';
+import sanctumRequest from '../_helpers/sanctumRequest';
 
 axios.defaults.withCredentials = true;
 
@@ -26,21 +26,16 @@ function AppLayout({ children, title = null, withFooter = true }) {
 
   // React.useEffect(() => console.log("app layout mount : user :", user), [user])
 
-  React.useEffect(async () => {
-    setPageLoading({ type: true });
-    await useSanctum()
-    axios.get(`${API_URL}/check-auth`)
-      .then(response => {
-        const authUser = response.data.user;
-        if (authUser) setUser({ type: AUTH_TRUE, payload: authUser });
-        else setUser({ type: AUTH_FALSE });
-        setPageLoading({ type: false });
-      })
-      .catch(error => {
-        console.log(error.response)
-        alert("Error : " + error)
-      })
-  }, []);
+  React.useEffect(async () => await sanctumRequest(
+    async () => {
+      setPageLoading({ type: true });
+      const response = await axios.get(`${API_URL}/check-auth`);
+      const authUser = response.data.user;
+      if (authUser) setUser({ type: AUTH_TRUE, payload: authUser });
+      else setUser({ type: AUTH_FALSE });
+      setPageLoading({ type: false });
+    }
+  ), []);
 
   // J S X
   let pageContent;

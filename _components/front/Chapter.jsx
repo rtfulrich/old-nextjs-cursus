@@ -4,6 +4,7 @@ import React from 'react'
 import { FaCheck, FaLock } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { API_URL } from '../../_constants/URLs';
+import sanctumRequest from '../../_helpers/sanctumRequest';
 import UserContext from "../../_react-contexts/user-context";
 
 function Chapter({ chapter, course }) {
@@ -19,14 +20,15 @@ function Chapter({ chapter, course }) {
 	React.useEffect(() => setCanSeeChapter(!isPrem), []);
 
 	// user  E F F E C T
-	React.useEffect(() => {
-		// console.log("user", user);
-		if (user) axios
-			.get(`${API_URL}/check-can-see-chapter/${chapter.id}`)
-			.then(response => setCanSeeChapter(response.data.can))
-			.catch(e => console.clear());
-		else setCanSeeChapter(!isPrem);
-	}, [user]);
+	React.useEffect(() => sanctumRequest(
+		async () => {
+			if (user) {
+				const response = await axios.get(`${API_URL}/check-can-see-chapter/${chapter.id}`);
+				setCanSeeChapter(response.data.can);
+			}
+			else setCanSeeChapter(!isPrem);
+		}
+	), [user]);
 
 	const href = `/fampianarana/${course.id}/${course.slug}/toko/${chapter.id}/${chapter.slug}${isPrem ? "/premium" : ""}`;
 	const preventToast = <span className="text-black font-semibold">Tsy afaka mijery io toko io enao !</span>;

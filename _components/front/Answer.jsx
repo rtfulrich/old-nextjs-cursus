@@ -4,6 +4,7 @@ import React from 'react'
 import { FaCheck, FaLock } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { API_URL } from '../../_constants/URLs';
+import sanctumRequest from '../../_helpers/sanctumRequest';
 import UserContext from '../../_react-contexts/user-context';
 
 function Answer({ challenge, answer }) {
@@ -19,14 +20,12 @@ function Answer({ challenge, answer }) {
 	React.useEffect(() => setCanSeeAnswer(!isPrem), []);
 
 	// user  E F F E C T
-	React.useEffect(() => {
-		// console.log("user", user);
-		if (user) axios
-			.get(`${API_URL}/check-can-see-answer/${answer.id}`)
-			.then(response => setCanSeeAnswer(response.data.can))
-			.catch(e => console.clear());
-		else setCanSeeAnswer(!isPrem);
-	}, [user]);
+	React.useEffect(() => sanctumRequest(async () => {
+		if (user) {
+			const response = await axios.get(`${API_URL}/check-can-see-answer/${answer.id}`);
+			setCanSeeAnswer(response.data.can);
+		} else setCanSeeAnswer(!isPrem);
+	}), [user]);
 
 	const href = `/challenge/${challenge.id}/${challenge.slug}/${answer.id}/${answer.slug}${isPrem ? "/premium" : ""}`;
 	const preventToast = <span className="text-black font-semibold">Tsy afaka mijery io toko io enao !</span>;

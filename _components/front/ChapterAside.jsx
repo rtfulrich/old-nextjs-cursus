@@ -5,6 +5,7 @@ import React from 'react'
 import { FaLock } from 'react-icons/fa';
 import { API_URL } from '../../_constants/URLs';
 import UserContext from '../../_react-contexts/user-context';
+import sanctumRequest from "../../_helpers/sanctumRequest";
 
 function ChapterAside({ chapter }) {
 
@@ -15,26 +16,22 @@ function ChapterAside({ chapter }) {
 
 	const { user } = React.useContext(UserContext);
 
-	React.useEffect(() => {
-		if (user) axios
-			.get(`${API_URL}/check-can-see-chapter/${chapter.id}`)
-			.then(response => {
+	React.useEffect(() => sanctumRequest(
+		async () => {
+			if (user) {
+				const response = await axios.get(`${API_URL}/check-can-see-chapter/${chapter.id}`);
 				setCanBeSeen(response.data.can);
 				setIsPremium(currentValue => response.data.isPremium);
-			})
-			.catch(e => { });
-		else axios
-			.get(`${API_URL}/is-course-premium/${router.query.courseSlug}`)
-			.then(response => {
-				console.log(chapter.title, response.data);
+			} else {
+				const response = await axios.get(`${API_URL}/is-course-premium/${router.query.courseSlug}`);
 				let can = false;
 				if (response.data.isPremium) can = chapter.show_anyway;
 				else can = true;
 				setCanBeSeen(can);
 				setIsPremium(!chapter.show_anyway);
-			})
-			.catch(e => { });
-	}, [user]);
+			}
+		}
+	), [user]);
 
 	React.useEffect(() => {
 		setMatched(!!router.asPath.match(`/${chapter.slug}${isPremium ? "/" : ""}`));

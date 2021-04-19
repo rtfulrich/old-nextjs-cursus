@@ -4,6 +4,7 @@ import React from 'react'
 import { FaLock } from 'react-icons/fa';
 import { API_URL } from '../../_constants/URLs';
 import UserContext from '../../_react-contexts/user-context';
+import sanctumRequest from "../../_helpers/sanctumRequest";
 
 function PostGridItem({ post, url, showDate = false, parent = null }) {
 
@@ -14,26 +15,23 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 	const [canSeePost, setCanSeePost] = React.useState(null);
 
 	// E F F E C T S
-	React.useEffect(async () => {
-		if (parent) { // COURSE || CHALLENGE
-			if (user) { // User is authenticated
-				try {
+	React.useEffect(() => sanctumRequest(
+		async () => {
+			if (parent) { // COURSE || CHALLENGE
+				if (user) { // User is authenticated
 					const postType = parent.visits ? "chapter" : "answer";
 					const response = await axios.get(`${API_URL}/check-can-see-${postType}/${post.id}`);
 					const { can } = response.data;
 					setCanSeePost(can);
-				} catch (error) {
-					console.clear();
-					console.log("ecan", error, error.reponse);
+				}
+				else { // No authenticated user
+					if (post.show_anyway) setCanSeePost(true);
+					else setCanSeePost(parent.price === "0");
 				}
 			}
-			else { // No authenticated user
-				if (post.show_anyway) setCanSeePost(true);
-				else setCanSeePost(parent.price === "0");
-			}
+			else setCanSeePost(true);
 		}
-		else setCanSeePost(true);
-	}, [user]);
+	), [user]);
 
 	// M E T H O D S
 	const handleLinkClick = e => {

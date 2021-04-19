@@ -5,6 +5,7 @@ import React from 'react'
 import { FaLock } from 'react-icons/fa';
 import { API_URL } from '../../_constants/URLs';
 import UserContext from '../../_react-contexts/user-context';
+import sanctumRequest from "../../_helpers/sanctumRequest";
 
 function ChapterAside({ answer, challenge }) {
 	// console.log("p", challenge.price !== "0");
@@ -15,16 +16,18 @@ function ChapterAside({ answer, challenge }) {
 
 	const { user } = React.useContext(UserContext);
 
-	React.useEffect(() => {
-		if (challenge.price !== "0") {
-			if (user) axios
-				.get(`${API_URL}/check-can-see-answer/${answer.id}`)
-				.then(response => setCanBeSeen(response.data.can))
-				.catch(e => { });
-			else setCanBeSeen(challenge.price === "0");
+	React.useEffect(() => sanctumRequest(
+		async () => {
+			if (challenge.price !== "0") {
+				if (user) {
+					const response = await axios.get(`${API_URL}/check-can-see-answer/${answer.id}`);
+					setCanBeSeen(response.data.can);
+				}
+				else setCanBeSeen(challenge.price === "0");
+			}
+			else setCanBeSeen(true);
 		}
-		else setCanBeSeen(true);
-	}, [user]);
+	), [user]);
 
 	React.useEffect(() => {
 		setMatched(!!router.asPath.match(`/${answer.slug}${challenge.price !== "0" ? "/" : ""}`));
