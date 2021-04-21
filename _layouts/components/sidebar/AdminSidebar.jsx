@@ -3,8 +3,9 @@ import SidebarMenuItem, { MenusHeader } from '../../../_components/simple-compon
 import FrontSidebar from "./FrontSidebar";
 import { ADMIN_PSEUDO } from '../../../_constants/users';
 import UserContext from '../../../_react-contexts/user-context'
-import { FILEMANAGER_FILES, FILEMANAGER_IMAGES } from '../../../_constants/URLs';
-import { FaFile, FaImages } from 'react-icons/fa';
+import { FILEMANAGER_FILES, FILEMANAGER_IMAGES, FRONT_ADMIN_URL } from '../../../_constants/URLs';
+import { FaFile, FaImages, FaUserFriends } from 'react-icons/fa';
+import { RiUserFollowLine } from 'react-icons/ri';
 
 function AdminSidebar() {
   // C O N T E X T S
@@ -14,7 +15,7 @@ function AdminSidebar() {
   if (user === undefined || user === null || user.pseudo !== ADMIN_PSEUDO) return <FrontSidebar />
   return (
     <ul className="menus">
-      <SidebarMenuItem text="Dashboard" href="/admin" />
+      <SidebarMenuItem text="Dashboard" href="/admin/dashboard" />
 
       <MenusHeader>Posts Menus</MenusHeader>
       {/* Courses */}
@@ -52,6 +53,16 @@ function AdminSidebar() {
       <SidebarMenuItem
         text="Files" href={`${FILEMANAGER_FILES}`} target="_blank"
         icon={<FaFile />}
+      />
+
+      <MenusHeader>Users</MenusHeader>
+      <SidebarMenuItem
+        text="All users" href={`${FRONT_ADMIN_URL}/users`}
+        icon={<FaUserFriends />}
+      />
+      <SidebarMenuItem
+        text="Active" href={`${FRONT_ADMIN_URL}/users/active`}
+        icon={<RiUserFollowLine />}
       />
     </ul>
   )

@@ -17,7 +17,7 @@ function FrontSidebar() {
         <SidebarMenuItem text="Pejitrano" icon={<RiHome2Line className="twitter" />} href="/" />
 
         {user && user.pseudo === ADMIN_PSEUDO && (
-          <SidebarMenuItem text="Admin" href="/admin" />
+          <SidebarMenuItem text="Admin" href="/admin/dashboard" />
         )}
 
         {/* {user && user.pseudo !== ADMIN_PSEUDO && <SidebarMenuItem text="Dashboard" icon={<RiDashboardFill className="twitter" />} href="/dashboard" />} */}
