@@ -12,7 +12,7 @@ function UsersSection({ count }) {
 
 	// M O U N T
 	React.useEffect(() => {
-		setUsersCount(count);
+		setUsersCùount(count);
 		const interval = setInterval(fetchUsersCount, 1000 * 60 * 5);
 
 		return () => clearInterval(interval);
@@ -31,7 +31,7 @@ function UsersSection({ count }) {
 		<div className="flex justify-between">
 			<div className="flex flex-col items-center">
 				<h3 className="text-lg">
-					<Link href="/admin/users/active">
+					<Link href="/admin/users/all">
 						<a>Count</a>
 					</Link>
 				</h3>
@@ -44,8 +44,8 @@ function UsersSection({ count }) {
 					</Link>
 				</h3>
 				<div className="font-bold tracking-widest">0</div>
-			</div>
-		</div>
+			</div >
+		</div >
 	)
 }
 
