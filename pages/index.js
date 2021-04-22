@@ -14,9 +14,6 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
     <div>
       <div className="relative">
         <img src="/images/ianatek_cover.jpg" alt="Ianatek Cover" className="h-full w-full" />
-        <div className="absolute top-0 w-full flex justify-center">
-          <h1 className="text-3xl md:text-5xl xl:text-6xl text-black font-bold tracking-widest">Tongasoa eto amy IanaTek</h1>
-        </div>
       </div>
 
       {/* Technologies */}

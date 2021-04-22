@@ -38,7 +38,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	try {
-		const response = await axios.get(`${API_URL}/blog/${params.id}`);
+		const response = await axios.get(`${API_URL}/blog/${params.id}?slug=${params.slug}`);
 		const { blog } = response.data;
 		return {
 			props: {
@@ -50,9 +50,7 @@ export async function getStaticProps({ params }) {
 		}
 	} catch (error) {
 		return {
-			props: {
-				notFound: true
-			}
+			notFound: true
 		}
 	}
 }

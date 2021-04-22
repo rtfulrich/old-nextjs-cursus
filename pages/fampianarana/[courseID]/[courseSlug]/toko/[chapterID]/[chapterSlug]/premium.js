@@ -53,14 +53,14 @@ export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, 
 					<div className="hidden md:block md:col-span-3">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
 							<h1 className="font-bold tracking-wider text-lg flex items-center justify-center">
-								<Link href={`/challenge/${chapter.id}/${chapter.slug}`}>
+								<Link href={`/fampianarana/${router.query.courseID}/${router.query.courseSlug}`}>
 									<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {courseTitle}</a>
 								</Link>
 							</h1>
 						</div>
 						<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
 						{groups.map(group => (
-							<div key={group.id} className="mb-2">
+							<div key={group.id} className="mb-8">
 								{group.show && <h3 className="py-1 bg-yellow-300 bg-opacity-70 bg-gradient-to-br font-bold text-center text-black">{group.title}</h3>}
 								<div>
 									{group.chapters.map(chapter => <ChapterAside key={chapter.id} chapter={chapter} />)}

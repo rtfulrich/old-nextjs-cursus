@@ -36,7 +36,7 @@ function ViewAllBlogs({ result }) {
 			{/* List of blogs */}
 			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 				{blogs.map(blog => (
-					<PostGridItem post={blog} url={`/blog/${blog.id}/${blog.url}`} showDate={true} key={blog.id} />
+					<PostGridItem post={blog} url={`/blog/${blog.id}/${blog.slug}`} showDate={true} key={blog.id} />
 				))}
 			</div>
 

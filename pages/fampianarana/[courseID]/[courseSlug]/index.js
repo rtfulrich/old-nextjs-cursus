@@ -5,6 +5,7 @@ import { API_URL } from '../../../../_constants/URLs';
 import { useRouter } from "next/router";
 import PostGridItem from '../../../../_components/front/PostGridItem';
 import UserContext from '../../../../_react-contexts/user-context';
+import { FaShoppingBasket } from 'react-icons/fa';
 
 export default function ViewCourse({ course = [] }) {
 	// console.log("course", course);
@@ -40,32 +41,44 @@ export default function ViewCourse({ course = [] }) {
 	return (
 		<div className="">
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-4 bg45 p-4">
-				<div className="flex justify-center md:col-span-1 relative">
-					<img src={course.image_cover} alt={course.slug} className="max-w-full rounded-xl" />
-					<div className="absolute bottom-1 left-0">
-						{course && course.tags && course.tags.map(tag => (
-							<span key={tag.id} className="bg-black text-xs font-semibold tracking-widest mx-1 px-2 py-1 rounded-full">{tag.name}</span>
-						))}
+				<div className="md:col-span-1">
+					<div className="relative">
+						<img src={course.image_cover} alt={course.slug} className="max-w-full rounded-xl" />
+						<div className="absolute bottom-1 right-2 font-bold tracking-widest text-black">
+							{course.level}
+						</div>
+						<div className="absolute bottom-1 left-0">
+							{course && course.tags && course.tags.map(tag => (
+								<span key={tag.id} className="bg-black text-xs font-semibold tracking-widest mx-1 px-2 py-1 rounded-full">{tag.name}</span>
+							))}
+						</div>
 					</div>
+					{course.price > 0 && (
+						<div className="flex justify-between font-bold text-black mt-2 mx-8">
+							<div className="tracking-widest text-sm px-4 py-2 rounded-full bg-yellow-300">{course.price} ar</div>
+							<div className="px-4 rounded-full twitter-bg twitter-bg-hover transition-all duration-500 ease-in-out tracking-widest cursor-pointer flex items-center transform hover:scale-105 hover:-rotate-1">
+								<FaShoppingBasket className="mr-2 text-2xl" /> Hividy
+								</div>
+						</div>
+					)}
 				</div>
 				<div className="col-span-2 md:flex flex-col justify-between">
 					<div className="flex-1">
 						<h1 className="font-bold text-lg sm:text-2xl tracking-widest mb-3 sm:mb-4">
 							{course.title}
 						</h1>
-						<p className="text-sm md:text-base mb-8">{course.description}</p>
-					</div>
-					<div className="ml-8">
-						{course.price > 0 && <span className="px-2 py-1 rounded-full twitter-bg twitter-bg-hover transition-colors duration-300 border-2 border-dotted border-transparent hover:border-white ease-in-out font-bold tracking-widest cursor-pointer">Hividy</span>}
+						<p className="text-sm md:text-base mb-8 whitespace-pre-wrap">
+							{course.description}
+						</p>
 					</div>
 				</div>
 			</div>
 
-			<div className={`px-4 sm:px-8 my-3 md:my-4`}>
+			<div className={`px-4 sm:px-8 my-3 md:mt-6 md:mb-4`}>
 				{chaptersGroups && chaptersGroups.map(group => (
 					<div key={group.id}>
 						{chaptersGroups.length > 1 && group.show && (
-							<h2 className="text-xl font-bold tracking-widest text-center bg45 rounded-full py-1 mb-4">
+							<h2 className="text-xl font-bold tracking-widest text-center bg33 rounded-full py-1 my-4">
 								{group.title}
 							</h2>
 						)}

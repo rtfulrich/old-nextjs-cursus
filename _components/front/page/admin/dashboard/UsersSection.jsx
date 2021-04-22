@@ -5,14 +5,14 @@ import axios from 'axios';
 import { ADMIN_API_URL } from '../../../../../_constants/URLs';
 // import Pusher from 'pusher-js';
 
-function UsersSection() {
+function UsersSection({ count }) {
 
 	// S T A T E
 	const [usersCount, setUsersCount] = React.useState(null);
 
 	// M O U N T
 	React.useEffect(() => {
-		fetchUsersCount();
+		setUsersCount(count);
 		const interval = setInterval(fetchUsersCount, 1000 * 60 * 5);
 
 		return () => clearInterval(interval);

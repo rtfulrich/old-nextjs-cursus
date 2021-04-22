@@ -19,7 +19,7 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 		async () => {
 			if (parent) { // COURSE || CHALLENGE
 				if (user) { // User is authenticated
-					const postType = parent.visits ? "chapter" : "answer";
+					const postType = parent.visits !== undefined ? "chapter" : "answer";
 					const response = await axios.get(`${API_URL}/check-can-see-${postType}/${post.id}`);
 					const { can } = response.data;
 					setCanSeePost(can);
@@ -57,8 +57,13 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 				<a className="hover:text-yellow-300 transition-all duration-300 ease-in-out">
 					<div className="flex justify-center items-center rounded-xl relative transition-all duration-500 ease-in-out transform hover:scale-105 hover:-rotate-1 border-2 border-black hover:border-yellow-300 bg-yellow-300" onClick={handleLinkClick}>
 						<img src={post.image_cover} className="rounded-xl" />
+						{post.level && (
+							<div className="absolute right-2 bottom-0 font-semibold tracking-widest text-xs text-black">
+								{post.level}
+							</div>
+						)}
 						{post.rank && (
-							<span className="absolute -top-2 -right-2 p-1 rounded-full font-bold tracking-widest bg-red-300 text-black text-xs">
+							<span className="absolute -top-2 -right-2 p-1 rounded-full font-bold tracking-widest bg-red-400 text-black text-xs">
 								{post.rank}
 							</span>
 						)}
@@ -68,9 +73,9 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 							</div>
 						)}
 					</div>
-					<div className="my-2 flex-1 flex flex-col justify-between">
+					<div className="mt-2 flex-1 flex flex-col justify-between">
 						<h1 className="font-bold mb-2 text-center flex items-center justify-center">
-							{post.rank && <><span>{post.rank}</span><span className="mx-2">|</span></>}
+							{/* {post.rank && <><span>{post.rank}</span><i className="mx-2 border border-left inline-block"></i></>} */}
 							<span>{post.title}</span>
 						</h1>
 					</div>
