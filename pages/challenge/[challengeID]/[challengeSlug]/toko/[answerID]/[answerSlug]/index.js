@@ -49,7 +49,7 @@ export default function ViewAFreeAnswer({ answer, challenge }) {
 }
 
 export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/challenges?free&published&with-answers`);
+	const response = await axios.get(`${API_URL}/challenges?published&with-answers`);
 
 	const { challenges } = response.data;
 
@@ -76,7 +76,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	try {
-		const response = await axios.get(`${API_URL}/challenge/${params.challengeID}/answer/${params.answerID}`);
+		const response = await axios.get(`${API_URL}/challenge/${params.challengeID}/answer/${params.answerID}?challengeSlug=${params.challengeSlug}&answerSlug=${params.answerSlug}`);
 		const { answer, challenge } = response.data;
 		return {
 			props: {
@@ -88,7 +88,6 @@ export async function getStaticProps({ params }) {
 			}
 		}
 	} catch (error) {
-		console.log("Error", error);
 		return {
 			notFound: true
 		}

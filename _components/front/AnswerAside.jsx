@@ -23,18 +23,18 @@ function ChapterAside({ answer, challenge }) {
 					const response = await axios.get(`${API_URL}/check-can-see-answer/${answer.id}`);
 					setCanBeSeen(response.data.can);
 				}
-				else setCanBeSeen(challenge.price === "0");
+				else setCanBeSeen(answer.show_anyway);
 			}
 			else setCanBeSeen(true);
 		}
 	), [user]);
 
 	React.useEffect(() => {
-		setMatched(!!router.asPath.match(`/${answer.slug}${challenge.price !== "0" ? "/" : ""}`));
-	}, [answer])
+		setMatched(!!router.asPath.match(`/${answer.slug}${challenge.price !== "0" && !answer.show_anyway ? "/" : ""}`));
+	}, [answer, canBeSeen])
 
 	let url = `/challenge/${challenge.id}/${challenge.slug}/toko/${answer.id}/${answer.slug}`;
-	if (challenge.price !== "0") url += "/premium";
+	if (challenge.price !== "0" && !answer.show_anyway) url += "/premium";
 	return (
 		<div
 			className={`flex items-center transition-all duration-300 ease-in-out px-1 my-1 cursor-pointer ${matched ? "success-bg" : `${canBeSeen ? "hover:bg-gray-300 hover:text-black" : "hover:text-red-400"}`}`}

@@ -3,12 +3,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap';
-import { FaEdit, FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa';
+import { FaCheckCircle, FaEdit, FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { ADMIN_API_URL, BACK_URL } from '../../../../_constants/URLs';
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 import ChooseLfmImage from '../fields/ChooseLfmImage';
 import InputLabel from '../fields/InputLabel';
+import OptionSelect from '../fields/OptionSelect';
+import SelectLabel from '../fields/SelectLabel';
 
 function ChallengeAnswer({ answer }) {
 
@@ -26,6 +28,7 @@ function ChallengeAnswer({ answer }) {
   const imageCoverRef = React.useRef();
   const videoUrlRef = React.useRef();
   const videoDurationRef = React.useRef();
+  const showAnywayRef = React.useRef();
 
   // M E T H O D S
   const updateAnswerData = () => sanctumRequest(
@@ -36,6 +39,7 @@ function ChallengeAnswer({ answer }) {
         video_url: videoUrlRef.current.value,
         video_duration: videoDurationRef.current.value,
         image_cover: imageCoverRef.current.value,
+        show_anyway: showAnywayRef.current.value
       };
       const response = await axios.put(`${ADMIN_API_URL}/challenge-answer/update/${answer.id}`, data);
       const { message, newAnswer } = response.data;
@@ -85,6 +89,7 @@ function ChallengeAnswer({ answer }) {
           </Link>
         </h4>
         <div className="flex items-center cursor-pointer">
+          {answer.show_anyway && <FaCheckCircle className="success mr-4" title="Show anyway" />}
           {answer.published
             ? <FaEye className="success mr-4" onClick={handlePublish} title="Is published ?" />
             : <FaEyeSlash className="text-red-300 mr-4" onClick={handlePublish} title="Is published ?" />
@@ -119,6 +124,10 @@ function ChallengeAnswer({ answer }) {
               <div className="col-span-3">
                 <InputLabel id={`answer_rank_${answer.id}`} errorNeeds={[answerErrors, setAnswerErrors, "rank"]} label="Rank" fieldRef={rankRef} defaultValue={answer.rank}>Rank of the group</InputLabel>
                 <InputLabel id={`answer_video_duration_${answer.id}`} errorNeeds={[answerErrors, setAnswerErrors, "video_duration"]} label="Video duration" fieldRef={videoDurationRef} defaultValue={answer.video?.duration} className="mt-3">Video duration of the answer</InputLabel>
+                <SelectLabel fieldRef={showAnywayRef} errorNeeds={[answerErrors, setAnswerErrors, "show_anyway"]} label="Show anyway (even not free) ?" className="mt-3" id={`answer_show_anyway_${answer.id}`} text="Select one" value={answer.show_anyway ? 1 : 0}>
+                  <OptionSelect value={1}>Yes</OptionSelect>
+                  <OptionSelect value={0}>No</OptionSelect>
+                </SelectLabel>
               </div>
             </div>
           </Modal.Body>

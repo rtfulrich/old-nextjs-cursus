@@ -55,15 +55,6 @@ function AdminSidebar() {
         icon={<FaFile />}
       />
 
-      <MenusHeader>Users</MenusHeader>
-      <SidebarMenuItem
-        text="All users" href={`${FRONT_ADMIN_URL}/users`}
-        icon={<FaUserFriends />}
-      />
-      <SidebarMenuItem
-        text="Active" href={`${FRONT_ADMIN_URL}/users/active`}
-        icon={<RiUserFollowLine />}
-      />
     </ul>
   )
 }

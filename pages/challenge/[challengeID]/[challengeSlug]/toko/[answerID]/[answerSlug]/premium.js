@@ -31,8 +31,8 @@ export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }
 	return <>
 		{ user && (
 			<div className="px-4 md:pl-8 md:pr-2">
-				<div className="my-8 grid grid-cols-12 gap-4 relative">
-					<div className="col-span-12 md:col-span-9">
+				<div className="my-8 grid grid-cols-12 gap-4 xl:gap-x-8">
+					<div className="col-span-12 md:col-span-8">
 						{answer.video.url && <div className="flex justify-center mb-8 bg-gray-300">
 							<ReactPlayer url={answer.video.url} />
 						</div>}
@@ -40,7 +40,7 @@ export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }
 							<PostContent content={answer.content} />
 						</div>
 					</div>
-					<div className="hidden md:block md:col-span-3">
+					<div className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
 							<h1 className="font-bold tracking-wider text-lg flex items-center">
 								<Link href={`/challenge/${challenge.id}/${challenge.slug}`}>
@@ -76,7 +76,6 @@ export async function getServerSideProps({ params, req }) {
 			}
 		}
 	} catch (error) {
-		console.log(error.response);
 		return error.response.status === 403 || error.response.status === 401
 			? { redirect: { destination: `/challenge/${challengeID}/${challengeSlug}`, permanent: true } }
 			: { notFound: true }
