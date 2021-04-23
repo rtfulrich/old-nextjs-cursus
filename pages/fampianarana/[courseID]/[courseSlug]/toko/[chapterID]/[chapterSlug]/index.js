@@ -8,9 +8,13 @@ import { useRouter } from 'next/router';
 import Link from "next/link";
 import { FaArrowLeft, FaLock } from "react-icons/fa";
 import ChapterAside from '../../../../../../../_components/front/ChapterAside';
+import CommentSection, { CHAPTER_POST } from '../../../../../../../_components/front/CommentSection';
+import UserContext from '../../../../../../../_react-contexts/user-context';
 
 export default function ViewFreeChapter({ chapter, groups = [], course, unauthorized }) {
-	// if (chapter) console.log("chapter", chapter);
+
+	// C O N T E X T
+	const { user } = React.useContext(UserContext);
 
 	if (groups) {
 		groups = groups.sort((a, b) => {
@@ -51,6 +55,13 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 					<div>
 						<PostContent content={chapter?.content} />
 					</div>
+					{/* Comment section */}
+					{user && (<>
+						<hr className="mt-8 mb-4" />
+						<div>
+							<CommentSection post={{ type: CHAPTER_POST, id: chapter.id }} />
+						</div>
+					</>)}
 				</div>
 				<div className="hidden md:block md:col-span-4">
 					<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
