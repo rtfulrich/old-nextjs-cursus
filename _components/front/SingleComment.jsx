@@ -1,7 +1,10 @@
+import axios from 'axios';
 import React from 'react'
 import { FaAngleDown, FaAngleRight, FaAngleUp } from "react-icons/fa"
-import { formatDate } from '../_helpers/date';
-import CommentForm from './front/CommentForm';
+import { API_URL } from '../../_constants/URLs';
+import { formatDate } from '../../_helpers/date';
+import sanctumRequest from '../../_helpers/sanctumRequest';
+import CommentForm from './CommentForm';
 
 function SingleComment({ comment, repliable = true }) {
 
@@ -12,11 +15,21 @@ function SingleComment({ comment, repliable = true }) {
 
 	// M O U N T
 	React.useEffect(() => {
+		let interval = null;
 		if (repliable) {
 			setShowReplies(true);
 			setReplies(comment.replies);
+			interval = setInterval(fetchCommentReplies, 1000 * 60 * 1);
 		}
+
+		return () => interval ? clearInterval(interval) : null;
 	}, []);
+
+	// M E T H O D S
+	const fetchCommentReplies = () => sanctumRequest(async () => {
+		const response = await axios.get(`${API_URL}/comment/${comment.id}/get-replies`);
+		setReplies(response.data.replies);
+	});
 
 	return (
 		<section className={`flex p-1 transition-colors duration-200 ease-in-out ${repliable ? "hover:bg-gray-900" : "hover:bg-black"} rounded-xl`}>

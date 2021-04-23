@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { API_URL } from '../../_constants/URLs';
 import sanctumRequest from '../../_helpers/sanctumRequest';
-import SingleComment from '../SingleComment';
+import SingleComment from './SingleComment';
 import CommentForm from './CommentForm';
 
 export const CHAPTER_POST = "CHAPTER";
@@ -18,7 +18,7 @@ function CommentSection({ post }) {
 	// M O U N T
 	React.useEffect(() => {
 		fetchComments();
-		const interval = setInterval(fetchComments, 5000);
+		const interval = setInterval(fetchComments, 1000 * 60 * 5);
 
 		return () => clearInterval(interval);
 	}, []);
