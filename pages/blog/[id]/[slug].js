@@ -1,11 +1,20 @@
 import axios from 'axios'
+import { useRouter } from 'next/router';
 import React from 'react'
 import ReactPlayer from 'react-player';
+import CommentSection, { BLOG_POST } from '../../../_components/front/CommentSection';
 import PostContent from '../../../_components/front/PostContent';
 import { API_URL } from '../../../_constants/URLs';
+import UserContext from '../../../_react-contexts/user-context';
 
 export default function ViewBlogContent({ blog }) {
-	// console.log("blog", blog);
+
+	// V A R I A B L E
+	const router = useRouter();
+
+	// C O N T E X T
+	const { user } = React.useContext(UserContext);
+
 	return (
 		<div className="px-4 md:pl-8 md:pr-2">
 			<div className="my-4 grid grid-cols-12 gap-x-4 md:gap-x-8">
@@ -16,6 +25,13 @@ export default function ViewBlogContent({ blog }) {
 					<div>
 						<PostContent content={blog?.content} />
 					</div>
+					{/* Comment section */}
+					{user && (<>
+						<hr className="mt-8 mb-4" />
+						<div>
+							<CommentSection post={{ type: BLOG_POST, id: router.query.id }} />
+						</div>
+					</>)}
 				</div>
 				<div className="hidden md:block md:col-span-4">
 
