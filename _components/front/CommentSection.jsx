@@ -18,10 +18,10 @@ function CommentSection({ post }) {
 	// M O U N T
 	React.useEffect(() => {
 		fetchComments();
-		const interval = setInterval(fetchComments, 1000 * 60 * 5);
+		const interval = setInterval(fetchComments, 1000 * 60 * 1);
 
 		return () => clearInterval(interval);
-	}, []);
+	}, [post.id]);
 
 	// M E T H O D S
 	const fetchComments = () => sanctumRequest(

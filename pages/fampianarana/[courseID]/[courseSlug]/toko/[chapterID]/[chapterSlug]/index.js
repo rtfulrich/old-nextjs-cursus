@@ -59,7 +59,7 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 					{user && (<>
 						<hr className="mt-8 mb-4" />
 						<div>
-							<CommentSection post={{ type: CHAPTER_POST, id: chapter.id }} />
+							<CommentSection post={{ type: CHAPTER_POST, id: router.query.chapterID }} />
 						</div>
 					</>)}
 				</div>

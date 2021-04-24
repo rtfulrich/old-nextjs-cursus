@@ -5,6 +5,7 @@ import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
 import ChapterAside from '../../../../../../../_components/front/ChapterAside';
+import CommentSection, { CHAPTER_POST } from '../../../../../../../_components/front/CommentSection';
 import PostContent from '../../../../../../../_components/front/PostContent';
 import { API_URL, FRONT_URL } from '../../../../../../../_constants/URLs';
 import UserContext from '../../../../../../../_react-contexts/user-context';
@@ -22,7 +23,7 @@ export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, 
 	React.useEffect(() => {
 		const { courseID, courseSlug } = router.query;
 		if (user === null) router.replace(urlRedirect);
-		else router.replace(`/fampianarana/${courseID}/${courseSlug}/toko/${chapter.id}/${chapter.slug}/premium`);
+		else router.push(`/fampianarana/${courseID}/${courseSlug}/toko/${chapter.id}/${chapter.slug}/premium`);
 	}, [user]);
 
 	// J S X
@@ -49,6 +50,13 @@ export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, 
 						<div>
 							<PostContent content={chapter?.content} />
 						</div>
+						{/* Comment section */}
+						{user && (<>
+							<hr className="mt-8 mb-4" />
+							<div>
+								<CommentSection post={{ type: CHAPTER_POST, id: router.query.chapterID }} />
+							</div>
+						</>)}
 					</div>
 					<div className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
@@ -96,7 +104,6 @@ export async function getServerSideProps({ params, req }) {
 		}
 	}
 	catch (e) {
-		console.log(e, e.response);
 		return {
 			redirect: {
 				destination: `/fampianarana/${params.courseID}/${params.courseSlug}`,

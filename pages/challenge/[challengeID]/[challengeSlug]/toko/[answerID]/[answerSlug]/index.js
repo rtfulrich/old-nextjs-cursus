@@ -6,9 +6,18 @@ import axios from 'axios';
 import { API_URL } from '../../../../../../../_constants/URLs';
 import { FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import CommentSection, { ANSWER_POST } from '../../../../../../../_components/front/CommentSection';
+import UserContext from '../../../../../../../_react-contexts/user-context';
 
 export default function ViewAFreeAnswer({ answer, challenge }) {
 	// console.log(answer, challenge);
+
+	// C O N T E X T
+	const { user } = React.useContext(UserContext);
+
+	// V A R I A B L E S
+	const router = useRouter();
 
 	let answers = [];
 	if (challenge) answers = challenge.answers.sort((a, b) => {
@@ -28,6 +37,13 @@ export default function ViewAFreeAnswer({ answer, challenge }) {
 						<div>
 							<PostContent content={answer?.content} />
 						</div>
+						{/* Comment section */}
+						{user && (<>
+							<hr className="mt-8 mb-4" />
+							<div>
+								<CommentSection post={{ type: ANSWER_POST, id: router.query.answerID }} />
+							</div>
+						</>)}
 					</div>
 					<div className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">

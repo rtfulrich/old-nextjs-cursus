@@ -8,6 +8,7 @@ import ReactPlayer from 'react-player';
 import PostContent from '../../../../../../../_components/front/PostContent';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
+import CommentSection, { ANSWER_POST } from '../../../../../../../_components/front/CommentSection';
 
 export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }) {
 
@@ -39,6 +40,13 @@ export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }
 						<div>
 							<PostContent content={answer.content} />
 						</div>
+						{/* Comment section */}
+						{user && (<>
+							<hr className="mt-8 mb-4" />
+							<div>
+								<CommentSection post={{ type: ANSWER_POST, id: router.query.answerID }} />
+							</div>
+						</>)}
 					</div>
 					<div className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
@@ -76,6 +84,7 @@ export async function getServerSideProps({ params, req }) {
 			}
 		}
 	} catch (error) {
+		console.log("premium", error, error.response);
 		return error.response.status === 403 || error.response.status === 401
 			? { redirect: { destination: `/challenge/${challengeID}/${challengeSlug}`, permanent: true } }
 			: { notFound: true }
