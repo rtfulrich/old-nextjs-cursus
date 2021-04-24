@@ -6,6 +6,7 @@ import PostContent from '../../../_components/front/PostContent';
 import CommentSection, { ANSWER_POST, TUTORIAL_POST } from '../../../_components/front/CommentSection';
 import { API_URL } from '../../../_constants/URLs';
 import UserContext from '../../../_react-contexts/user-context';
+import FetchPostsForAside, { CHALLENGE_POST, COURSE_POST } from '../../../_components/front/FetchPostsForAside';
 
 export default function ViewTutorialContent({ tutorial }) {
 
@@ -34,7 +35,9 @@ export default function ViewTutorialContent({ tutorial }) {
 					</>)}
 				</div>
 				<div className="hidden md:block md:col-span-4">
-
+					<FetchPostsForAside postType={COURSE_POST} />
+					<hr className="my-4" />
+					<FetchPostsForAside postType={CHALLENGE_POST} />
 				</div>
 			</div>
 		</div>

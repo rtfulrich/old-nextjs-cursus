@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import ReactPlayer from 'react-player';
 import CommentSection, { BLOG_POST } from '../../../_components/front/CommentSection';
+import FetchPostsForAside, { CHALLENGE_POST, COURSE_POST } from '../../../_components/front/FetchPostsForAside';
 import PostContent from '../../../_components/front/PostContent';
 import { API_URL } from '../../../_constants/URLs';
 import UserContext from '../../../_react-contexts/user-context';
@@ -34,7 +35,9 @@ export default function ViewBlogContent({ blog }) {
 					</>)}
 				</div>
 				<div className="hidden md:block md:col-span-4">
-
+					<FetchPostsForAside postType={COURSE_POST} />
+					<hr className="my-4" />
+					<FetchPostsForAside postType={CHALLENGE_POST} />
 				</div>
 			</div>
 		</div>
