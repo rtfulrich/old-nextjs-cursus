@@ -120,7 +120,7 @@ export async function getStaticProps() {
     return {
       props: {
         page: {
-          title: "IanaTek",
+          title: "Pejitrano",
           // noFooter: true,
         },
         courses, challenges, tutorials, blogs

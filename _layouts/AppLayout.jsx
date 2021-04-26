@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Sidebar from './components/sidebar/Sidebar';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
-import { Online, Offline } from "react-detect-offline"
 import axios from 'axios';
 import UserContext, { AUTH_FALSE, AUTH_TRUE } from '../_react-contexts/user-context';
 import { API_URL } from '../_constants/URLs';
@@ -19,6 +18,18 @@ function AppLayout({ children, title = null, withFooter = true }) {
 
   // V A R I A B L E S
   const router = useRouter();
+
+  if (router.isFallback) return (
+    <div
+      className="h-screen w-screen bg-black flex flex-col items-center justify-center"
+      style={{ zIndex: 1000 }}
+    >
+      <div className="flex flex-col items-center">
+        <img src="/images/logo7.webp" alt="IanaTek Logo" className="w-48 sm:w-64 md:w-96" />
+        <h1 className="text-white text-8xl md:text-9xl font-bold tracking-widest">IanaTek</h1>
+      </div>
+    </div>
+  );
 
   // C O N T E X T S
   const { user, setUser } = React.useContext(UserContext);
@@ -46,7 +57,7 @@ function AppLayout({ children, title = null, withFooter = true }) {
   return (
     <>
       <Head>
-        {typeof title === "string" && <title>{title}</title>}
+        {typeof title === "string" && <title>{title} | IanaTek</title>}
         <link rel="shortcut icon" href="/images/logo7.webp" type="image/webp" />
 
         {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKFJGSHTPL"></script> */}
@@ -63,16 +74,17 @@ function AppLayout({ children, title = null, withFooter = true }) {
         }></script> */}
       </Head>
 
-      {/* <Online> */}
-
       {/* Page has finished loading */}
       <div>
         {pageLoading && (
           <div
-            className="h-screen w-screen bg-black flex items-center justify-center fixed text-white text-9xl"
+            className="h-screen w-screen bg-black flex flex-col items-center justify-center"
             style={{ zIndex: 1000 }}
           >
-            Loading ...
+            <div className="flex flex-col items-center">
+              <img src="/images/logo7.webp" alt="IanaTek Logo" className="w-48 sm:w-64 md:w-96" />
+              <h1 className="text-white text-8xl md:text-9xl font-bold tracking-widest">IanaTek</h1>
+            </div>
           </div>
         )}
         <div className={`${pageLoading ? "hidden" : ""}`}>
@@ -88,12 +100,6 @@ function AppLayout({ children, title = null, withFooter = true }) {
           </div>
         </div>
       </div>
-
-      {/* </Online>
-        <Offline>
-          Offline
-      </Offline> */}
-
     </>
   )
 }
