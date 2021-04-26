@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React from 'react'
-import { FaAngleDown, FaAngleRight, FaAngleUp } from "react-icons/fa"
+import { FaAngleDown, FaAngleRight, FaAngleUp, FaTrash } from "react-icons/fa"
 import { API_URL } from '../../_constants/URLs';
 import { formatDate } from '../../_helpers/date';
 import sanctumRequest from '../../_helpers/sanctumRequest';
 import CommentForm from './CommentForm';
+import UserContext from "../../_react-contexts/user-context";
+import { ADMIN_PSEUDO } from '../../_constants/users';
+import { unmountComponentAtNode } from 'react-dom';
 
 function SingleComment({ comment, repliable = true }) {
 
@@ -12,6 +15,12 @@ function SingleComment({ comment, repliable = true }) {
 	const [replying, setReplying] = React.useState(false);
 	const [showReplies, setShowReplies] = React.useState(false);
 	const [replies, setReplies] = React.useState([]);
+
+	// R E F S
+	const singleCommentRef = React.useRef();
+
+	// C O N T E X T
+	const { user } = React.useContext(UserContext);
 
 	// M O U N T
 	React.useEffect(() => {
@@ -31,8 +40,19 @@ function SingleComment({ comment, repliable = true }) {
 		setReplies(response.data.replies);
 	});
 
+	const handleDeleteComment = () => sanctumRequest(async () => {
+		const confirmation = confirm(`
+			Delete the comment :
+			"${comment.content}"
+		`);
+		if (confirmation) {
+			await axios.delete(`${API_URL}/comment${repliable ? "" : "-reply"}/${comment.id}/delete`);
+			singleCommentRef.current.classList.add("hidden");
+		}
+	});
+
 	return (
-		<section className={`flex p-1 transition-colors duration-200 ease-in-out ${repliable ? "hover:bg-gray-900" : "hover:bg-black"} rounded-xl`}>
+		<section className={`flex p-1 transition-colors duration-200 ease-in-out ${repliable ? "hover:bg-gray-900" : "hover:bg-black"} rounded-xl`} ref={singleCommentRef}>
 			<img src={comment.owner.avatar} className="w-8 h-8 rounded-full mr-2" alt={comment.owner.name} />
 			<div className="flex flex-col w-full">
 				<h6 className="font-bold text-gray-500 tracking-widest float-left">{comment.owner.full_name}</h6>
@@ -59,6 +79,11 @@ function SingleComment({ comment, repliable = true }) {
 							{repliable && (
 								<button className={`px-1 rounded-lg ${replying ? "bg-red-400 hover:bg-red-500" : "twitter-bg twitter-bg-hover"} text-xs text-black ml-3`} onClick={() => setReplying(!replying)}>
 									{replying ? "Tsy hamaly" : "Hamaly"}
+								</button>
+							)}
+							{user && user.pseudo === ADMIN_PSEUDO && (
+								<button className="text-red-400 hover:text-red-500 px-2 py-1 text-xs ml-4" onClick={handleDeleteComment}>
+									<FaTrash />
 								</button>
 							)}
 						</div>

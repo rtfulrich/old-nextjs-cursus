@@ -17,7 +17,7 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 	// E F F E C T S
 	React.useEffect(() => sanctumRequest(
 		async () => {
-			if (parent) { // COURSE || CHALLENGE
+			if (parent && parent.price > 0) { // COURSE || CHALLENGE
 				if (user) { // User is authenticated
 					const postType = parent.visits !== undefined ? "chapter" : "answer";
 					const response = await axios.get(`${API_URL}/check-can-see-${postType}/${post.id}`);
