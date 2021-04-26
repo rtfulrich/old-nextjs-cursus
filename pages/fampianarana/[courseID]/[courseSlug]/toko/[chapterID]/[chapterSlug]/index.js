@@ -32,7 +32,6 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 	}
 
 	const router = useRouter();
-	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Andraso kely ...</div>;
 
 	// M O U N T  E F F E C T
 	React.useEffect(() => {

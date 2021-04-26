@@ -2,9 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { REVALIDATE } from '../../../../_constants/nextConstants';
 import { API_URL } from '../../../../_constants/URLs';
-import { useRouter } from "next/router";
 import PostGridItem from '../../../../_components/front/PostGridItem';
-import { FaShoppingBasket } from 'react-icons/fa';
 import Payment from '../../../../_components/front/modals/Payment';
 
 export default function ViewCourse({ course }) {
@@ -13,9 +11,6 @@ export default function ViewCourse({ course }) {
 	const [hasTheCourse, setHasTheCourse] = React.useState(course.price === "0");
 
 	// V A R I A B L E S
-	const router = useRouter();
-	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Vetivety ...</div>;
-
 	let chaptersGroups = course.chapters_groups || [];
 	if (chaptersGroups.length !== 0) {
 		chaptersGroups = chaptersGroups.sort((a, b) => {

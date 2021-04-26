@@ -1,9 +1,7 @@
 import axios from 'axios'
-import { useRouter } from 'next/router';
 import React from 'react'
 import { FaShoppingBasket } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
-import AnswerAside from '../../../../_components/front/AnswerAside';
 import PostContent from '../../../../_components/front/PostContent';
 import PostGridItem from '../../../../_components/front/PostGridItem';
 import { API_URL } from '../../../../_constants/URLs';
@@ -16,9 +14,6 @@ export default function ViewAChallenge({ challenge }) {
 
 	// S T A T E S
 	const [mainToShow, setMainToShow] = React.useState(CONTENT);
-
-	const router = useRouter();
-	if (router.isFallback) return <div className="text-4xl font-bold tracking-widest h-full flex justify-center items-center">Vetivety ...</div>;
 
 	const answers = challenge.answers.sort((a, b) => {
 		if (a.rank < b.rank) return -1;
