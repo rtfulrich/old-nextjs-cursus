@@ -2,7 +2,7 @@ import axios from 'axios'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
-import { FaArrowCircleRight, FaCheckSquare, FaSquare } from 'react-icons/fa';
+import { FaArrowCircleRight, FaCheckSquare, FaSquare, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import ChooseLfmImage from '../../../../../_components/admin/posts/fields/ChooseLfmImage';
 import InputLabel from '../../../../../_components/admin/posts/fields/InputLabel';
@@ -83,6 +83,13 @@ export default function EditABlog({ blog, tags }) {
 		router.push(`${FRONT_ADMIN_URL}/blog/${blog.id}/${blog.slug}`);
 	});
 
+	const deleteTheBlog = () => sanctumRequest(async () => {
+		if (confirm("Do you really want to delete this blog ?")) {
+			await axios.delete(`${ADMIN_API_URL}/blog/delete/${blog.id}`);
+			router.replace("/admin/blog/all");
+		}
+	});
+
 	return (
 		<div className="p-4">
 			<div className="flex justify-between flex-col lg:flex-row items-center mb-4">
@@ -92,12 +99,15 @@ export default function EditABlog({ blog, tags }) {
 					</Link>
 				</h1>
 				<div className="flex">
-					<span
+					<button className="px-2 py-1 text-red-400 hover:text-red-500 mr-2" onClick={deleteTheBlog}>
+						<FaTrash />
+					</button>
+					<button
 						className={`px-3 py-2 mr-2 md:text-sm rounded-lg border-2 flex items-center cursor-pointer hover:bg-gray-500 hover:bg-opacity-30 font-bold tracking-widest transition-colors duration-150 ${blog.published ? "border-success success" : "border-yellow-300 text-yellow-300"}`}
 						onClick={handlePublish}
 					>
 						{blog.published ? (<><FaCheckSquare className="mr-2" /> Unpublish</>) : (<><FaSquare className="mr-2" /> Publish</>)} it ?
-          </span>
+          </button>
 					<Link href={`${BACK_URL}/admin/blog/${blog.id}/${blog.slug}/edit-content`}>
 						<a className={`px-3 py-2 md:text-sm rounded-lg border-2 flex items-center cursor-pointer hover:bg-gray-500 hover:bg-opacity-30 font-bold tracking-widest transition-colors duration-150 border-blue-500 text-blue-500 hover:text-blue-500 mx-2`} style={{ textDecoration: "none" }} target="_blank">
 							Edit the content <FaArrowCircleRight className="ml-2" />
