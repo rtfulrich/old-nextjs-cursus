@@ -54,7 +54,10 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 	return (
 		<div className="rounded-xl relative flex flex-col transition-colors duration-300 ease-in-out">
 			<Link href={url}>
-				<a className="hover:text-yellow-300 transition-all duration-300 ease-in-out">
+				<a
+					className="hover:text-yellow-300 transition-all duration-300 ease-in-out"
+					onClick={e => url === "#" ? e.preventDefault() : null}
+				>
 					<div className="flex justify-center items-center rounded-xl relative transition-all duration-500 ease-in-out transform hover:scale-105 hover:-rotate-1 border-2 border-black hover:border-yellow-300 bg-yellow-300" onClick={handleLinkClick}>
 						<img src={post.image_cover} className="rounded-xl" />
 						{post.level && (

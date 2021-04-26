@@ -4,19 +4,13 @@ import { REVALIDATE } from '../../../../_constants/nextConstants';
 import { API_URL } from '../../../../_constants/URLs';
 import { useRouter } from "next/router";
 import PostGridItem from '../../../../_components/front/PostGridItem';
-import UserContext from '../../../../_react-contexts/user-context';
 import { FaShoppingBasket } from 'react-icons/fa';
+import Payment from '../../../../_components/front/modals/Payment';
 
-export default function ViewCourse({ course = [] }) {
-	// console.log("course", course);
+export default function ViewCourse({ course }) {
 
-	// C O N T E X T S
-	const { user } = React.useContext(UserContext);
-
-	// E F F E C T S
-	// React.useEffect(() => {
-
-	// }, []);
+	// S T A T E S
+	const [hasTheCourse, setHasTheCourse] = React.useState(course.price === "0");
 
 	// V A R I A B L E S
 	const router = useRouter();
@@ -56,9 +50,7 @@ export default function ViewCourse({ course = [] }) {
 					{course.price > 0 && (
 						<div className="flex justify-between font-bold text-black mt-2 mx-8">
 							<div className="tracking-widest text-sm px-4 py-2 rounded-full bg-yellow-300">{course.price} ar</div>
-							<div className="px-4 rounded-full twitter-bg twitter-bg-hover transition-all duration-500 ease-in-out tracking-widest cursor-pointer flex items-center transform hover:scale-105 hover:-rotate-1">
-								<FaShoppingBasket className="mr-2 text-2xl" /> Hividy
-								</div>
+							<Payment post={course} type={"COURSE"} />
 						</div>
 					)}
 				</div>

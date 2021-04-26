@@ -48,6 +48,19 @@ function AppLayout({ children, title = null, withFooter = true }) {
       <Head>
         {typeof title === "string" && <title>{title}</title>}
         <link rel="shortcut icon" href="/images/logo7.webp" type="image/webp" />
+
+        {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKFJGSHTPL"></script> */}
+        {/* <script dangerouslySetInnerHTML={
+          {
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-JKFJGSHTPL');
+            `,
+          }
+        }></script> */}
       </Head>
 
       {/* <Online> */}

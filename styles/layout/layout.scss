@@ -54,7 +54,7 @@ $mediaBgs: (
 		border-color: darken($color, 10);
 	}
 }
-$modalSizes: login, sm;
+$modalSizes: login, sm, md, lg;
 .modal- {
 	@each $size in $modalSizes {
 		&#{$size} {
