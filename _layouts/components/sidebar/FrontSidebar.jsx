@@ -32,19 +32,19 @@ function FrontSidebar() {
         {/* Technologies */}
         {/* FRONTEND */}
         <MenusHeader>Frontend</MenusHeader>
-        <SidebarMenuItem text="HTML &amp; CSS" iconClass="text-xs"
+        <SidebarMenuItem href="/tag/html-css" text="HTML &amp; CSS" iconClass="text-xs"
           icon={<>
             <RiHtml5Fill className="text-blue-500" style={{ fontSize: "15px" }} /><RiCss3Fill className="text-yellow-500" style={{ fontSize: "15px" }} />
           </>
           }
         />
-        <SidebarMenuItem text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
-        <SidebarMenuItem text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
+        <SidebarMenuItem href="/tag/javascript" text="Javascript" icon={<img src="/images/tech-icons/javascript-icon.png" width="20px" />} />
+        <SidebarMenuItem href="/tag/react-js" text="React JS" icon={<img src="/images/tech-icons/react-icon.svg" width="20px" />} />
 
         {/* BACKEND */}
         <MenusHeader>Backend</MenusHeader>
-        <SidebarMenuItem text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
-        <SidebarMenuItem text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
+        <SidebarMenuItem href="/tag/php" text="PHP" icon={<img src="/images/tech-icons/php-icon.png" width="25px" />} />
+        <SidebarMenuItem href="/tag/laravel" text="Laravel" icon={<img src="/images/tech-icons/laravel-icon.png" width="25px" />} />
 
         {/* Other menus */}
         <MenusHeader />

@@ -74,7 +74,7 @@ export const getServerSideProps = async ({ query }) => {
 	try {
 		let page = null;
 		if (query.page) page = query.page;
-		const response = await axios.get(`${API_URL}/blogs/paginated?${page ? `&page=${page}` : ""}`);
+		const response = await axios.get(`${API_URL}/blogs/paginated${page ? `?page=${page}` : ""}`);
 		const { result } = response.data;
 
 		return {

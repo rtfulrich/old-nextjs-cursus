@@ -21,9 +21,9 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
         <div className="grid grid-cols-5 gap-2 md:gap-8">
           {techs.map((tech, index) => (
             <div className="rounded-xl  overflow-hidden transition-colors duration-300 ease-in-out border-2 border-black hover:border-blue-500 -mt-12 z-10" key={index}>
-              {/* <Link href={`/${tech.tag}`}> */}
-              <Link href="#">
-                <a onClick={e => e.preventDefault()}>
+              <Link href={`/tag/${tech.tag}`}>
+                {/* <Link href="#"> */}
+                <a>
                   <img src={`/images/tech-covers/${tech.image}`} alt={tech.tag} className="w-full h-full transition-all duration-300 transform hover:scale-110" />
                 </a>
               </Link>
