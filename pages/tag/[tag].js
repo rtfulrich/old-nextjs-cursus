@@ -69,7 +69,7 @@ function TagSearchPage({ results }) {
 						showDate = true;
 					}
 					else throw new TypeError("Type error exception for post type");
-					post.tags = [{ name: router.query.tag }];
+
 					return (
 						<PostGridItem post={post} url={`/${type}/${post.id}/${post.slug}`} showDate={showDate} key={Math.random()} />
 					);
