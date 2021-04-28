@@ -23,13 +23,13 @@ function ViewAllChallenges({ result }) {
 			</div>
 
 			{/* List of challenges */}
-			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+			<section className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 				{
 					challenges.map(challenge => (
 						<PostGridItem post={challenge} url={`/challenge/${challenge.id}/${challenge.slug}`} key={challenge.id} />
 					))
 				}
-			</div>
+			</section>
 			{/* Pagination buttons */}
 			{links.length > 3 && <div className="fixed bottom-0 right-0 p-1 bg-black bg-opacity-90">
 				<div className="flex justify-around mt-4">

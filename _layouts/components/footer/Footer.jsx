@@ -15,11 +15,11 @@ function Footer() {
         <div className="flex items-center mb-8 md:mb-0">
           <img src="/images/image-cv.jpg" alt="Tahirintsoa Ulrich" className="w-16 rounded-full" />
           <h1 className="flex flex-col mx-4 justify-center items-center">
-            <span className="font-bold tracking-widest text-2xl">Tahirintsoa Ulrich</span>
-            <span className="text-sm">( IanaTek's creator - Fullstack Web Developer )</span>
+            <strong className="font-bold tracking-widest text-2xl">Tahirintsoa Ulrich</strong>
+            <p className="text-sm">( IanaTek's creator - Fullstack Web Developer )</p>
           </h1>
         </div>
-        <div className="flex items-center text-2xl">
+        <ul className="flex items-center text-2xl">
           <Link href="https://web.facebook.com/rtfulrich/">
             <a target="_blank" className="mx-4 p-4 bg-black rounded-full">
               <RiFacebookFill className="text-blue-500" />
@@ -40,7 +40,7 @@ function Footer() {
               <FaGooglePlusG className="text-yellow-300" />
             </a>
           </Link>
-        </div>
+        </ul>
       </div>
 
       <hr />

@@ -28,9 +28,9 @@ function ViewAllBlogs({ result }) {
 	return (
 		<div className="px-4 py-3 md:px-8 md:-py-4">
 			<div className="flex justify-between flex-col lg:flex-row items-center mb-4">
-				<h1 className={`text-3xl tracking-widest font-bold md:mb-0`}>
+				<h2 className={`text-3xl tracking-widest font-bold md:mb-0`}>
 					Ireo blogs farany {page ? `- Pejy ${page}` : ""}
-				</h1>
+				</h2>
 			</div>
 
 			{/* List of blogs */}

@@ -53,22 +53,22 @@ export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, 
 		{ user && (
 			<div className="px-4 md:pl-8 md:pr-2">
 				<div className="my-8 grid grid-cols-12 gap-4 relative">
-					<div className="col-span-12 md:col-span-8">
+					<section className="col-span-12 md:col-span-8">
 						{chapter?.video_url && <div className="flex justify-center mb-8 bg-gray-300">
 							<ReactPlayer url={chapter?.video_url} />
 						</div>}
-						<div>
+						<article>
 							<PostContent content={chapter?.content} />
-						</div>
+						</article>
 						{/* Comment section */}
 						{user && (<>
 							<hr className="mt-8 mb-4" />
-							<div>
+							<section>
 								<CommentSection post={{ type: CHAPTER_POST, id: router.query.chapterID }} />
-							</div>
+							</section>
 						</>)}
-					</div>
-					<div className="hidden md:block md:col-span-4">
+					</section>
+					<aside className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
 							<h1 className="font-bold tracking-wider text-lg flex items-center justify-center">
 								<Link href={`/fampianarana/${router.query.courseID}/${router.query.courseSlug}`}>
@@ -85,7 +85,7 @@ export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, 
 								</div>
 							</div>
 						))}
-					</div>
+					</aside>
 				</div>
 			</div>
 		)}

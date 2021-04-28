@@ -44,7 +44,7 @@ export default function ViewCourse({ course }) {
 	return (
 		<div className="">
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-4 bg45 p-4">
-				<div className="md:col-span-1">
+				<section className="md:col-span-1">
 					<div className="relative">
 						<img src={course.image_cover} alt={course.slug} className="max-w-full rounded-xl" />
 						<div className="absolute bottom-1 right-2 font-bold tracking-widest text-black">
@@ -62,8 +62,8 @@ export default function ViewCourse({ course }) {
 							<Payment post={course} type={"COURSE"} />
 						</div>
 					)}
-				</div>
-				<div className="col-span-2 md:flex flex-col justify-between">
+				</section>
+				<section className="col-span-2 md:flex flex-col justify-between">
 					<div className="flex-1">
 						<h1 className="font-bold text-lg sm:text-2xl tracking-widest mb-3 sm:mb-4">
 							{course.title}
@@ -72,10 +72,10 @@ export default function ViewCourse({ course }) {
 							{course.description}
 						</p>
 					</div>
-				</div>
+				</section>
 			</div>
 
-			<div className={`px-4 sm:px-8 my-3 md:mt-6 md:mb-4`}>
+			<section className={`px-4 sm:px-8 my-3 md:mt-6 md:mb-4`}>
 				{chaptersGroups && chaptersGroups.map(group => (
 					<div key={group.id}>
 						{chaptersGroups.length > 1 && group.show && (
@@ -93,7 +93,7 @@ export default function ViewCourse({ course }) {
 						</div>
 					</div>
 				))}
-			</div>
+			</section>
 		</div>
 	)
 }

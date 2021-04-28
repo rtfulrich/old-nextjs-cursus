@@ -30,12 +30,12 @@ function Sidebar() {
   if (router.pathname.match(/^\/admin/)) sidebar = <AdminSidebar />
   else sidebar = <FrontSidebar />
   return (
-    <nav className={`fixed z-50 flex init`} id="sidebar">
+    <aside className={`fixed z-50 flex init`} id="sidebar">
       <nav className={`w-48 bg33 h-full ${router.pathname.match("/admin") ? "" : "overflow-y-auto"}`}>
         {sidebar}
       </nav>
       <div className="h-full bg-black bg-opacity-20 lg:hidden" style={{ width: "calc(100vw - 12rem" }} onClick={toggleSidebar}></div>
-    </nav>
+    </aside>
   )
 }
 

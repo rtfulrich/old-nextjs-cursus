@@ -12,9 +12,9 @@ export default function PostContent({ content }) {
 	});
 
 	return (
-		<div className="break-normal" ref={contentParentRef}>
+		<article className="break-normal" ref={contentParentRef}>
 			{content}
-		</div>
+		</article>
 	)
 }
 

@@ -34,11 +34,11 @@ function ViewAllTutorials({ result }) {
 			</div>
 
 			{/* List of tutorials */}
-			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+			<section className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 				{tutorials.map((tutorial, index) => (
 					<PostGridItem post={tutorial} url={`/tutorial/${tutorial.id}/${tutorial.slug}`} key={index} />
 				))}
-			</div>
+			</section>
 
 			{/* Pagination buttons */}
 			{links.length > 3 && <div className="flex justify-between mt-4">

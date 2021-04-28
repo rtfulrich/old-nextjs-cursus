@@ -42,14 +42,14 @@ export default function ViewAChallenge({ challenge }) {
 						</div>
 					)}
 				</div>
-				<div className="col-span-2 md:flex flex-col justify-between">
+				<section className="col-span-2 md:flex flex-col justify-between">
 					<div className="flex-1">
 						<h1 className="font-bold text-lg sm:text-2xl tracking-widest mb-3 sm:mb-4">
 							{challenge.title}
 						</h1>
 						<p className="text-sm md:text-base mb-8 whitespace-pre-wrap">{challenge.description}</p>
 					</div>
-				</div>
+				</section>
 			</div>
 
 			<div className="flex justify-center items-center mt-4 mb-6 font-bold tracking-widest">
@@ -61,15 +61,15 @@ export default function ViewAChallenge({ challenge }) {
 					</div>
 			</div>
 
-			<div className="px-4 md:px-8 mb-8">
+			<section className="px-4 md:px-8 mb-8">
 				{mainToShow === CONTENT && (
 					<div className="md:px-16">
 						{challenge && challenge.video.url && <div className="flex justify-center mb-4 bg-gray-300">
 							<ReactPlayer url={challenge.video.url} />
 						</div>}
-						<div>
+						<article>
 							<PostContent content={challenge?.content} />
-						</div>
+						</article>
 					</div>
 				)}
 				{mainToShow === ANSWERS_GRID && answers && (
@@ -79,7 +79,7 @@ export default function ViewAChallenge({ challenge }) {
 						))}
 					</div>
 				)}
-			</div>
+			</section>
 		</div>
 	)
 }

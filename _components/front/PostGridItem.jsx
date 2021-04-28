@@ -78,8 +78,7 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 					</div>
 					<div className="mt-2 flex-1 flex flex-col justify-between">
 						<h1 className="font-bold mb-2 text-center flex items-center justify-center">
-							{/* {post.rank && <><span>{post.rank}</span><i className="mx-2 border border-left inline-block"></i></>} */}
-							<span>{post.title}</span>
+							{post.title}
 						</h1>
 					</div>
 				</a>

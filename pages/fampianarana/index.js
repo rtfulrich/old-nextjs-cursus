@@ -24,13 +24,13 @@ function ViewAllCourses({ result }) {
 			</div>
 
 			{/* List of courses */}
-			<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+			<section className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 				{
 					courses.map((course, index) => (
 						<PostGridItem post={course} url={`/fampianarana/${course.id}/${course.slug}`} key={index} />
 					))
 				}
-			</div>
+			</section>
 			{/* Pagination buttons */}
 			{links.length > 3 && <div className="fixed bottom-0 right-0 p-1 bg-black bg-opacity-90">
 				<div className="flex justify-around mt-4">

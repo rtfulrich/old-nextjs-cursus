@@ -33,7 +33,7 @@ export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }
 		{ user && (
 			<div className="px-4 md:pl-8 md:pr-2">
 				<div className="my-8 grid grid-cols-12 gap-4 xl:gap-x-8">
-					<div className="col-span-12 md:col-span-8">
+					<section className="col-span-12 md:col-span-8">
 						{answer.video.url && <div className="flex justify-center mb-8 bg-gray-300">
 							<ReactPlayer url={answer.video.url} />
 						</div>}
@@ -47,18 +47,18 @@ export default function ViewAPremiumChallenge({ answer, challenge, urlRedirect }
 								<CommentSection post={{ type: ANSWER_POST, id: router.query.answerID }} />
 							</div>
 						</>)}
-					</div>
-					<div className="hidden md:block md:col-span-4">
+					</section>
+					<aside className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
-							<h1 className="font-bold tracking-wider text-lg flex items-center">
+							<h3 className="font-bold tracking-wider text-lg flex items-center">
 								<Link href={`/challenge/${challenge.id}/${challenge.slug}`}>
 									<a className="text-center"><FaArrowLeft className="mr-2 inline" /> {challenge.title}</a>
 								</Link>
-							</h1>
+							</h3>
 						</div>
-						<h2 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h2>
+						<h4 className="font-bold tracking-widest text-xl text-center mb-4">IREO TAKELAKA</h4>
 						{answers.map(answer => <AnswerAside key={answer.id} answer={answer} challenge={challenge} />)}
-					</div>
+					</aside>
 				</div>
 			</div>
 		)}
@@ -84,7 +84,6 @@ export async function getServerSideProps({ params, req }) {
 			}
 		}
 	} catch (error) {
-		console.log("premium", error, error.response);
 		return error.response.status === 403 || error.response.status === 401
 			? { redirect: { destination: `/challenge/${challengeID}/${challengeSlug}`, permanent: true } }
 			: { notFound: true }

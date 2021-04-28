@@ -8,7 +8,7 @@ export default function NotFoundPage() {
 	return (
 		<div className="h-full flex flex-col justify-center items-center">
 			<Head>
-				<title>Pejy tsy tazana - IanaTek</title>
+				<title>Pejy tsy tazana | IanaTek</title>
 			</Head>
 			<h1 className="text-2xl font-bold tracking-widest mb-8 -mt-8">Pejy tsy tazana - ianatek</h1>
 			<Link href="/">

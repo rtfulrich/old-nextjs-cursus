@@ -30,22 +30,22 @@ export default function ViewAFreeAnswer({ answer, challenge }) {
 		{challenge && (
 			<div className="px-4 xl:pl-8 md:pr-2">
 				<div className="my-8 grid grid-cols-12 gap-4 xl:gap-x-8">
-					<div className="col-span-12 md:col-span-8">
+					<article className="col-span-12 md:col-span-8">
 						{answer && answer.video.url && <div className="flex justify-center mb-8 bg-gray-300">
 							<ReactPlayer url={answer?.video.url} />
 						</div>}
-						<div>
+						<article>
 							<PostContent content={answer?.content} />
-						</div>
+						</article>
 						{/* Comment section */}
 						{user && (<>
 							<hr className="mt-8 mb-4" />
-							<div>
+							<section>
 								<CommentSection post={{ type: ANSWER_POST, id: router.query.answerID }} />
-							</div>
+							</section>
 						</>)}
-					</div>
-					<div className="hidden md:block md:col-span-4">
+					</article>
+					<aside className="hidden md:block md:col-span-4">
 						<div className="twitter-bg twitter-bg-hover transition-colors ease-in-out duration-300 p-2 mb-4 hidden md:block rounded-xl">
 							<h1 className="font-bold tracking-wider text-lg flex items-center">
 								<Link href={`/challenge/${challenge.id}/${challenge.slug}`}>
@@ -57,7 +57,7 @@ export default function ViewAFreeAnswer({ answer, challenge }) {
 						<div className="mb-2">
 							{answers.map(answer => <AnswerAside key={answer.id} answer={answer} challenge={challenge} />)}
 						</div>
-					</div>
+					</aside>
 				</div>
 			</div>
 		)}

@@ -17,7 +17,7 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
       </div>
 
       {/* Technologies */}
-      <div className="px-2 md:px-16 py-4">
+      <header className="px-2 md:px-16 py-4">
         <div className="grid grid-cols-5 gap-2 md:gap-8">
           {techs.map((tech, index) => (
             <div className="rounded-xl  overflow-hidden transition-colors duration-300 ease-in-out border-2 border-black hover:border-blue-500 -mt-12 z-10" key={index}>
@@ -30,13 +30,13 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
             </div>
           ))}
         </div>
-      </div>
+      </header>
 
       {/* Courses */}
       {courses && courses.length > 0 && (
-        <div className="px-2 md:px-4 lg:px-8 my-8">
+        <section className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-lg font-bold tracking-widest">Ireo fampianarana farany</h1>
+            <h3 className="text-lg font-bold tracking-widest">Ireo fampianarana farany</h3>
             {
               courses.length > 4 && <Link href="/fampianarana">
                 <a className="px-2 py-1 text-xs font-bold tracking-widest rounded-lg bg45 hover:bg33 transition-colors duration-300 ease-in-out" style={{ textDecoration: "none" }}>Izy rehetra</a>
@@ -48,14 +48,14 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               <PostGridItem post={course} url={`/fampianarana/${course.id}/${course.slug}`} key={index} />
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Challenges */}
       {challenges && challenges.length > 0 && (
-        <div className="px-2 md:px-4 lg:px-8 my-8">
+        <section className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-lg font-bold tracking-widest">Ireo challenges farany</h1>
+            <h3 className="text-lg font-bold tracking-widest">Ireo challenges farany</h3>
             {
               challenges.length > 4 && <Link href="/challenges">
                 <a className="px-2 py-1 text-xs font-bold tracking-widest rounded-lg bg45 hover:bg33 transition-colors duration-300 ease-in-out" style={{ textDecoration: "none" }}>Izy rehetra</a>
@@ -67,14 +67,14 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               <PostGridItem post={challenge} url={`/challenge/${challenge.id}/${challenge.slug}`} key={index} />
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Tutorials */}
       {tutorials && tutorials.length > 0 && (
-        <div className="px-2 md:px-4 lg:px-8 my-8">
+        <section className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-lg font-bold tracking-widest">Ireo tutorials farany</h1>
+            <h3 className="text-lg font-bold tracking-widest">Ireo tutorials farany</h3>
             {
               tutorials.length > 4 && <Link href="/tutorials">
                 <a className="px-2 py-1 text-xs font-bold tracking-widest rounded-lg bg45 hover:bg33 transition-colors duration-300 ease-in-out" style={{ textDecoration: "none" }}>Izy rehetra</a>
@@ -86,14 +86,14 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
               <PostGridItem post={tutorial} url={`/tutorial/${tutorial.id}/${tutorial.slug}`} key={index} showDate={true} />
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Blogs */}
       {blogs && blogs.length > 0 && (
-        <div className="px-2 md:px-4 lg:px-8 my-8">
+        <section className="px-2 md:px-4 lg:px-8 my-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-lg font-bold tracking-widest">Ireo blogs farany</h1>
+            <h3 className="text-lg font-bold tracking-widest">Ireo blogs farany</h3>
             {
               blogs.length > 4 && <Link href="/blogs">
                 <a className="px-2 py-1 text-xs font-bold tracking-widest rounded-lg bg45 hover:bg33 transition-colors duration-300 ease-in-out" style={{ textDecoration: "none" }}>Izy rehetra</a>
@@ -103,7 +103,7 @@ export default function Home({ courses, challenges, tutorials, blogs }) {
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
             {blogs.map(blog => <PostGridItem key={blog.id} post={blog} url={`/blog/${blog.id}/${blog.slug}`} showDate={true} />)}
           </div>
-        </div>
+        </section>
       )}
 
     </div>

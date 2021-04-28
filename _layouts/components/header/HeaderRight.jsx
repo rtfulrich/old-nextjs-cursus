@@ -52,7 +52,7 @@ function HeaderRight() {
           <Link href="/kaontiko">
             <a className="relative hidden md:flex items-center mr-4 pr-4 rounded-full bg-black border-2 border-black twitter-hover transition-all duration-200 ease-in-out cursor-pointer">
               <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={user.name} />
-              <span className="pl-2 font-bold tracking-widest">{user.name}</span>
+              <p className="pl-2 font-bold tracking-widest">{user.name}</p>
             </a>
           </Link>
           {/* <Link href="#"> */}
