@@ -97,7 +97,7 @@ export async function getStaticPaths() {
 	const response = await axios.get(`${API_URL}/courses?published=true&with-chapters`);
 
 	const { courses } = response.data;
-	// console.log(courses);
+
 	let paths = [];
 	courses.forEach(course => {
 		const groups = course.chapters_groups;
@@ -115,7 +115,7 @@ export async function getStaticPaths() {
 			});
 		});
 	});
-	// console.log("p", paths);
+
 	return {
 		paths,
 		fallback: true

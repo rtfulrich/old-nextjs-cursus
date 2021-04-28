@@ -11,7 +11,6 @@ import { API_URL, FRONT_URL } from '../../../../../../../_constants/URLs';
 import UserContext from '../../../../../../../_react-contexts/user-context';
 
 export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, urlRedirect }) {
-	// console.log("GROUPS prem", groups);
 
 	// V A R I A B L E S
 	const router = useRouter();

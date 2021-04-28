@@ -11,7 +11,6 @@ import CommentSection, { ANSWER_POST } from '../../../../../../../_components/fr
 import UserContext from '../../../../../../../_react-contexts/user-context';
 
 export default function ViewAFreeAnswer({ answer, challenge }) {
-	// console.log(answer, challenge);
 
 	// C O N T E X T
 	const { user } = React.useContext(UserContext);

@@ -5,7 +5,6 @@ import { FaCheck } from 'react-icons/fa';
 import { ADMIN_API_URL, FRONT_URL } from '../../../_constants/URLs';
 
 export default function ViewAllTutorials({ result }) {
-	// console.log("result", result);
 
 	const tutorials = result.data;
 	const links = result.links;
@@ -98,7 +97,6 @@ export async function getServerSideProps({ req, query }) {
 			}
 		};
 	} catch (error) {
-		console.log("e", error, error.response);
 		return {
 			notFound: true
 		}

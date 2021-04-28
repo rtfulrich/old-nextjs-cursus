@@ -5,7 +5,6 @@ import { FaCheck } from 'react-icons/fa';
 import { ADMIN_API_URL, FRONT_URL } from '../../../_constants/URLs';
 
 export default function ViewAllBlogs({ result }) {
-	// console.log("result", result);
 
 	const blogs = result.data;
 	const links = result.links;

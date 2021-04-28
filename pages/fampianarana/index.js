@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import PostGridItem from '../../_components/front/PostGridItem';
 
 function ViewAllCourses({ result }) {
-	// console.log("result", result);
 
 	const router = useRouter();
 

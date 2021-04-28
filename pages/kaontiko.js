@@ -15,7 +15,6 @@ export const CHANGE_PASSWORD_MODAL = "CHANGE_PASSWORD";
 export const RESET_PASSWORD_MODAL = "RESET_PASSWORD";
 
 export default function Kaontiko({ currentUser }) {
-	// console.log(currentUser);
 
 	// V A R I A B L E S 
 	const router = useRouter();
@@ -208,7 +207,6 @@ export async function getServerSideProps({ req }) {
 			}
 		}
 	} catch (error) {
-		console.log("e", error.response);
 		return {
 			redirect: {
 				destination: "/",

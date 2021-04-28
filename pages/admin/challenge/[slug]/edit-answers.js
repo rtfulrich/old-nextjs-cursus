@@ -11,7 +11,6 @@ import getPageProps from '../../../../_helpers/getPageProps'
 import sanctumRequest from '../../../../_helpers/sanctumRequest';
 
 export default function EditChallengeAnswers({ challengeData }) {
-  // console.log(challengeData);
 
   // V A R I A B L E S
   const router = useRouter();
@@ -37,7 +36,7 @@ export default function EditChallengeAnswers({ challengeData }) {
       const response = await axios.post(`${ADMIN_API_URL}/challenge-answer/store`, { title, rank, challengeID });
       titleRef.current.value = "";
       rankRef.current.value = "";
-      const { message, newAnswer } = response.data; console.log(newAnswer)
+      const { message, newAnswer } = response.data;
       toast.success(<span className="font-bold tracking-widest">{message}</span>);
       router.push(`/admin/challenge/${challengeData.slug}/edit-answers`);
     },

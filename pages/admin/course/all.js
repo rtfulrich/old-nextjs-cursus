@@ -6,7 +6,6 @@ import { ADMIN_API_URL, FRONT_URL } from '../../../_constants/URLs';
 import getPageProps from '../../../_helpers/getPageProps';
 
 function AllCourses({ result }) {
-  // console.log(result);
 
   const courses = result.data;
   const links = result.links;

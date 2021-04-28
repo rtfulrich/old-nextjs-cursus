@@ -8,7 +8,6 @@ import UserContext from '../../_react-contexts/user-context';
 import sanctumRequest from "../../_helpers/sanctumRequest";
 
 function ChapterAside({ answer, challenge }) {
-	// console.log("p", challenge.price !== "0");
 
 	const router = useRouter();
 	const [matched, setMatched] = React.useState(false);

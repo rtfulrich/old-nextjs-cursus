@@ -33,13 +33,12 @@ function Register({ setShowAuthModal, setInModal }) {
       setLoading(true);
 
       const response = await axios.post(`${API_URL}/register`, { pseudo, email, password, confirmPassword });
-      // console.log(response, "r");
+
       const { message } = response.data;
       const { status } = response;
       setLoading(false)
       if (status === 400) setErrors({ ...errors, other: message });
       else if (status === 200) {
-        console.log("ok");
         const user = response.data.user;
         setUser({ type: AUTH_TRUE, payload: user });
         setShowAuthModal(false);

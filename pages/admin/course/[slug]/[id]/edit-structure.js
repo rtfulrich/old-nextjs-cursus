@@ -10,7 +10,7 @@ import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
 import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 
 export default function EditCourseStructure({ courseData }) {
-  // console.log("CD", courseData);
+
   // S T A T E S
   const [groupErrors, setGroupErrors] = React.useState({ title: null, rank: null });
 

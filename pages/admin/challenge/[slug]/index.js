@@ -73,7 +73,7 @@ export default function EditChallengeData({ challengeData, tags }) {
         const video_duration = videoDurationRef.current.value;
         const price = priceRef.current.value;
         const description = descriptionRef.current.value;
-        // console.log(title, image_cover, video_url, video_duration, price, description); return;
+
         const response = await axios.put(`${ADMIN_API_URL}/challenge/${challengeData.slug}/update`, {
           title, image_cover, video_url, video_duration, price, description
         });

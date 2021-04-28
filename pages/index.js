@@ -7,7 +7,6 @@ import { REVALIDATE } from "../_constants/nextConstants";
 import PostGridItem from "../_components/front/PostGridItem";
 
 export default function Home({ courses, challenges, tutorials, blogs }) {
-  // console.log(courses, challenges);
 
   const techs = technologies;
   return (

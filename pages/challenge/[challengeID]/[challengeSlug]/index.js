@@ -85,8 +85,7 @@ export default function ViewAChallenge({ challenge }) {
 }
 
 export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/challenges?published`)
-		.catch(e => console.log(e));
+	const response = await axios.get(`${API_URL}/challenges?published`);
 
 	const { challenges } = response.data;
 	const paths = [];
@@ -113,7 +112,6 @@ export async function getStaticProps({ params }) {
 			}
 		}
 	} catch (error) {
-		console.log("ee", error, error.response);
 		return {
 			props: {
 				page: {

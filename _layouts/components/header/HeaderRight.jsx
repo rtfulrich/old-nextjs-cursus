@@ -2,10 +2,10 @@ import axios from 'axios';
 import Link from 'next/link';
 import React from 'react'
 import { Modal } from 'react-bootstrap';
-import { RiMessengerFill, RiNotification2Fill } from 'react-icons/ri';
 import { RESET_PASSWORD_MODAL } from '../../../pages/kaontiko';
 import ResetPassword from '../../../_components/front/modals/ResetPassword';
 import { API_URL } from '../../../_constants/URLs';
+import sanctumRequest from '../../../_helpers/sanctumRequest';
 import UserContext, { AUTH_FALSE } from '../../../_react-contexts/user-context';
 import Login from '../modals/Login';
 import Register from '../modals/Register';
@@ -21,18 +21,12 @@ function HeaderRight() {
   // const []
 
   // M E T H O D S
-  const handleSignout = (clickEvent) => {
+  const handleSignout = (clickEvent) => sanctumRequest(async () => {
     clickEvent.preventDefault()
-    axios.post(`${API_URL}/logout`)
-      .then(response => {
-        const { success } = response.data;
-        if (success) setUser({ type: AUTH_FALSE });
-      })
-      .catch(e => {
-        console.log(e.response.data)
-        alert("Error : " + e)
-      });
-  }
+    const response = await axios.post(`${API_URL}/logout`);
+    const { success } = response.data;
+    if (success) setUser({ type: AUTH_FALSE });
+  });
 
   const handleAuthModal = (clickEvent) => {
     clickEvent.preventDefault();
@@ -57,7 +51,7 @@ function HeaderRight() {
           </Link>
           {/* <Link href="#"> */}
           <a className="relative flex md:hidden items-center mr-4 rounded-full transition-all duration-200 ease-in-out cursor-pointer border-2 border-transparent border-twitter-hover">
-            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={name} />
+            <img src={user.avatar} className="w-9 h-9 rounded-full cursor-pointer" title={user.name} />
           </a>
           {/* </Link> */}
           <a href="#" className="px-2 py-1 rounded-lg border-twitter border-2 twitter-bg-hover transition-colors duration-200 ease-in-out font-bold tracking-widest text-white" style={{ textDecoration: "none" }} onClick={handleSignout}>Hiala sera</a>

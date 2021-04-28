@@ -8,7 +8,6 @@ import { technologies } from '../../_constants/techs'
 import { API_URL } from '../../_constants/URLs'
 
 function TagSearchPage({ results }) {
-	console.log(results);
 
 	// S T A T E S
 	const [posts, setPosts] = React.useState([]);
@@ -48,7 +47,6 @@ function TagSearchPage({ results }) {
 	}, [hasNextPage]);
 
 	// J S X
-	console.log("posts", posts);
 	return (
 		<div className="px-4 py-3 md:px-8 md:-py-4">
 			<h1 className={`text-3xl tracking-widest font-bold md:mb-0`}>
@@ -118,7 +116,6 @@ export async function getStaticProps({ params }) {
 			revalidate: REVALIDATE,
 		};
 	} catch (error) {
-		console.log("error", error, error.response);
 		return { notFound: true };
 	}
 }

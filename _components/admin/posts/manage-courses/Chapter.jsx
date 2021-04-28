@@ -68,7 +68,7 @@ function Chapter({ chapter, notFree }) {
   });
 
   // V A R I A B L E S
-  const router = useRouter(); //console.log(router);
+  const router = useRouter();
 
   // J S X
   let OK = true;

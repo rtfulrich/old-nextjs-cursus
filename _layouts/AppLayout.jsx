@@ -35,8 +35,6 @@ function AppLayout({ children, title = null, withFooter = true }) {
   const { user, setUser } = React.useContext(UserContext);
   const { pageLoading, setPageLoading } = React.useContext(LoadingContext);
 
-  // React.useEffect(() => console.log("app layout mount : user :", user), [user])
-
   React.useEffect(async () => await sanctumRequest(
     async () => {
       setPageLoading({ type: true });

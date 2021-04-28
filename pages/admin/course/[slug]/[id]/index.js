@@ -16,7 +16,7 @@ import sanctumRequest from '../../../../../_helpers/sanctumRequest';
 import NotFound from "../../../../../_layouts/components/errors/NotFound";
 
 export default function ViewCourse({ course, tags }) {
-  // console.log(tags);
+
   if (!course) return <NotFound />
 
   // V A R I A B L E S
@@ -49,7 +49,7 @@ export default function ViewCourse({ course, tags }) {
       const level = levelRef.current.value;
       const price = priceRef.current.value;
       const description = descriptionRef.current.value;
-      // console.log(title, image_cover, level, price, description); return;
+
       const response = await axios.put(`${ADMIN_API_URL}/course/${course.slug}/${course.id}/update`, {
         title, image_cover, level, price, description
       });

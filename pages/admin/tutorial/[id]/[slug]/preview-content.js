@@ -7,7 +7,6 @@ import PostContent from '../../../../../_components/front/PostContent';
 import { ADMIN_API_URL, FRONT_URL } from '../../../../../_constants/URLs';
 
 export default function PreviewTutorialContent({ tutorial }) {
-	// console.log("tutorial", tutorial);
 
 	// V A R I A B L E S
 	const router = useRouter();
