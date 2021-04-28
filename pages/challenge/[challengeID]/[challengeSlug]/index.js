@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useRouter } from 'next/router';
 import React from 'react'
 import { FaShoppingBasket } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
@@ -10,7 +11,6 @@ const CONTENT = "CONTENT";
 const ANSWERS_GRID = "ANSWERS";
 
 export default function ViewAChallenge({ challenge }) {
-	// if (challenge) console.log("challenge", challenge);
 
 	// S T A T E S
 	const [mainToShow, setMainToShow] = React.useState(CONTENT);

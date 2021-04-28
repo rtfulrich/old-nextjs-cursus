@@ -4,11 +4,25 @@ import { REVALIDATE } from '../../../../_constants/nextConstants';
 import { API_URL } from '../../../../_constants/URLs';
 import PostGridItem from '../../../../_components/front/PostGridItem';
 import Payment from '../../../../_components/front/modals/Payment';
+import { useRouter } from "next/router";
 
 export default function ViewCourse({ course }) {
 
 	// S T A T E S
-	const [hasTheCourse, setHasTheCourse] = React.useState(course.price === "0");
+	// const [hasTheCourse, setHasTheCourse] = React.useState(course.price === "0");
+
+	// V A R I A B L E
+	const router = useRouter();
+	const { courseID } = router.query;
+
+	// M O U N T
+	React.useEffect(() => {
+		const timeout = setTimeout(() => {
+			axios.put(`${API_URL}/course/${courseID}/increment-visits`);
+		}, 1000 * 60); // 1 minute
+
+		return () => clearTimeout(timeout);
+	}, [courseID]);
 
 	// V A R I A B L E S
 	let chaptersGroups = course.chapters_groups || [];

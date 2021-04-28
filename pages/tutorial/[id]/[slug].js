@@ -12,6 +12,16 @@ export default function ViewTutorialContent({ tutorial }) {
 
 	// V A R I A B L E
 	const router = useRouter();
+	const { id } = router.query;
+
+	// E F F E C T on [id]
+	React.useEffect(() => {
+		const timeout = setTimeout(() => {
+			axios.put(`${API_URL}/tutorial/${id}/increment-views`);
+		}, 2000 * 60); // 2 minutes
+
+		return () => clearTimeout(timeout);
+	}, [id]);
 
 	// C O N T E X T
 	const { user } = React.useContext(UserContext);

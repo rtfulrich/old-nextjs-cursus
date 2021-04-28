@@ -15,9 +15,19 @@ export default function ViewPremiumChapter({ chapter, groups = [], courseTitle, 
 
 	// V A R I A B L E S
 	const router = useRouter();
+	const { chapterID } = router.query;
 
 	// C O N T E X T S
 	const { user } = React.useContext(UserContext);
+
+	// M O U N T
+	React.useEffect(() => {
+		const timeout = setTimeout(() => {
+			axios.put(`${API_URL}/chapter/${chapterID}/increment-views`);
+		}, 2000 * 60); // 2 minutes
+
+		return () => clearTimeout(timeout);
+	}, [chapterID]);
 
 	// user E F F E C T
 	React.useEffect(() => {

@@ -31,13 +31,20 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 		});
 	}
 
+	// V A R I A B L E S
 	const router = useRouter();
+	const { chapterID } = router.query;
 
 	// M O U N T  E F F E C T
 	React.useEffect(() => {
 		if (unauthorized) router.replace(unauthorized.redirect);
 		/* ------------------------------------------------------ */
-	}, []);
+		const timeout = setTimeout(() => {
+			axios.put(`${API_URL}/chapter/${chapterID}/increment-views`);
+		}, 2000 * 60); // 2 minutes
+
+		return () => clearTimeout(timeout);
+	}, [chapterID]);
 
 	if (unauthorized) return <div className="text-4xl h-full flex justify-center items-center font-bold tracking-widest">Redirecting ...</div>
 
