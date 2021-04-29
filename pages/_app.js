@@ -16,16 +16,30 @@ import UserContext, { userReducer } from '../_react-contexts/user-context';
 import AppLayout from '../_layouts/AppLayout';
 import NotFound from '../_layouts/components/errors/NotFound';
 import Unauthorized from '../_layouts/components/errors/Unauthorized';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import LoadingContext, { loadingReducer } from '../_react-contexts/loading-context';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import ProgressBar from "@badrap/bar-of-progress";
 
+// T O A S T
 toast.configure({
   position: toast.POSITION.BOTTOM_RIGHT,
   limit: 1,
   hideProgressBar: true
 });
+//---------------------------------------------
+// P R O G R E S S   B A R
+const progress = new ProgressBar({
+  size: 3,
+  color: "#1da1f2",
+  className: "bar-of-progress",
+  delay: 100
+});
+Router.events.on("routeChangeStart", progress.start);
+Router.events.on("routeChangeComplete", progress.finish);
+Router.events.on("routeChangeError", progress.finish);
+//---------------------------------------------
 
 function IanaTek({ Component, pageProps }) {
   // V A R I A B L E S

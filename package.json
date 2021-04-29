@@ -8,6 +8,7 @@
 		"start": "NODE_ENV=production node server.js"
 	},
 	"dependencies": {
+		"@badrap/bar-of-progress": "^0.1.2",
 		"autoprefixer": "^10.2.3",
 		"axios": "^0.21.1",
 		"bootstrap": "^4.6.0",
