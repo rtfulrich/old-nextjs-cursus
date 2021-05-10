@@ -2,7 +2,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
-import { FaMoneyBill } from 'react-icons/fa';
 import PostGridItem from '../../_components/front/PostGridItem';
 import { API_URL } from '../../_constants/URLs';
 

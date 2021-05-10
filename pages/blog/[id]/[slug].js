@@ -54,18 +54,18 @@ export default function ViewBlogContent({ blog }) {
 	)
 }
 
-export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/blogs`);
-	const { blogs } = response.data;
-	const paths = [];
-	blogs.forEach(blog => paths.push({ params: { id: blog.id.toString(), slug: blog.slug } }));
-	return {
-		paths,
-		fallback: true
-	};
-}
+// export async function getStaticPaths() {
+// 	const response = await axios.get(`${API_URL}/blogs`);
+// 	const { blogs } = response.data;
+// 	const paths = [];
+// 	blogs.forEach(blog => paths.push({ params: { id: blog.id.toString(), slug: blog.slug } }));
+// 	return {
+// 		paths,
+// 		fallback: true
+// 	};
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
 	try {
 		const response = await axios.get(`${API_URL}/blog/${params.id}?slug=${params.slug}`);
 		const { blog } = response.data;

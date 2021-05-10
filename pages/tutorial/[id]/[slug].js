@@ -54,18 +54,18 @@ export default function ViewTutorialContent({ tutorial }) {
 	)
 }
 
-export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/tutorials`);
-	const { tutorials } = response.data;
-	const paths = [];
-	tutorials.forEach(tutorial => paths.push({ params: { id: tutorial.id.toString(), slug: tutorial.slug } }));
-	return {
-		paths,
-		fallback: true
-	};
-}
+// export async function getStaticPaths() {
+// 	const response = await axios.get(`${API_URL}/tutorials`);
+// 	const { tutorials } = response.data;
+// 	const paths = [];
+// 	tutorials.forEach(tutorial => paths.push({ params: { id: tutorial.id.toString(), slug: tutorial.slug } }));
+// 	return {
+// 		paths,
+// 		fallback: true
+// 	};
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
 	try {
 		const response = await axios.get(`${API_URL}/tutorial/${params.id}`);
 		const { tutorial } = response.data;
