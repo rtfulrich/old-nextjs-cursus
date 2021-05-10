@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React from 'react';
-import { REVALIDATE } from '../../../../_constants/nextConstants';
 import { API_URL } from '../../../../_constants/URLs';
 import PostGridItem from '../../../../_components/front/PostGridItem';
 import Payment from '../../../../_components/front/modals/Payment';
@@ -98,23 +97,23 @@ export default function ViewCourse({ course }) {
 	)
 }
 
-export async function getStaticPaths() {
+// export async function getStaticPaths() {
 
-	const response = await axios.get(`${API_URL}/courses?published`);
+// 	const response = await axios.get(`${API_URL}/courses?published`);
 
-	const { courses } = response.data;
-	const paths = [];
-	courses.forEach(course => paths.push(
-		{ params: { courseID: course.id.toString(), courseSlug: course.slug } }
-	));
+// 	const { courses } = response.data;
+// 	const paths = [];
+// 	courses.forEach(course => paths.push(
+// 		{ params: { courseID: course.id.toString(), courseSlug: course.slug } }
+// 	));
 
-	return {
-		paths,
-		fallback: true
-	}
-}
+// 	return {
+// 		paths,
+// 		fallback: true
+// 	}
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
 	try {
 		const response = await axios.get(`${API_URL}/course/${params.courseID}`);
 
@@ -127,8 +126,7 @@ export async function getStaticProps({ params }) {
 				},
 				course
 			},
-			revalidate: REVALIDATE
-		}
+		};
 	} catch (error) {
 		return {
 			notFound: true

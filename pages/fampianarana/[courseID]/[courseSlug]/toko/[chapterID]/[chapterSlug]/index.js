@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import ReactPlayer from 'react-player';
-import { REVALIDATE } from '../../../../../../../_constants/nextConstants';
-import { API_URL } from '../../../../../../../_constants/URLs';
+import { API_URL, FRONT_URL } from '../../../../../../../_constants/URLs';
 import PostContent from "../../../../../../../_components/front/PostContent";
 import { useRouter } from 'next/router';
 import Link from "next/link";
@@ -11,7 +10,7 @@ import ChapterAside from '../../../../../../../_components/front/ChapterAside';
 import CommentSection, { CHAPTER_POST } from '../../../../../../../_components/front/CommentSection';
 import UserContext from '../../../../../../../_react-contexts/user-context';
 
-export default function ViewFreeChapter({ chapter, groups = [], course, unauthorized }) {
+export default function ViewAChapter({ chapter, groups = [], course }) {
 
 	// C O N T E X T
 	const { user } = React.useContext(UserContext);
@@ -37,8 +36,6 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 
 	// M O U N T  E F F E C T
 	React.useEffect(() => {
-		if (unauthorized) router.replace(unauthorized.redirect);
-		/* ------------------------------------------------------ */
 		const timeout = setTimeout(() => {
 			axios.put(`${API_URL}/chapter/${chapterID}/increment-views`);
 		}, 2000 * 60); // 2 minutes
@@ -46,7 +43,17 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 		return () => clearTimeout(timeout);
 	}, [chapterID]);
 
-	if (unauthorized) return <div className="text-4xl h-full flex justify-center items-center font-bold tracking-widest">Redirecting ...</div>
+	// E F F E C T   [user]
+	React.useEffect(() => {
+		if (user === null) {
+			axios
+				.get(`${API_URL}/check-can-see-chapter/${chapterID}`)
+				.then(response => {
+					const { courseID, courseSlug } = router.query;
+					if (response.data.can === false) router.replace(`/fampianarana/${courseID}/${courseSlug}`);
+				});
+		}
+	}, [user]);
 
 	const videoURL = chapter?.video.url;
 	const videoDuration = chapter?.video.duration;
@@ -93,38 +100,40 @@ export default function ViewFreeChapter({ chapter, groups = [], course, unauthor
 
 }
 
-export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/courses?published=true&with-chapters`);
+// export async function getStaticPaths() {
+// 	const response = await axios.get(`${API_URL}/courses?published=true&with-chapters`);
 
-	const { courses } = response.data;
+// 	const { courses } = response.data;
 
-	let paths = [];
-	courses.forEach(course => {
-		const groups = course.chapters_groups;
-		groups.forEach(group => {
-			const chapters = group.chapters;
-			chapters.forEach(chapter => {
-				paths.push({
-					params: {
-						courseID: course.id.toString(),
-						courseSlug: course.slug,
-						chapterID: chapter.id.toString(),
-						chapterSlug: chapter.slug
-					}
-				});
-			});
-		});
-	});
+// 	let paths = [];
+// 	courses.forEach(course => {
+// 		const groups = course.chapters_groups;
+// 		groups.forEach(group => {
+// 			const chapters = group.chapters;
+// 			chapters.forEach(chapter => {
+// 				paths.push({
+// 					params: {
+// 						courseID: course.id.toString(),
+// 						courseSlug: course.slug,
+// 						chapterID: chapter.id.toString(),
+// 						chapterSlug: chapter.slug
+// 					}
+// 				});
+// 			});
+// 		});
+// 	});
 
-	return {
-		paths,
-		fallback: true
-	};
-}
+// 	return {
+// 		paths,
+// 		fallback: true
+// 	};
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params, req }) {
 	try {
-		const response = await axios.get(`${API_URL}/course/${params.courseID}/chapter/${params.chapterID}?courseSlug=${params.courseSlug}&chapterSlug=${params.chapterSlug}`);
+		const response = await axios.get(`${API_URL}/course/${params.courseID}/chapter/${params.chapterID}?courseSlug=${params.courseSlug}&chapterSlug=${params.chapterSlug}`, {
+			headers: { credentials: "include", referer: FRONT_URL, cookie: req.headers.cookie }
+		});
 		const { chapter, groups, course } = response.data;
 
 		return {
@@ -136,26 +145,23 @@ export async function getStaticProps({ params }) {
 				groups,
 				course
 			},
-			revalidate: REVALIDATE
 		}
 	}
 	catch (e) {
 		return e.response.status === 403
 			? {
-				props: {
-					page: {
-						title: "Redirecting ... - IanaTek"
-					},
-					unauthorized: { redirect: `/fampianarana/${params.courseID}/${params.courseSlug}` }
+				redirect: {
+					destination: `/fampianarana/${params.courseID}/${params.courseSlug}`,
+					permanent: true
 				}
 			}
 			: {
 				props: {
 					page: {
-						title: "Pejy tsy tazana - IanaTek"
+						title: "Pejy tsy tazana - IanaTek",
 					},
 				},
 				notFound: true
-			}
+			};
 	}
 }

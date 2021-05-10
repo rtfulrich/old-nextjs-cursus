@@ -46,7 +46,7 @@ export default function ViewBlogContent({ blog }) {
 				</section>
 				<aside className="hidden md:block md:col-span-4">
 					<FetchPostsForAside postType={COURSE_POST} />
-					<hr className="my-4" />
+					<hr className="my-4 opacity-30" />
 					<FetchPostsForAside postType={CHALLENGE_POST} />
 				</aside>
 			</div>

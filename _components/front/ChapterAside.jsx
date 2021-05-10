@@ -10,35 +10,22 @@ import sanctumRequest from "../../_helpers/sanctumRequest";
 function ChapterAside({ chapter }) {
 
 	const router = useRouter();
-	const [matched, setMatched] = React.useState(false);
+	// const [matched, setMatched] = React.useState(false);
 	const [canBeSeen, setCanBeSeen] = React.useState(null);
-	const [isPremium, setIsPremium] = React.useState(null);
+	// const [isPremium, setIsPremium] = React.useState(null);
 
 	const { user } = React.useContext(UserContext);
 
 	React.useEffect(() => sanctumRequest(
 		async () => {
-			if (user) {
-				const response = await axios.get(`${API_URL}/check-can-see-chapter/${chapter.id}`);
-				setCanBeSeen(response.data.can);
-				setIsPremium(currentValue => response.data.isPremium);
-			} else {
-				const response = await axios.get(`${API_URL}/is-course-premium/${router.query.courseSlug}`);
-				let can = false;
-				if (response.data.isPremium) can = chapter.show_anyway;
-				else can = true;
-				setCanBeSeen(can);
-				setIsPremium(!chapter.show_anyway);
-			}
+			const response = await axios.get(`${API_URL}/check-can-see-chapter/${chapter.id}`);
+			setCanBeSeen(response.data.can);
 		}
 	), [user]);
 
-	React.useEffect(() => {
-		setMatched(!!router.asPath.match(`/${chapter.slug}${isPremium ? "/" : ""}`));
-	}, [isPremium, chapter])
-
-	let url = isPremium === null ? "#" : `/fampianarana/${router.query.courseID}/${router.query.courseSlug}/toko/${chapter.id}/${chapter.slug}`;
-	if (isPremium) url += "/premium";
+	// J S X
+	const matched = !!router.asPath.match(`${chapter.slug}`);
+	const url = `/fampianarana/${router.query.courseID}/${router.query.courseSlug}/toko/${chapter.id}/${chapter.slug}`;
 	return (
 		<div
 			className={`flex items-center transition-all duration-300 ease-in-out px-1 my-1 cursor-pointer ${matched ? "success-bg" : `${canBeSeen ? "hover:bg-gray-300 hover:text-black" : "hover:text-red-400"}`}`}

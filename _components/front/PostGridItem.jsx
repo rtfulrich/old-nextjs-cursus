@@ -47,10 +47,6 @@ function PostGridItem({ post, url, showDate = false, parent = null }) {
 		const withDay = `${date.split(year)[0]} ${year}`;
 		toPrint = withDay.split(",")[1];
 	}
-	if (parent && parent.price > 0) {
-		if (post.show_anyway === false || post.show_anyway === undefined) // parent = course || challenge
-			url += "/premium";
-	}
 	return (
 		<div className="rounded-xl relative flex flex-col transition-colors duration-300 ease-in-out">
 			<Link href={url}>

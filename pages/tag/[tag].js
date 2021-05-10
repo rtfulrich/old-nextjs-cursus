@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import PostGridItem from '../../_components/front/PostGridItem';
-import { REVALIDATE } from '../../_constants/nextConstants';
-import { technologies } from '../../_constants/techs'
 import { API_URL } from '../../_constants/URLs'
 
 function TagSearchPage({ results }) {
@@ -93,16 +91,16 @@ function TagSearchPage({ results }) {
 
 export default TagSearchPage
 
-export async function getStaticPaths() {
-	const paths = [];
-	technologies.forEach(tech => paths.push({ params: { tag: tech.tag } }));
-	return {
-		fallback: true,
-		paths
-	};
-}
+// export async function getStaticPaths() {
+// 	const paths = [];
+// 	technologies.forEach(tech => paths.push({ params: { tag: tech.tag } }));
+// 	return {
+// 		fallback: true,
+// 		paths
+// 	};
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
 	try {
 		const response = await axios.get(`${API_URL}/get-posts-for-tag/${params.tag}`);
 		const { results } = response.data;
@@ -113,7 +111,6 @@ export async function getStaticProps({ params }) {
 				},
 				results
 			},
-			revalidate: REVALIDATE,
 		};
 	} catch (error) {
 		return { notFound: true };

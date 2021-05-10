@@ -34,7 +34,7 @@ function FetchPostsForAside({ postType, otherThan = null }) {
 		} else throw new TypeError("The value of post type is unexpected !");
 	});
 
-	const h3Class = "font-bold tracking-widest text-center text-lg px-2 py-1 rounded-full success-bg mb-4";
+	const h3Class = "font-bold tracking-widest text-center text-lg px-2 py-1 rounded-full text-gray-400 text-opacity-95 mb-4";
 	return (
 		<aside>
 			{postType === COURSE_POST && <h3 className={h3Class}>Fampianarana mety hahaliana</h3>}
