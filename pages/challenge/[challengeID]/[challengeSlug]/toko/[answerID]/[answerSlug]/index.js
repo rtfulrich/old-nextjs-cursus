@@ -87,14 +87,14 @@ export async function getServerSideProps({ params, req }) {
 		return {
 			props: {
 				page: {
-					title: answer.title
+					title: answer.title,
+					metaDescription: answer.description || challenge.description,
 				},
 				answer,
 				challenge
 			}
 		}
 	} catch (error) {
-		console.log(error.response)
 		return error.response.status === 403
 			? {
 				redirect: {

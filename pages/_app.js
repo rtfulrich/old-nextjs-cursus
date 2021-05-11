@@ -60,6 +60,7 @@ function IanaTek({ Component, pageProps }) {
     <LoadingContext.Provider value={{ pageLoading, setPageLoading: pageLoadingDispatch }}>
       <UserContext.Provider value={{ user, setUser: userDispatch }}>
         <AppLayout
+          metaDescription={pageProps.page?.metaDescription}
           title={pageProps.page?.title}
           withFooter={!pageProps.page?.noFooter}
         >

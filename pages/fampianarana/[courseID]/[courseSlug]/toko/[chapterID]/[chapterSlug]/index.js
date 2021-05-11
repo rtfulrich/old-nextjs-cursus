@@ -100,35 +100,6 @@ export default function ViewAChapter({ chapter, groups = [], course }) {
 
 }
 
-// export async function getStaticPaths() {
-// 	const response = await axios.get(`${API_URL}/courses?published=true&with-chapters`);
-
-// 	const { courses } = response.data;
-
-// 	let paths = [];
-// 	courses.forEach(course => {
-// 		const groups = course.chapters_groups;
-// 		groups.forEach(group => {
-// 			const chapters = group.chapters;
-// 			chapters.forEach(chapter => {
-// 				paths.push({
-// 					params: {
-// 						courseID: course.id.toString(),
-// 						courseSlug: course.slug,
-// 						chapterID: chapter.id.toString(),
-// 						chapterSlug: chapter.slug
-// 					}
-// 				});
-// 			});
-// 		});
-// 	});
-
-// 	return {
-// 		paths,
-// 		fallback: true
-// 	};
-// }
-
 export async function getServerSideProps({ params, req }) {
 	try {
 		const response = await axios.get(`${API_URL}/course/${params.courseID}/chapter/${params.chapterID}?courseSlug=${params.courseSlug}&chapterSlug=${params.chapterSlug}`, {
@@ -139,7 +110,8 @@ export async function getServerSideProps({ params, req }) {
 		return {
 			props: {
 				page: {
-					title: chapter.title
+					title: chapter.title,
+					metaDescription: chapter.description || course.description,
 				},
 				chapter,
 				groups,

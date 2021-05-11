@@ -11,10 +11,11 @@ import { useRouter } from 'next/router';
 import Unauthorized from './components/errors/Unauthorized';
 import { ADMIN_PSEUDO } from '../_constants/users';
 import sanctumRequest from '../_helpers/sanctumRequest';
+import { META_DESCRIPTION } from '../_constants/ianatek-constants';
 
 axios.defaults.withCredentials = true;
 
-function AppLayout({ children, title = null, withFooter = true }) {
+function AppLayout({ children, title = null, metaDescription = null, withFooter = true }) {
 
   // V A R I A B L E S
   const router = useRouter();
@@ -55,6 +56,7 @@ function AppLayout({ children, title = null, withFooter = true }) {
   return (
     <>
       <Head>
+        <meta name="description" content={metaDescription || META_DESCRIPTION} />
         {typeof title === "string" && <title>{title} | IanaTek</title>}
         <link rel="shortcut icon" href="/images/logo7.webp" type="image/webp" />
 
