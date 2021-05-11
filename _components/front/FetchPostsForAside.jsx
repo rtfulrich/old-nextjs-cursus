@@ -43,12 +43,19 @@ function FetchPostsForAside({ postType, otherThan = null }) {
 			{postType === BLOG_POST && <h3 className={h3Class}>Blogs mety hahaliana</h3>}
 
 			<ul className="mx-4">
-				{posts.map(post => (
-					<li key={post.id} className="mb-4">
-						<PostGridItem post={post} url="#" />
-						<hr className="mt-2" />
-					</li>
-				))}
+				{posts.map(post => {
+					let url = "#";
+					if (postType === COURSE_POST) url = `/fampianarana/${post.id}/${post.slug}`;
+					if (postType === CHALLENGE_POST) url = `/challenge/${post.id}/${post.slug}`;
+					if (postType === TUTORIAL_POST) url = `/tutorial/${post.id}/${post.slug}`;
+					if (postType === BLOG_POST) url = `/blog/${post.id}/${post.slug}`;
+					return (
+						<li key={post.id} className="mb-4">
+							<PostGridItem post={post} url={url} />
+							<hr className="mt-2" />
+						</li>
+					);
+				})}
 			</ul>
 
 		</aside>

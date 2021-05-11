@@ -106,6 +106,7 @@ export async function getServerSideProps({ params }) {
 			props: {
 				page: {
 					title: challenge.title,
+					metaDescription: challenge.description,
 				},
 				challenge
 			}

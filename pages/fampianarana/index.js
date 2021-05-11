@@ -74,6 +74,7 @@ export const getServerSideProps = async ({ query }) => {
 			props: {
 				page: {
 					title: "Ireo fampianarana farany",
+					metaDescription: "Lisitr'ireo fampianarana misy ato amy IanaTek",
 				},
 				result
 			}

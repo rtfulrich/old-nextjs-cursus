@@ -91,14 +91,6 @@ function TagSearchPage({ results }) {
 
 export default TagSearchPage
 
-// export async function getStaticPaths() {
-// 	const paths = [];
-// 	technologies.forEach(tech => paths.push({ params: { tag: tech.tag } }));
-// 	return {
-// 		fallback: true,
-// 		paths
-// 	};
-// }
 
 export async function getServerSideProps({ params }) {
 	try {
@@ -107,7 +99,8 @@ export async function getServerSideProps({ params }) {
 		return {
 			props: {
 				page: {
-					title: `Tag <${params.tag}>`
+					title: `Tag <${params.tag}>`,
+					metaDescription: `Post rehetra momba ny "${params.tag}" ato amy IanaTek`,
 				},
 				results
 			},

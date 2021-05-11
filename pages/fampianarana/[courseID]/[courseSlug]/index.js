@@ -122,7 +122,8 @@ export async function getServerSideProps({ params }) {
 		return {
 			props: {
 				page: {
-					title: course.title
+					title: course.title,
+					metaDescription: course.description,
 				},
 				course
 			},
