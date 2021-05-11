@@ -10,9 +10,7 @@ import sanctumRequest from "../../_helpers/sanctumRequest";
 function ChapterAside({ chapter }) {
 
 	const router = useRouter();
-	// const [matched, setMatched] = React.useState(false);
 	const [canBeSeen, setCanBeSeen] = React.useState(null);
-	// const [isPremium, setIsPremium] = React.useState(null);
 
 	const { user } = React.useContext(UserContext);
 

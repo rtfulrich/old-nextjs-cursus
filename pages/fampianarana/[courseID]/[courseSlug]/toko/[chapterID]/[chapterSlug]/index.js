@@ -50,7 +50,7 @@ export default function ViewAChapter({ chapter, groups = [], course }) {
 				.get(`${API_URL}/check-can-see-chapter/${chapterID}`)
 				.then(response => {
 					const { courseID, courseSlug } = router.query;
-					if (response.data.can === false) router.replace(`/fampianarana/${courseID}/${courseSlug}`);
+					if (response.data.can === false) router.push(`/fampianarana/${courseID}/${courseSlug}`);
 				});
 		}
 	}, [user]);
