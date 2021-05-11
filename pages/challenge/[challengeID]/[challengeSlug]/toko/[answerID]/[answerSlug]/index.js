@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 import PostContent from '../../../../../../../_components/front/PostContent'
 import AnswerAside from '../../../../../../../_components/front/AnswerAside'
 import axios from 'axios';
-import { API_URL } from '../../../../../../../_constants/URLs';
+import { API_URL, FRONT_URL } from '../../../../../../../_constants/URLs';
 import { FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,6 +17,18 @@ export default function ViewAFreeAnswer({ answer, challenge }) {
 
 	// V A R I A B L E S
 	const router = useRouter();
+
+	// E F F E C T  [user]
+	React.useEffect(() => {
+		const { challengeID, challengeSlug, answerID } = router.query;
+		if (user === null) {
+			axios
+				.get(`${API_URL}/check-can-see-answer/${answerID}`)
+				.then(response => {
+					if (response.data.can === false) router.push(`/challenge/${challengeID}/${challengeSlug}`);
+				});
+		}
+	}, [user]);
 
 	let answers = [];
 	if (challenge) answers = challenge.answers.sort((a, b) => {
@@ -63,35 +75,14 @@ export default function ViewAFreeAnswer({ answer, challenge }) {
 	</>;
 }
 
-export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/challenges?published&with-answers`);
-
-	const { challenges } = response.data;
-
-	const paths = [];
-	challenges.forEach(challenge => {
-		const answers = challenge.answers;
-		answers.forEach(answer => {
-			paths.push({
-				params: {
-					challengeID: challenge.id.toString(),
-					challengeSlug: challenge.slug,
-					answerID: answer.id.toString(),
-					answerSlug: answer.slug
-				}
-			});
-		});
-	});
-
-	return {
-		paths,
-		fallback: true
-	};
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params, req }) {
+	const { challengeID, challengeSlug, answerID, answerSlug } = params;
 	try {
-		const response = await axios.get(`${API_URL}/challenge/${params.challengeID}/answer/${params.answerID}?challengeSlug=${params.challengeSlug}&answerSlug=${params.answerSlug}`);
+		const response = await axios.get(`${API_URL}/challenge/${challengeID}/answer/${answerID}?challengeSlug=${challengeSlug}&answerSlug=${answerSlug}`, {
+			headers: {
+				credentials: "include", referer: FRONT_URL, cookie: req.headers.cookie
+			}
+		});
 		const { answer, challenge } = response.data;
 		return {
 			props: {
@@ -103,8 +94,21 @@ export async function getStaticProps({ params }) {
 			}
 		}
 	} catch (error) {
-		return {
-			notFound: true
-		}
+		console.log(error.response)
+		return error.response.status === 403
+			? {
+				redirect: {
+					destination: `${FRONT_URL}/challenge/${challengeID}/${challengeSlug}`,
+					permanent: false
+				}
+			}
+			: {
+				props: {
+					page: {
+						title: "Pejy tsy tazana"
+					}
+				},
+				notFound: true
+			};
 	}
 }

@@ -10,30 +10,19 @@ import sanctumRequest from "../../_helpers/sanctumRequest";
 function ChapterAside({ answer, challenge }) {
 
 	const router = useRouter();
-	const [matched, setMatched] = React.useState(false);
 	const [canBeSeen, setCanBeSeen] = React.useState(null);
 
 	const { user } = React.useContext(UserContext);
 
 	React.useEffect(() => sanctumRequest(
 		async () => {
-			if (challenge.price !== "0") {
-				if (user) {
-					const response = await axios.get(`${API_URL}/check-can-see-answer/${answer.id}`);
-					setCanBeSeen(response.data.can);
-				}
-				else setCanBeSeen(answer.show_anyway);
-			}
-			else setCanBeSeen(true);
+			const response = await axios.get(`${API_URL}/check-can-see-answer/${answer.id}`);
+			setCanBeSeen(response.data.can);
 		}
 	), [user]);
 
-	React.useEffect(() => {
-		setMatched(!!router.asPath.match(`/${answer.slug}${challenge.price !== "0" && !answer.show_anyway ? "/" : ""}`));
-	}, [answer, canBeSeen])
-
-	let url = `/challenge/${challenge.id}/${challenge.slug}/toko/${answer.id}/${answer.slug}`;
-	if (challenge.price !== "0" && !answer.show_anyway) url += "/premium";
+	const matched = !!router.asPath.match(`${answer.slug}`);
+	const url = `/challenge/${challenge.id}/${challenge.slug}/toko/${answer.id}/${answer.slug}`;
 	return (
 		<div
 			className={`flex items-center transition-all duration-300 ease-in-out px-1 my-1 cursor-pointer ${matched ? "success-bg" : `${canBeSeen ? "hover:bg-gray-300 hover:text-black" : "hover:text-red-400"}`}`}

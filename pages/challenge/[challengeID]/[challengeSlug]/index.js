@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useRouter } from 'next/router';
 import React from 'react'
 import { FaShoppingBasket } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
@@ -84,22 +83,22 @@ export default function ViewAChallenge({ challenge }) {
 	)
 }
 
-export async function getStaticPaths() {
-	const response = await axios.get(`${API_URL}/challenges?published`);
+// export async function getStaticPaths() {
+// 	const response = await axios.get(`${API_URL}/challenges?published`);
 
-	const { challenges } = response.data;
-	const paths = [];
-	challenges.forEach(
-		challenge => paths.push({ params: { challengeID: challenge.id.toString(), challengeSlug: challenge.slug } })
-	);
+// 	const { challenges } = response.data;
+// 	const paths = [];
+// 	challenges.forEach(
+// 		challenge => paths.push({ params: { challengeID: challenge.id.toString(), challengeSlug: challenge.slug } })
+// 	);
 
-	return {
-		paths,
-		fallback: true
-	}
-}
+// 	return {
+// 		paths,
+// 		fallback: true
+// 	}
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
 	try {
 		const response = await axios.get(`${API_URL}/challenge/${params.challengeID}/${params.challengeSlug}`);
 		const { challenge } = response.data;
